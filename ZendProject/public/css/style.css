@@ -112,6 +112,8 @@ nav{
     margin: 0 auto;
     padding:10px;
     padding-top: 60px;
+    padding-bottom: 40px;
+    
 }
 #contenuto_pagina::after {      /* serve per risolvere il problema del contenitore che racchiude elementi flottati */
   content: "";
@@ -123,48 +125,147 @@ nav{
     float:left;
 }
 .ev_li{
+    position: relative;
     float:left;
-    padding: 15px;
+    padding: 0;
+    margin: 10px;
     list-style: none;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0 0 10px 3px #707070;
 }
 .ev_li a {
     text-decoration: none;
+    display: block;
+}
+.ev_sfondo {
+    overflow: hidden;
+    opacity: 0.95;
+    position: absolute;
+    bottom: 100%;       
+    font-size: 14pt;
+    z-index: 1;    
+    width: 100%;    
+    height: 0;
+    background-color: #700000;     
+    transition: 0.6s ease;    
+}
+.descev{
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    height: 50%;
+    margin: 0 auto;    
+    text-align: center;
+    color: #FFFFFF;
+}
+.przev{
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    height: 50%;
+    margin: 0 auto;    
+    text-align: center;
+    color: #FFFFFF;
 }
 .titoloev {
-    opacity:0;
-    position: absolute;
-    margin: 50px 5px;
-    font-size: 11pt;
-    z-index: 2;
+    display: block;
+    position: relative;
+    font-size: 13pt;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
     color: #700000;
-    width: 90px;
-    height: 60px;
-    background-color: #FFAA00;
-    line-height: 60px;
-    text-align: center;    
-    transition: 1s ease;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 3px #707070;
+    text-align: center;
+    font-weight: 700;
 }
 
 .ev_li img{
-    transition: 1s ease;
-    box-shadow: 0 0 10px 2px #707070;
-    opacity: 1;
+    display: block;
+    width: 150px; 
+    height: 230px;
 }
-.ev_li:hover img{
-    transition: 1s ease;
-    opacity:0.3;
+.ev_li:hover .ev_sfondo{
+    height:100%;
+    bottom:0;
 }
-.ev_li:hover .titoloev{
-    opacity: 0.8;
+@keyframes sfondo_sconti {
+    0%   {background-color: #FFFF00;}
+    25%  {background-color: #FF5500;}
+    50%  {background-color: #00FF00;}
+    100% {background-color: #FFFFFF; }
 }
+#listasconto, #listaeventi{
+    margin: 0;
+    padding: 0;
+}
+.sconto_li{
+    height: 120px;
+    width: 200px;
+    position: relative;
+    float:left;
+    padding: 0;
+    margin: 10px;
+    list-style: none;
+    background: #FFFFFF;
+    box-shadow: 0 0 10px 3px #707070;
+    animation-name: sfondo_sconti;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+.sconto_li.titoloev {
+    text-align:left;
+}
+.sconto_li img{
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%);
+    width: 35%;
+    float: right;
+    padding: 7px 7px 7px 3px;
+}
+.prezzi_sconto{
+    float: left;
+    padding: 7px 3px 7px 7px;
+}
+.sconto_li a {
+    text-decoration: none;
+    color: #700000;
+}
+.old_price{
+    display: block;
+    text-decoration: line-through;
+    font-size: 11pt;
+}
+.new_price{
+    display: block;
+    font-size: 13pt;
+    font-weight: 600;
+}
+.sconto{
+    display: block;
+    font-size: 12pt;
+}
+
 #contenuto_laterale {
+    min-width: 220px;
     width: 20%;
-    float:right;
+    position: fixed;
+    top: 60px;
+    right: 0;
+    overflow: scroll;
+    height: 100%;
+    padding-bottom: 40px;
 }
 #footer {
-    position: fixed;
+    position:  fixed;
+    bottom:0;
     clear:both;
     background-color: #700000;
     height: 40px;
@@ -190,8 +291,9 @@ footer a:hover{
     color: #707070;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
     #contenuto_centrale, #contenuto_laterale{
+        position: static;
         width: 100%;
         float:left;
         margin: 20px auto;
@@ -247,24 +349,11 @@ footer a:hover{
         z-index: 3;
         background-color: #700000;
     }
-    .titoloev {
-        opacity: 1;
-        display: block;
-        position: relative;
-        margin: 0;
-        width: 100px;
-        height: 30px;
-        line-height: 30px;
-        color: #700000;
-        background-color: #FFFFFF;
-        text-align: center;
-        border-radius: 0;
-        box-shadow: 0 -3px 10px #707070;
+    .ev_li:hover .ev_sfondo{
+        height: 0;
+        bottom:100%;
     }
-    .ev_li:hover img{
-        opacity:1;
-    }
-    .ev_li:hover .titoloev{
-        opacity: 1;
+    .ev_li:hover .descev{
+        opacity:0;
     }
 }

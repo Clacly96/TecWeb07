@@ -1,0 +1,51 @@
+<div id="menu">
+    <div id="navsx">                        
+        <ul>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'index',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Home</a></li>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'catalogo',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Eventi</a></li>
+        </ul>                    
+    </div>
+                
+    <div id="navdx">
+                    
+        <ul>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'ricerca',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>"><img id="searchimg" src="<?= $this->baseUrl('css/images/search.png')  ?>" width="30" height="30"></a></li>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'vistastatica',
+                        'pagina'     => 'login'
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Login</a></li>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'vistastatica',
+                        'pagina'     => 'registrazione'
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Registrazione</a></li>                        
+        </ul>
+                    
+    </div>
+</div>
+
