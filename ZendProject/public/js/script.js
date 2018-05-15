@@ -1,12 +1,15 @@
+            if(document.getElementById("contenuto_laterale")!==null){
             window.onresize =function(){
                 var altezza = window.innerHeight;
                 var posizione = altezza - 100;
                 document.getElementById("contenuto_laterale").style.height = posizione+"px";             
-             }; 
+             };
+         }
             window.onload = function (){            
                 var altezza = window.innerHeight;
                 var posizione = altezza - 100;
-                document.getElementById("contenuto_laterale").style.height = posizione+"px";            
+                if(document.getElementById("contenuto_laterale")!==null)
+                    document.getElementById("contenuto_laterale").style.height = posizione+"px";            
      
                 document.getElementById("tastomenu").onclick = function (){
                     if (document.getElementById("menu").style.display === "block")
