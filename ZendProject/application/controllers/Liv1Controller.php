@@ -23,5 +23,8 @@ class Liv1Controller extends Zend_Controller_Action
     public function listaorganizzazioniAction()
     {
     }
+    public function faqAction(){
+        
+    }
 }
 
