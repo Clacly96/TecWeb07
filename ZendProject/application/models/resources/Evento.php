@@ -48,7 +48,19 @@ class Application_Resource_Product extends Zend_Db_Table_Abstract
 			return $paginator;
 		}
         return $this->fetchAll($select);
-    } 
+    }
+    public function estraiUltimiEvInseriti($numgiorni,$paged=null, $order=null) {   //estrae eventi inseriti meno di $numgiorni fa
+        $select = $this->select()
+        			   ->where('Data_Inserimento > SUBDATE(CURRENT_TIMESTAMP(), (?))', $numgiorni)->order('Data_Inserimento DESC');
+		if (null !== $paged) {
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage(2)
+		          	  ->setCurrentPageNumber((int) $paged);
+			return $paginator;
+		}
+        return $this->fetchAll($select);
+    }
 }
 
 

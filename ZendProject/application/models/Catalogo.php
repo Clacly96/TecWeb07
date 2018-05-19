@@ -21,5 +21,9 @@ class Application_Model_Catalogo extends App_Model_Abstract
     {     
         return $this->getResource('Evento')->ottieniEventiInSconto($tipologia, $paged, $order);
     }
+    public function estraiUltimiEvInseriti($numgiorni, $paged=null, $order=null)
+    {     
+        return $this->getResource('Evento')->estraiUltimiEvInseriti($numgiorni, $paged, $order);
+    }
 }
 
