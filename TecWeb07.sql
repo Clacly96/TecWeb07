@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 18, 2018 at 06:22 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 5.6.36
+-- Host: 127.0.0.1
+-- Creato il: Mag 19, 2018 alle 17:24
+-- Versione del server: 10.1.31-MariaDB
+-- Versione PHP: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,16 +19,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `TecWeb07`
+-- Database: `tecweb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Evento`
+-- Struttura della tabella `evento`
 --
 
-CREATE TABLE `Evento` (
+CREATE TABLE `evento` (
   `Id` int(11) NOT NULL,
   `Nome` varchar(40) COLLATE utf8_bin NOT NULL,
   `Descrizione` text COLLATE utf8_bin NOT NULL,
@@ -46,103 +46,105 @@ CREATE TABLE `Evento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `Evento`
+-- Dump dei dati per la tabella `evento`
 --
 
-INSERT INTO `Evento` (`Id`, `Nome`, `Descrizione`, `Luogo`, `Data_Ora`, `Programma`, `Biglietti_Rimanenti`, `Tipologia`, `Organizzazione`, `Sconto`, `Data_Inizio_Sconto`, `Data_Fine_Acquisto`, `Data_Inserimento`, `Prezzo_Biglieto`) VALUES
-(3, 'jbef', 'jkwjrenj', 'wre', '2018-05-18 00:00:00', 'wervb', 3, 'Cinema', 'qwef', NULL, NULL, '2018-05-18 00:00:00', '2018-05-18 18:13:46', 20),
-(4, 'bhdj', 'ubdgekbsd fdeujhsadubvg sauhb', 'ujbsgadkiougbsad', '2018-05-23 09:00:00', 'uygfaigbufedsauigfsead', 100, 'Cinema', 'uihasdei', 20, '2018-05-16', '2018-05-22 00:00:00', '2018-05-18 18:14:03', 60),
-(5, 'jkbgdscaijk', 'seadujvbkasdjc', 'uisach', '2018-05-28 00:00:00', 'asckjvbsajvcjk sac asc', 3, 'Mostra', 'qegw', NULL, NULL, '2018-05-30 00:00:00', '2018-05-18 18:14:27', 55.5),
-(6, 'kvuciefg', 'weufigbwebkjf weujbev', 'wreg', '2018-05-22 00:00:00', 'wregwegwegqwevweg', 34, 'Cinema', 'wfeweg', NULL, NULL, '2018-05-19 00:00:00', '2018-05-18 18:21:42', 999.99);
+INSERT INTO `evento` (`Id`, `Nome`, `Descrizione`, `Luogo`, `Data_Ora`, `Programma`, `Biglietti_Rimanenti`, `Tipologia`, `Organizzazione`, `Sconto`, `Data_Inizio_Sconto`, `Data_Fine_Acquisto`, `Data_Inserimento`, `Prezzo_Biglieto`) VALUES
+(1, 'Mostra di quadri', 'Esposizione di numerosi quadri nel museo cittadino', 'Roma', '2018-07-11 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 100, 'Mostra', 'rot', NULL, NULL, '2018-07-10 00:00:00', '2018-05-19 16:26:52', 25),
+(2, 'Concerto Vasco', 'Concerto di Vasco Rossi', 'Bologna', '2018-06-21 20:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 300, 'Concerto', 'vasco1', NULL, NULL, '2018-06-19 00:00:00', '2018-05-19 16:36:15', 120),
+(3, 'Tomb Raider', 'Film su Tomb Raider', 'Ancona', '2018-06-30 21:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 250, 'Cinema', 'rot', NULL, NULL, '2018-06-28 00:00:00', '2018-05-19 16:36:29', 25),
+(11, 'Mostra estiva', 'Grande mostra di quadri e sculture organizzata da Michelangelo', 'Pescara', '2018-08-01 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 400, 'Mostra', 'Michelangelo', 20, '2018-08-28', '2018-07-31 00:00:00', '2018-05-19 17:23:39', 35);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `FAQ`
+-- Struttura della tabella `faq`
 --
 
-CREATE TABLE `FAQ` (
+CREATE TABLE `faq` (
   `Id` int(11) NOT NULL,
   `Domanda` tinytext COLLATE utf8_bin NOT NULL,
   `Risposta` text COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `FAQ`
+-- Dump dei dati per la tabella `faq`
 --
 
-INSERT INTO `FAQ` (`Id`, `Domanda`, `Risposta`) VALUES
-(1, 'iahvedsuibsedvahbbvd aujhgaiovgb?', 'kujbagukbgebe eauavgunjbesb fseaafhesdu'),
-(2, 'asvcubgjk sacwuhjbgvasc', 'kjb<asvckubjkas<vc');
+INSERT INTO `faq` (`Id`, `Domanda`, `Risposta`) VALUES
+(1, 'Come si acquistano i biglietti?', 'Bisogna registrarsi al sito, poi fare click su un evento e in seguito sarà possibile acquistare i biglietti.'),
+(2, 'Perché non riesco ad acquistare i biglietti?', 'Controllare di aver effettuato l\'accesso al sito; solo dopo aver effettuato l\'accesso si avrà la possibilità di acquistare biglietti.');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Partecipazione`
+-- Struttura della tabella `partecipazione`
 --
 
-CREATE TABLE `Partecipazione` (
+CREATE TABLE `partecipazione` (
   `Utente` varchar(20) COLLATE utf8_bin NOT NULL,
   `Evento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `Partecipazione`
+-- Dump dei dati per la tabella `partecipazione`
 --
 
-INSERT INTO `Partecipazione` (`Utente`, `Evento`) VALUES
-('admin', 5),
-('rot', 5);
+INSERT INTO `partecipazione` (`Utente`, `Evento`) VALUES
+('Frank', 2),
+('Frank', 3),
+('mario1', 1),
+('mario1', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Storico`
+-- Struttura della tabella `storico`
 --
 
-CREATE TABLE `Storico` (
+CREATE TABLE `storico` (
   `Numero_Ordine` int(11) NOT NULL,
   `Utente` varchar(20) COLLATE utf8_bin NOT NULL,
   `Evento` int(11) NOT NULL,
-  `Data_Ora` datetime NOT NULL,
+  `Data_Ora` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Numero_Biglietti` int(11) NOT NULL,
   `Modalita_Pagamento` varchar(20) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `Storico`
+-- Dump dei dati per la tabella `storico`
 --
 
-INSERT INTO `Storico` (`Numero_Ordine`, `Utente`, `Evento`, `Data_Ora`, `Numero_Biglietti`, `Modalita_Pagamento`) VALUES
-(1, 'admin', 5, '2018-05-17 00:00:00', 1, 'visa'),
-(2, 'rot', 5, '2018-05-08 00:00:00', 6, 'kjwvn');
+INSERT INTO `storico` (`Numero_Ordine`, `Utente`, `Evento`, `Data_Ora`, `Numero_Biglietti`, `Modalita_Pagamento`) VALUES
+(1, 'Frank', 2, '2018-05-20 00:00:00', 3, 'carta di credito'),
+(3, 'Frank', 1, '2018-05-19 00:00:00', 1, 'carta di credito');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tipologia`
+-- Struttura della tabella `tipologia`
 --
 
-CREATE TABLE `Tipologia` (
+CREATE TABLE `tipologia` (
   `Nome` varchar(20) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `Tipologia`
+-- Dump dei dati per la tabella `tipologia`
 --
 
-INSERT INTO `Tipologia` (`Nome`) VALUES
-(''),
+INSERT INTO `tipologia` (`Nome`) VALUES
 ('Cinema'),
+('Concerto'),
 ('Mostra');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Utente`
+-- Struttura della tabella `utente`
 --
 
-CREATE TABLE `Utente` (
+CREATE TABLE `utente` (
   `Username` varchar(20) COLLATE utf8_bin NOT NULL,
   `Password` varchar(10) COLLATE utf8_bin NOT NULL,
   `Nome` varchar(30) COLLATE utf8_bin NOT NULL,
@@ -158,102 +160,109 @@ CREATE TABLE `Utente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `Utente`
+-- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `Utente` (`Username`, `Password`, `Nome`, `Cognome`, `Email`, `Residenza`, `Ruolo`, `Descrizione`, `Missione`, `Telefono`, `Fax`, `Sede`) VALUES
-('admin', 'adsjk', 'jbhg', 'er', 'jubhwer@libero.it', 'uierw', 'organizzazione', 'erbgvweb erbwerb', 'we3rhuwf', '76765897546', '256732355', 'adjfkbjbsf'),
-('rot', 'wefkuhbksd', 'reb3', 'ertbrb', 'feakjh@gmail.com', 'wefkjnhubfwe', 'utente', 'erbgrwewer3bwe3grewbg', 'w3egg4w', '4567867', NULL, 'juekjbvs');
+INSERT INTO `utente` (`Username`, `Password`, `Nome`, `Cognome`, `Email`, `Residenza`, `Ruolo`, `Descrizione`, `Missione`, `Telefono`, `Fax`, `Sede`) VALUES
+('Frank', 'frank123', 'Francesco', 'Bruni', 'frank@gmail.com', 'Milano', 'utente', '', '', '123456789', NULL, ''),
+('Michelangelo', 'artisti1', 'Giorgio', 'Rossi', 'michelangelo@hotmail.com', 'Roma', 'organizzazione', 'Compagnia di artisti che organizzano mostre in tutto il territorio italiano.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', NULL, 'Roma'),
+('amministratore', 'amminis', 'Mario', 'Bruni', 'admin@gmail.com', 'Genova', 'admin', '', '', '123456789', NULL, ''),
+('azienda1', 'az1enda', 'Giuseppe', 'Verdi', 'azienda1@outlook.com', 'Roma', 'organizzazione', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae diam venenatis, et blandit metus vehicula.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', NULL, 'Roma'),
+('mario1', 'mario', 'mario', 'rossi', 'mario@outlook.it', 'Roma', 'utente', '', '', '123456789', '123456789', ''),
+('rot', 'wefkuhbksd', 'reb3', 'ertbrb', 'feakjh@gmail.com', 'wefkjnhubfwe', 'organizzazione', 'erbgrwewer3bwe3grewbg', 'w3egg4w', '4567867', NULL, 'juekjbvs'),
+('vasco1', 'vasco', 'vasco', 'rossi', 'vasco@gmail.com', 'Bologna', 'organizzazione', 'Cantautore', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', '123456789', 'Bologna');
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `Evento`
+-- Indici per le tabelle `evento`
 --
-ALTER TABLE `Evento`
+ALTER TABLE `evento`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `Tipologia` (`Tipologia`);
+  ADD KEY `Tipologia` (`Tipologia`),
+  ADD KEY `Evento_ibfk2` (`Organizzazione`);
 
 --
--- Indexes for table `FAQ`
+-- Indici per le tabelle `faq`
 --
-ALTER TABLE `FAQ`
+ALTER TABLE `faq`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `Partecipazione`
+-- Indici per le tabelle `partecipazione`
 --
-ALTER TABLE `Partecipazione`
+ALTER TABLE `partecipazione`
   ADD PRIMARY KEY (`Utente`,`Evento`),
   ADD KEY `Evento` (`Evento`);
 
 --
--- Indexes for table `Storico`
+-- Indici per le tabelle `storico`
 --
-ALTER TABLE `Storico`
+ALTER TABLE `storico`
   ADD PRIMARY KEY (`Numero_Ordine`),
   ADD KEY `Utente` (`Utente`),
   ADD KEY `Evento` (`Evento`);
 
 --
--- Indexes for table `Tipologia`
+-- Indici per le tabelle `tipologia`
 --
-ALTER TABLE `Tipologia`
+ALTER TABLE `tipologia`
   ADD PRIMARY KEY (`Nome`);
 
 --
--- Indexes for table `Utente`
+-- Indici per le tabelle `utente`
 --
-ALTER TABLE `Utente`
+ALTER TABLE `utente`
   ADD PRIMARY KEY (`Username`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `Evento`
+-- AUTO_INCREMENT per la tabella `evento`
 --
-ALTER TABLE `Evento`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `evento`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `FAQ`
+-- AUTO_INCREMENT per la tabella `faq`
 --
-ALTER TABLE `FAQ`
+ALTER TABLE `faq`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `Storico`
+-- AUTO_INCREMENT per la tabella `storico`
 --
-ALTER TABLE `Storico`
-  MODIFY `Numero_Ordine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `storico`
+  MODIFY `Numero_Ordine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Constraints for table `Evento`
+-- Limiti per la tabella `evento`
 --
-ALTER TABLE `Evento`
-  ADD CONSTRAINT `Evento_ibfk_1` FOREIGN KEY (`Tipologia`) REFERENCES `Tipologia` (`Nome`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `evento`
+  ADD CONSTRAINT `Evento_ibfk1` FOREIGN KEY (`Tipologia`) REFERENCES `tipologia` (`Nome`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `Evento_ibfk2` FOREIGN KEY (`Organizzazione`) REFERENCES `utente` (`Username`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Constraints for table `Partecipazione`
+-- Limiti per la tabella `partecipazione`
 --
-ALTER TABLE `Partecipazione`
-  ADD CONSTRAINT `Partecipazione_ibfk_2` FOREIGN KEY (`Utente`) REFERENCES `Utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Partecipazione_ibfk_3` FOREIGN KEY (`Evento`) REFERENCES `Evento` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `partecipazione`
+  ADD CONSTRAINT `Partecipazione_ibfk_2` FOREIGN KEY (`Utente`) REFERENCES `utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Partecipazione_ibfk_3` FOREIGN KEY (`Evento`) REFERENCES `evento` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `Storico`
+-- Limiti per la tabella `storico`
 --
-ALTER TABLE `Storico`
-  ADD CONSTRAINT `Storico_ibfk_2` FOREIGN KEY (`Utente`) REFERENCES `Utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Storico_ibfk_3` FOREIGN KEY (`Evento`) REFERENCES `Evento` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `storico`
+  ADD CONSTRAINT `Storico_ibfk_2` FOREIGN KEY (`Utente`) REFERENCES `utente` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Storico_ibfk_3` FOREIGN KEY (`Evento`) REFERENCES `evento` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
