@@ -1,6 +1,6 @@
 <?php
 class Application_Resource_Faq extends Zend_Db_Table_Abstract{
-    protected $_name='faq';
+    protected $_name='FAQ';
     protected $_primary='Id';
     protected $_rowClass = 'Application_Resource_Faq_Item';
     
