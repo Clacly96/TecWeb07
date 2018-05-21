@@ -17,13 +17,17 @@ class Application_Model_Catalogo extends App_Model_Abstract
         return $this->getResource('Evento')->estraiEventiPerTipo($tipologia, $paged, $order);
     }    
     
-    public function ottieniEventiInSconto($tipologia, $paged=null, $order=null)
+    public function ottieniEventiInSconto($paged=null)
     {     
-        return $this->getResource('Evento')->ottieniEventiInSconto($tipologia, $paged, $order);
+        return $this->getResource('Evento')->ottieniEventiInSconto($paged);
     }
-    public function estraiUltimiEvInseriti($numgiorni, $paged=null, $order=null)
+     public function estraiUltimiEventi($paged=null)
     {     
-        return $this->getResource('Evento')->estraiUltimiEvInseriti($numgiorni, $paged, $order);
+        return $this->getResource('Evento')->estraiUltimiEventi($paged);
+    }
+    
+    public function estraiEventoPerId($IdEv){
+        return $this->getResource('Evento')->estraiEventiPerId($IdEv);
     }
 }
 
