@@ -1,4 +1,4 @@
-s<?php
+<?php
 
 class Application_Resource_Evento extends Zend_Db_Table_Abstract
 {
