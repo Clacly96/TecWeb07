@@ -18,4 +18,10 @@ class Application_Resource_Evento_Item extends Zend_Db_Table_Row_Abstract
         return $prezzo;
     }
     
+    public function estraiDescrBreve($evento)
+    {
+        $descrizione= $evento->Descrizione;
+        return substr($descrizione,0,50);
+    }
+    
 }
