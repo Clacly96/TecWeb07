@@ -4,7 +4,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
 
 	public function __construct()
     {
-		$this->_logger = Zend_Registry::get('log');  	
+	//	$this->_logger = Zend_Registry::get('log');  	
 	}
 
     public function estraiCategorie()
@@ -27,7 +27,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
     }
     
     public function estraiEventoPerId($IdEv){
-        return $this->getResource('Evento')->estraiEventiPerId($IdEv);
+        return $this->getResource('Evento')->estraiEventoPerId($IdEv);
     }
     public function estraiEventi($paged=null){
         return $this->getResource('Evento')->estraiEventi($paged);
