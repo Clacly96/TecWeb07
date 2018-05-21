@@ -5,7 +5,7 @@
                     $data =Zend_Date::TIMESTAMP;
                     
                         foreach ($this->ultimieventi as $evento){
-                            echo '<li class="ev_li"><a href='.$this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'><div class="ev_sfondo"> <div class="descev">Descrizione:'. $evento->Descrizione .'</div><div class="przev"> Prezzo:'.(($evento->Sconto>0 && $data>=$evento->Data_Inizio_Sconto)? Application_Resource_Evento_Item :: ottieniPrezzoScontato($evento) : $evento->Prezzo_Biglietto) .'</div></div><img src="'.$evento->Locandina .'"><div class="titoloev">'.$evento->Nome.'</div></a></li>';                   
+                            echo '<li class="ev_li"><a href='.$this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'><div class="ev_sfondo"> <div class="descev">Descrizione:'. $evento->Descrizione .'</div><div class="przev"> Prezzo:'. Application_Resource_Evento_Item :: ottieniPrezzo($evento) .'</div></div><img src="'.$evento->Locandina .'"><div class="titoloev">'.$evento->Nome.'</div></a></li>';                   
                         }
                         ?>
                 </ul>
@@ -27,7 +27,7 @@
                         <?php
                         foreach ($this->eventiscontati as $eventoscont){
                             
-                            echo '<li class="sconto_li"><a href="'.  $this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $eventoscont->Id),'default',true) .'"><div class="prezzi_sconto"><div class="titoloev">'.  $eventoscont->Nome  .'</div> <div class="old_price">Prezzo:'. $eventoscont->Prezzo_Biglietto .'euro</div><div class="new_price">Prezzo:'. Application_Resource_Evento_Item :: ottieniPrezzoScontato($eventoscont) .'euro</div><div class="sconto">Sconto:'.$eventoscont->Sconto .'%</div></div><img src="'. $eventoscont->Locandina.'"></a></li>';
+                            echo '<li class="sconto_li"><a href="'.  $this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $eventoscont->Id),'default',true) .'"><div class="prezzi_sconto"><div class="titoloev">'.  $eventoscont->Nome  .'</div> <div class="old_price">Prezzo:'. $eventoscont->Prezzo_Biglietto .'euro</div><div class="new_price">Prezzo:'. Application_Resource_Evento_Item :: ottieniPrezzo($eventoscont) .'euro</div><div class="sconto">Sconto:'.$eventoscont->Sconto .'%</div></div><img src="'. $eventoscont->Locandina.'"></a></li>';
                         }
                         ?>   
                     </ul>
