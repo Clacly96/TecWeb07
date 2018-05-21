@@ -1,4 +1,4 @@
-s<?php
+<?php
 
 class Application_Resource_Evento extends Zend_Db_Table_Abstract
 {
@@ -32,7 +32,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     
     public function estraiEventi($paged=null)
     {
-        $select=$this->select()->where('CURRENT_TIMESTAMP() >= Data_Fine_Acquisto')->order('Nome ASC');
+        $select=$this->select()->where('CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')->order('Nome ASC');
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);   //restituisce un oggetto contenente il rowset da paginare
 			$paginator = new Zend_Paginator($adapter);  //è un oggetto che wrappa i dati provenienti dal db e risultanti dalla select effettuata; rispetto al metodo fetchAll ha dei metodi fatti per specificare la paginazione
@@ -49,7 +49,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function ottieniEventiInSconto($paged=null)
     {
         $select = $this->select()
-        			   ->where('Sconto>0 && CURRENT_TIMESTAMP() >= Data_Inizio_Sconto && CURRENT_TIMESTAMP() >= Data_Fine_Acquisto')                                      //query per estrarre gli eventi in sconto. Credo sia il modo migliore per estrarre direttamente gli elementi scontati dal db
+        			   ->where('Sconto>0 && CURRENT_TIMESTAMP() >= Data_Inizio_Sconto && CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')                                      //query per estrarre gli eventi in sconto. Credo sia il modo migliore per estrarre direttamente gli elementi scontati dal db
                                    ->order('Sconto DESC');
       
 		if (null !== $paged) {
