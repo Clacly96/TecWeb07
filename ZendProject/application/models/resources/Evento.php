@@ -49,7 +49,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function ottieniEventiInSconto($paged=null)
     {
         $select = $this->select()
-        			   ->where('Sconto>0 && CURRENT_TIMESTAMP() >= Data_Inizio_Sconto && CURRENT_TIMESTAMP() >= Data_Fine_Acquisto')                                      //query per estrarre gli eventi in sconto. Credo sia il modo migliore per estrarre direttamente gli elementi scontati dal db
+        			   ->where('Sconto>0 && CURRENT_TIMESTAMP() >= Data_Inizio_Sconto && CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')                                      //query per estrarre gli eventi in sconto. Credo sia il modo migliore per estrarre direttamente gli elementi scontati dal db
                                    ->order('Sconto DESC');
       
 		if (null !== $paged) {
