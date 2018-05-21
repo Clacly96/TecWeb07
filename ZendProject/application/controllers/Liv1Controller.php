@@ -21,14 +21,14 @@ class Liv1Controller extends Zend_Controller_Action
     public function catalogoAction()
     {   
        
-        $ev=$this->_getParam('evento');
+        $IdEv=$this->_getParam('evento',null);
         $paged = $this->_getParam('page', 1);
-        if(!is_null($ev)){
-            $eventi=$this->_catalogModel->estraiEventoPerId($ev);
+        if(!is_null($IdEv)){
+            $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
         }
         else { $eventi=$this->_catalogModel->estraiEventi($paged);}
         
-        $this->view->assign(array('eventi'=>$eventi,'ev'=>$ev));
+        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv));
             
   }
     public function ricercaAction()
