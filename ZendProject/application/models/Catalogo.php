@@ -9,7 +9,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
 
     public function estraiCategorie()
     {
-		return $this->getResource('Tipologia')->estraiCategorie();
+        return $this->getResource('Tipologia')->estraiCategorie();
     }
        
     public function estraiEventiPerTipo($tipologia, $paged=null, $order=null)
@@ -28,6 +28,9 @@ class Application_Model_Catalogo extends App_Model_Abstract
     
     public function estraiEventoPerId($IdEv){
         return $this->getResource('Evento')->estraiEventiPerId($IdEv);
+    }
+    public function estraiEventi($paged=null){
+        return $this->getResource('Evento')->estraiEventi($paged);
     }
 }
 
