@@ -5,7 +5,7 @@
                     $data =Zend_Date::TIMESTAMP;
                     
                         foreach ($this->ultimieventi as $evento){                                                                                                                                                                                                                                                                                                                      // attenzione a $this->baseUrl, non è $this->view->baseUrl perchè in questo momento stiamo usando l'oggetto view                                                         
-                            echo '<li class="ev_li"><a href='.$this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'><div class="ev_sfondo"> <div class="descev">Descrizione:'. $evento->Descrizione .'</div><div class="przev"> Prezzo:'. Application_Resource_Evento_Item :: ottieniPrezzo($evento) .'</div></div><img src="'. $this->baseUrl('/images/locandine/' . $evento->Locandina) .'"><div class="titoloev">'.$evento->Nome.'</div></a></li>';                   
+                            echo '<li class="ev_li"><a href='.$this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'><div class="ev_sfondo"> <div class="descev">Descrizione:<br>'. Application_Resource_Evento_Item :: estraiDescrBreve($evento) .'...</div><div class="przev"> Prezzo: '. Application_Resource_Evento_Item :: ottieniPrezzo($evento) .'</div></div><img src="'. $this->baseUrl('/images/locandine/' . $evento->Locandina) .'"><div class="titoloev">'.$evento->Nome.'</div></a></li>';                   
                         }
                         ?> 
                 </ul>
