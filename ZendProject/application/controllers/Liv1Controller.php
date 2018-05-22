@@ -24,7 +24,9 @@ class Liv1Controller extends Zend_Controller_Action
     {
     }
     public function faqAction(){
-        
+        $page=$this->_getParam('page',1);
+        $listafaq= $this->_faqModel->estraiFaq($page);
+        $this->view->assign(array('listafaq'=>$listafaq));
     }
 }
 
