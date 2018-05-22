@@ -5,12 +5,7 @@
                     $data =Zend_Date::TIMESTAMP;
                     
                         foreach ($this->ultimieventi as $evento){                                                                                                                                                                                                                                                                                                                      // attenzione a $this->baseUrl, non è $this->view->baseUrl perchè in questo momento stiamo usando l'oggetto view                                                         
-                            echo '<li class="ev_li"><a href='.$this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'>'
-                                    . '<div class="ev_sfondo"> '
-                                    . '<div class="descev">Descrizione:<br>'.$evento->estraiDescrBreve() .'...</div>'
-                                    . '<div class="przev"> Prezzo: '. $evento->ottieniPrezzo() .'</div></div>'
-                                    . '<img src="'. $this->baseUrl('/images/locandine/' . $evento->Locandina) .'">'
-                                    . '<div class="titoloev">'.$evento->Nome.'</div></a></li>';                   
+                            echo $this->AnteprimaEvento($evento,'anteprima');
                         }
                         ?> 
                 </ul>
@@ -32,12 +27,7 @@
                         <?php
                         foreach ($this->eventiscontati as $eventoscont){
                             
-                            echo '<li class="sconto_li"><a href="'.  $this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $eventoscont->Id),'default',true) .'">'
-                                    . '<div class="prezzi_sconto"><div class="titoloev">'.  $eventoscont->Nome  .'</div> '
-                                    . '<div class="old_price">Vecchio prezzo: '. $eventoscont->Prezzo_Biglietto .'</div>'
-                                    . '<div class="new_price">Prezzo: '. $eventoscont->ottieniPrezzo() .'</div>'
-                                    . '<div class="sconto">Sconto: '.$eventoscont->Sconto .'%</div></div>'
-                                    . '<img src="'. $this->baseUrl('/images/locandine/' . $eventoscont->Locandina).'"></a></li>';
+                            echo $this->AnteprimaEvento($eventoscont,'scontato');
                         }
                         ?>   
                     </ul>
@@ -50,4 +40,3 @@
                 </div>
             </section>
             <?php endif ?>
-
