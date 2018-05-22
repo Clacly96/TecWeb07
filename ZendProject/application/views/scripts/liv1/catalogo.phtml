@@ -8,6 +8,7 @@
             echo $this->AnteprimaEvento($this->eventi,'singolo');
         } else
         {
+            echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
             foreach ($this->eventi as $evento){
                 echo $this->AnteprimaEvento($evento,'anteprima');
