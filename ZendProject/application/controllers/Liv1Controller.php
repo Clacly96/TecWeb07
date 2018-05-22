@@ -2,9 +2,12 @@
 
 class Liv1Controller extends Zend_Controller_Action
 {
+    protected $_utenzaModel;
+    
     public function init()
     {
         $this->_helper->layout->setLayout('main');
+        $this->_utenzaModel = new Application_Model_Utenza();
     }
     public function indexAction()
     {
@@ -22,6 +25,18 @@ class Liv1Controller extends Zend_Controller_Action
     }
     public function listaorganizzazioniAction()
     {
+        $OrgId=$this->_getParam('organizzazione',null);
+        $paged = $this->_getParam('page',1);
+        if(is_null($OrgId)){
+            $org=$this->_utenzaModel->getOrg($paged);
+        } else { 
+            $org=$this->_utenzaModel->getOrgById($OrgId);
+        }
+        $this->view->assign(array(
+                        'organizzazioni'=>$org, 
+                        'selectedOrg'=>$OrgId
+                        )
+        );
     }
     public function faqAction(){
         
