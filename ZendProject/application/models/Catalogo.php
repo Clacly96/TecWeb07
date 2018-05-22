@@ -32,5 +32,11 @@ class Application_Model_Catalogo extends App_Model_Abstract
     public function estraiEventi($paged=null){
         return $this->getResource('Evento')->estraiEventi($paged);
     }
+    public function filtro($paged=null,$org=null,$data=null,$luogo=null,$cat=null){
+        return $this->getResource('Evento')->filtro($paged,$org,$data,$luogo,$cat);
+    }
+    public function estraiLuoghi() {
+        return $this->getResource('Evento')->estraiLuoghi();
+    }
 }
 
