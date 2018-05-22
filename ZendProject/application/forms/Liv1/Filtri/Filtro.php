@@ -48,11 +48,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                         'value' => null
 		));
                 
-                $this->addElement('date', 'Data_Ora', array(
-                        'label' => 'Data',
-                        'required' => false,
-                        'value' => null
-		));
+                
                 
                 
 
