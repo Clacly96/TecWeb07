@@ -76,6 +76,37 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 		}
         return $this->fetchAll($select);
     }
+    // funzione utile di mysql per la ricerca SELECT * FROM Table_name Where Month(date)='10' && YEAR(date)='2016';
+
+    
+    public function filtro($paged=null,$org=null,$data=null,$luogo=null,$cat=null) {        
+        $select=$this->select();
+        if (!is_null($org)){
+            $select->where('Organizzazione =(?)',$org);
+        }
+        if (!is_null($data)){
+            $select->where("DATE_FORMAT(Data_Ora,'%Y%m%d')=(?)",$data);
+        }
+        if (!is_null($luogo)){
+            $select->where("Luogo=(?)",$luogo);
+        }
+        if (!is_null($cat)){
+            $select->where("Tipologia=(?)",$cat);
+        }
+        $select->order('Nome');
+        if (null !== $paged) {
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage(6)
+		          	  ->setCurrentPageNumber((int) $paged);
+			return $paginator;
+		}
+        return $this->fetchAll($select);
+    }
+    public function estraiLuoghi() {
+        $select=select()->distinct()->from('Evento.Luogo')->order('Luogo ASC');
+        return $this->fetchAll($select);
+    }
             
 }
 
