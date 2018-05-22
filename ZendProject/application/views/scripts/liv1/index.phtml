@@ -2,9 +2,7 @@
                 <h1>Ultimi Eventi</h1>
                 <ul id="listaeventi">
                     <?php
-                    $data =Zend_Date::TIMESTAMP;
-                    
-                        foreach ($this->ultimieventi as $evento){                                                                                                                                                                                                                                                                                                                      // attenzione a $this->baseUrl, non è $this->view->baseUrl perchè in questo momento stiamo usando l'oggetto view                                                         
+                        foreach ($this->ultimieventi as $evento){
                             echo $this->AnteprimaEvento($evento,'anteprima');
                         }
                         ?> 
