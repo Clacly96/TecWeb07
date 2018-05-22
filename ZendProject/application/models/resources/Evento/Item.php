@@ -23,7 +23,7 @@ class Application_Resource_Evento_Item extends Zend_Db_Table_Row_Abstract
             $sconto=$prezzo*$percSconto/100;
             $prezzo=round($prezzo - $sconto, 2); //arrotonda a due cifre decimali
         }
-        return "€".$prezzo;
+        return $prezzo;
     }
     
     public function estraiDescrBreve()
