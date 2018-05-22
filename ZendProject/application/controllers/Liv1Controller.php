@@ -30,7 +30,7 @@ class Liv1Controller extends Zend_Controller_Action
         if(is_null($OrgId)){
             $org=$this->_utenzaModel->getOrg($paged);
         } else { 
-            $org=$this->_utenzaModel->getOrgById($OrgId);
+            $org=$this->_utenzaModel->getUtenteByUsername($OrgId);
         }
         $this->view->assign(array(
                         'organizzazioni'=>$org, 
