@@ -2,25 +2,33 @@
 
 class Application_Resource_Evento_Item extends Zend_Db_Table_Row_Abstract
 {   
-	public function init()
+    public function init()
     {
     }
-    
-    public function ottieniPrezzo($evento)
-    {
+    public function scontato(){
         $data =Zend_Date::TIMESTAMP;
-        $prezzo = $evento->Prezzo_Biglietto;
-        if($evento->Sconto>0 && $data>=$evento->Data_Inizio_Sconto){
-            $percSconto=$evento->Sconto;
+        if($this->Sconto>0 && $data>=$this->Data_Inizio_Sconto){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public function ottieniPrezzo()
+    {
+        $prezzo = $this->Prezzo_Biglietto;
+        if($this->scontato()==true){
+            $percSconto=$this->Sconto;
             $sconto=$prezzo*$percSconto/100;
             $prezzo=round($prezzo - $sconto, 2); //arrotonda a due cifre decimali
         }
-        return $prezzo;
+        return "€".$prezzo;
     }
     
-    public function estraiDescrBreve($evento)
+    public function estraiDescrBreve()
     {
-        $descrizione= $evento->Descrizione;
+        $descrizione= $this->Descrizione;
         return substr($descrizione,0,50);
     }
     
