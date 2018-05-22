@@ -104,7 +104,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         return $this->fetchAll($select);
     }
     public function estraiLuoghi() {
-        $select=select()->distinct()->from('Evento.Luogo')->order('Luogo ASC');
+        $select=$this->select()->distinct()->from('Evento',array('Luogo'))->order('Luogo ASC');
         return $this->fetchAll($select);
     }
             

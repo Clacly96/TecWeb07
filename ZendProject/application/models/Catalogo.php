@@ -37,6 +37,6 @@ class Application_Model_Catalogo extends App_Model_Abstract
     }
     public function estraiLuoghi() {
         return $this->getResource('Evento')->estraiLuoghi();
-    }
+    } 
 }
 
