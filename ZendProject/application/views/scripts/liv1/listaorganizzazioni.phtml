@@ -6,19 +6,20 @@
             echo '<li class="org_li">'
             . '<a href='.$this->url(array('controller' => 'liv1','action' => 'listaorganizzazioni','organizzazione' => $organiz->Username), 'default',true).'>'
             . '<div class="org_sfondo">'
-            . '<div class="org_logo"><img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'"></div>'
+            . '<div class="org_logo"><img src="'.$this->baseUrl('images/loghi/'.$organiz->Logo).'"></div>'
             . '<div class="org_nome">'.$organiz->Username.'</div></div></a></li>';
         }
+        echo '</ul>';
     } else {
         echo '<div id="SingolaOrganizzazione">'
-                . '<img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'">'
-                . '<div> Nome: '.$this->organizzazioni->Username.'</div><br>'
-                . '<div> Sede: '.$this->organizzazioni->Sede.'</div><br>'
-                . '<div> Email: '.$this->organizzazioni->Email.'</div>'
-                . '<div> Telefono: '.$this->organizzazioni->Telefono.'</div>'
-                . '<div> Fax: '.$this->organizzazioni->Fax.'</div><br>'
-                . '<div> Missione: '.$this->organizzazioni->Missione.'</div><br>'
-                . '<div> Descrizione: '.$this->organizzazioni->Descrizione.'</div>'
+                . '<h1>'.$this->organizzazioni->Username.'</h1>'
+                . '<img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'">'                
+                . '<div><b> Sede: </b>'.$this->organizzazioni->Sede.'</div><br>'
+                . '<div><b> Email: </b>'.$this->organizzazioni->Email.'</div>'
+                . '<div><b> Telefono: </b>'.$this->organizzazioni->Telefono.'</div>';
+                if(!is_null($this->organizzazioni->Fax)) {echo '<div><b> Fax: </b>'.$this->organizzazioni->Fax.'</div><br>';}
+                echo '<br><br><div><b> Missione: </b>'.$this->organizzazioni->Missione.'</div><br>'
+                . '<div><b> Descrizione: </b>'.$this->organizzazioni->Descrizione.'</div>'
                 . '</div>';
     }
        
