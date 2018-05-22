@@ -23,6 +23,9 @@
         ?> 
 </section>   
 <section id="contenuto_laterale">
-    <?php echo $this->filtroForm ?>
+    <?php 
+    if (is_null($this->EvSelezionato)){
+        echo $this->filtroForm; }
+    ?>
     
 </section>
