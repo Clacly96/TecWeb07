@@ -1,8 +1,11 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<section id="contenuto_centrale">
+    <h1>FAQ</h1>
+    <?php
+        foreach ($this->listafaq as $faq){
+            echo '<h2>'.$faq->Domanda.'</h2><p>'.$faq->Risposta.'</p><br>';
+        }
+        if($this->listafaq instanceof Zend_Paginator){
+            echo $this->paginationControl($this->listafaq,'Sliding','liv1/_paginatorfaq.phtml');
+        }
+    ?>
+</section>
