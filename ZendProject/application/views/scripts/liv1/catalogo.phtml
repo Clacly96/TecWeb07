@@ -14,9 +14,15 @@
             echo '</ul>';
         }
         }
+        
+        
     
         if($this->eventi instanceof Zend_Paginator) {
         echo $this->paginationControl($this->eventi,'Sliding','liv1/_paginatoreventicatalogo.phtml');
         } 
         ?> 
 </section>   
+<section id="contenuto_laterale">
+    <?php echo $this->filtroForm ?>
+    
+</section>
