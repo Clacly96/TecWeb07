@@ -3,17 +3,28 @@
         echo '<h1>Le nostre organizzazioni</h1>';
         echo '<ul id="listaorg">';
         foreach ($this->organizzazioni as $organiz) {
-            echo '<li class="org_li"><a href='.$this->url(array('controller' => 'liv1','action' => 'listaorganizzazioni','organizzazione' => $organiz->Id), 'default',true).'><div class="org_sfondo"><div class="org_logo">'.$organiz->Logo.'</div><div class="org_nome">'.$organiz->Nome.'</div></div></a></li>';
+            echo '<li class="org_li">'
+            . '<a href='.$this->url(array('controller' => 'liv1','action' => 'listaorganizzazioni','organizzazione' => $organiz->Username), 'default',true).'>'
+            . '<div class="org_sfondo">'
+            . '<div class="org_logo"><img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'"></div>'
+            . '<div class="org_nome">'.$organiz->Username.'</div></div></a></li>';
         }
-        echo '<br><br>';
-        echo '<a hfre='.$this->url(array('controller' => 'liv1', 'action' => 'vistastatica', 'pagina' => 'adesioneorganizzazioni'),'default',true).'><h2>Entra a far parte delle nostre organizzazioni</h2></a>';
     } else {
-        echo '<div id="SingolaOrganizzazione"><div>'.$this->organizzazioni->Logo.'</div><div> Nome: '.$this->organizzazioni->Nome.'</div><br><div> Sede: '.$this->organizzazioni->Sede.'</div><br><div> Email: '.$this->organizzazioni->Email.'</div><div> Telefono: '.$this->organizzazioni->Telefono.'</div><div> Fax: '.$this->organizzazioni->Fax.'</div><br><div> Missione: '.$this->organizzazioni->Missione.'</div><br><div> Descrizione: '.$this->organizzazioni->Descrizione.'</div></div>';
+        echo '<div id="SingolaOrganizzazione">'
+                . '<img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'">'
+                . '<div> Nome: '.$this->organizzazioni->Username.'</div><br>'
+                . '<div> Sede: '.$this->organizzazioni->Sede.'</div><br>'
+                . '<div> Email: '.$this->organizzazioni->Email.'</div>'
+                . '<div> Telefono: '.$this->organizzazioni->Telefono.'</div>'
+                . '<div> Fax: '.$this->organizzazioni->Fax.'</div><br>'
+                . '<div> Missione: '.$this->organizzazioni->Missione.'</div><br>'
+                . '<div> Descrizione: '.$this->organizzazioni->Descrizione.'</div>'
+                . '</div>';
     }
        
     if($this->organizzazioni instanceof Zend_Paginator) {
         echo $this->paginationControl($this->organizzazioni,'Sliding','liv1/_paginatororganizzazioni.phtml');
     } 
     ?>
-</div> /
+</div>
 
