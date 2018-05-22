@@ -1,23 +1,38 @@
 <section id="contenuto_centrale">
 
-    <?php if (!is_null($this->EvSelezionato))
-    {
-        echo '<div id="SingoloEvento"> <div id="Nome"> Nome: '.$this->eventi->Nome.'</div> <div> Prezzo: '.$this->eventi->Prezzo_Biglietto.'</div> <div> Luogo: '.$this->eventi->Luogo.'</div> <div> Data: '.$this->eventi->Data_Ora.'</div> <br> <div> Descrizione.'.$this->eventi->Descrizione.'</div> </div>';
-    } else
-    {
-        echo '<ul id="listaeventi">';
-        foreach ($this->eventi as $evento){
-            echo '<li class="ev_li"> <a href='.$this->url(array('controller'=>'liv1','action'=>'catalogo','evento'=>$evento->Id), 'default', true).'> <div class="ev_sfondo"> <div class="descev"> Descrizione'.$evento->Descrizione.' </div><div class="przev"> Prezzo: '.$evento->Prezzo_Biglietto .'</div></div><img src="'.$evento->Locandina.'"><div class="titoloev">'.$evento->Nome.'</div></a></li>';
+    <?php 
+        if (!is_null($this->EvSelezionato))
+        {
+            echo '<div id="SingoloEvento"><img src="'.$this->baseUrl('/images/locandine/' . $this->eventi->Locandina).'"> '
+                    . '<div id="Nome"> Nome: '.$this->eventi->Nome.'</div> ';
+            if($this->eventi->scontato()==true){
+                echo '<div class="old_price">Vecchio prezzo:'.$this->eventi->Prezzo_Biglietto.'</div>';
+            }
+                echo '<div> Prezzo: '.$this->eventi->ottieniPrezzo().'</div> '
+                    . '<div><b> Luogo:</b> '.$this->eventi->Luogo.'</div> '
+                    . '<div><b> Data:</b> '.$this->eventi->Data_Ora.'</div> <br> '
+                    . '<div><b> Descrizione: </b>'.$this->eventi->Descrizione.'</div> </div>';
+        } else
+        {
+            echo '<ul id="listaeventi">';
+            foreach ($this->eventi as $evento){
+                echo '<li class="ev_li"> <a href='.$this->url(array('controller'=>'liv1','action'=>'catalogo','evento'=>$evento->Id), 'default', true).'> '
+                        . '<div class="ev_sfondo"> '
+                        . '<div class="descev"> Descrizione'.$evento->Descrizione.' </div>'
+                        . '<div class="przev"> Prezzo: '.$evento->ottieniPrezzo() .'</div>'
+                        . '</div>'
+                        . '<img src="'.$this->baseUrl('/images/locandine/' . $this->eventi->Locandina).'">'
+                        . '<div class="titoloev">'.$evento->Nome.'</div></a></li>';
             
+            }
+            echo '</ul>';
         }
-        echo '</ul>';
-    }
-    
+        
    
     //echo '<li class="ev_li"><a href='.$this->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'><div class="ev_sfondo"> <div class="descev">Descrizione:'. $evento->Descrizione .'</div><div class="przev"> Prezzo:'.$evento->Prezzo_Biglietto .'</div></div><img src="'.$evento->Locandina .'"><div class="titoloev">'.$evento->Nome.'</div></a></li>';
     
-if($this->eventi instanceof Zend_Paginator) {
+        if($this->eventi instanceof Zend_Paginator) {
         echo $this->paginationControl($this->eventi,'Sliding','liv1/_paginatoreventicatalogo.phtml');
-                                } 
-                                ?>
-</section> 
+        } 
+    ?>
+</section>
