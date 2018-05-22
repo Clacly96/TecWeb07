@@ -110,10 +110,7 @@ nav{
     width: 90%;
     clear: both;
     margin: 0 auto;
-    padding:10px;
-    padding-top: 60px;
-    padding-bottom: 40px;
-    
+    padding:60px 10px;    
 }
 #contenuto_pagina::after {      /* serve per risolvere il problema del contenitore che racchiude elementi flottati */
   content: "";
@@ -263,6 +260,74 @@ nav{
     height: 100%;
     padding-bottom: 40px;
 }
+#SingoloEvento{
+    position: relative;
+    width: 100%;
+    margin: 20px 0 0 0;
+    font-size: 14pt;
+}
+#SingoloEvento img{
+    float: left;
+    margin: 0 20px 20px 20px;
+    width: 300px;
+    height: 390px;
+    border: solid 10px #DDDDDD;
+    box-shadow: 0 0 10px 3px #707070;
+}
+#info_biglietti{
+    position: absolute;
+    top:0;
+    right: 0;
+    border-radius: 3px;
+    background-color:#91BE3F;
+    padding: 10px;
+}
+#SingolaOrganizzazione{
+    position: relative;
+    width: 100%;
+    margin: 20px 0 0 0;
+    font-size: 14pt;
+}
+#SingolaOrganizzazione img{
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+#listaorg{
+    list-style-type: none;
+}
+#listaorg::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+.org_li a{
+    text-decoration: none;
+}
+.org_nome{
+    text-align: center;
+    font-size: 14pt;
+    font-weight: 600;
+    color: #000000;
+}
+.org_li{
+    float:left;
+    background-color: #DDDDDD;
+    margin: 10px;
+    padding: 4px;
+}
+.org_logo{
+    width: 250px;
+    height: 300px;
+}
+.org_logo img{
+    width: 250px;
+    position: relative;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
 #footer {
     position:  fixed;
     bottom:0;
