@@ -3,22 +3,25 @@
 class Liv1Controller extends Zend_Controller_Action
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     protected $_faqModel;
     protected $_catalogModel;
     protected $_utenzaModel;
     protected $_formFiltro;
     protected $_formRicerca;
     protected $_formLogin;
-    
+
     public function init()
     {
         $this->_helper->layout->setLayout('main');
+
         $this->_faqModel=new Application_Model_Faq;
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
+
 
     }
     public function indexAction()

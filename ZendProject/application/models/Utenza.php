@@ -11,9 +11,11 @@ class Application_Model_Utenza extends App_Model_Abstract
         return $this->getResource('Utente')->getOrg($paged);
     }    
     
+
     public function getUtenteByUsername($username)
     {
         return $this->getResource('Utente')->getUtenteByUsername($username);
+
     }
 }
 
