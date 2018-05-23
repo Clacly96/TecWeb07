@@ -40,9 +40,26 @@ class Liv1Controller extends Zend_Controller_Action
 		}
                 $desc = $form->getValue('Descrizione');
                 $luogo = $form->getValue('Luogo');
-                $cat = $form->getValue('Data_Ora');
+                $data = $form->getValue('Data_Ora');
                 $tipo = $form->getValue('Categoria');
-                $eventi=$this->_catalogModel->ricerca($paged,$data,$luogo,$cat,$desc);  //quando si lascia vuota il campo di una form non si ha un valore null, se invece faccio la ricerca mettendo manualmente null, il tutto funziona
+                if($desc=='')
+                {
+                    $desc=null;
+                }
+                  if($luogo=='')
+                {
+                    $luogo=null;
+                }
+                  if($data=='')
+                {
+                    $cat=null;
+                }
+                  if($tipo=='')
+                {
+                    $tipo=null;
+                }
+             
+                $eventi=$this->_catalogModel->ricerca($paged,$data,$luogo,$tipo,$desc);  //quando si lascia vuota il campo di una form non si ha un valore null, se invece faccio la ricerca mettendo manualmente null, il tutto funziona
             }
                 else $this->_helper->redirector('catalogo','liv1');   
         }else if(!is_null($IdEv)){

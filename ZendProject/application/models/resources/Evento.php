@@ -117,7 +117,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("Tipologia=(?)",$cat);
         }
         if(!is_null($desc)){
-            $select->where("Descrizione LIKE '%$desc%");  //sintassi del like vista online
+            $select->where("Descrizione LIKE '%$desc%'");  //sintassi del like vista online
         }
         $select->order('Nome');
         if (null !== $paged) {
