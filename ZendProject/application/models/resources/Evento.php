@@ -103,6 +103,36 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 		}
         return $this->fetchAll($select);
     }
+    
+    public function ricerca($paged=null,$data=null,$luogo=null,$cat=null,$desc=null){
+         $select=$this->select();
+       
+        if (!is_null($data)){
+            $select->where("DATE_FORMAT(Data_Ora,'%Y%m%d')=(?)",$data);
+        }
+        if (!is_null($luogo)){
+            $select->where("Luogo=(?)",$luogo);
+        }
+        if (!is_null($cat)){
+            $select->where("Tipologia=(?)",$cat);
+        }
+        if(!is_null($desc)){
+            $select->where("Descrizione LIKE '%$desc%");  //sintassi del like vista online
+        }
+        $select->order('Nome');
+        if (null !== $paged) {
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage(6)
+		          	  ->setCurrentPageNumber((int) $paged);
+			return $paginator;
+		}
+        return $this->fetchAll($select);
+        
+        
+    }
+    
+    
     public function estraiLuoghi() {
         $select=$this->select()->distinct()->from('Evento',array('Luogo'))->order('Luogo ASC');
         return $this->fetchAll($select);

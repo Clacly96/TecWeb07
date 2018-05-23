@@ -5,12 +5,14 @@ class Liv1Controller extends Zend_Controller_Action
 {
     protected $_catalogModel;
     protected $_form;
+    protected $_form2; 
     
     public function init()
     {
        $this->_helper->layout->setLayout('main');
         $this->_catalogModel = new Application_Model_Catalogo();
         $this->view->filtroForm = $this->getFiltroForm();
+        $this->view->filtroRicerca = $this->getRicercaForm();
     }
     public function indexAction()
     {
@@ -32,6 +34,15 @@ class Liv1Controller extends Zend_Controller_Action
                 
             } else if($tiporic=='ricerca'){
                 //paolo metti il codice relativo alla ricerca qua
+                $form=$this->_form2;
+                if (!$form->isValid($_POST)) {    //a quel che ho capito la valid è necessaria anche se non si deve fare una validazione
+			return $this->render('ricerca');
+		}
+                $desc = $form->getValue('Descrizione');
+                $luogo = $form->getValue('Luogo');
+                $cat = $form->getValue('Data_Ora');
+                $tipo = $form->getValue('Categoria');
+                $eventi=$this->_catalogModel->ricerca($paged,$data,$luogo,$cat,$desc);  //quando si lascia vuota il campo di una form non si ha un valore null, se invece faccio la ricerca mettendo manualmente null, il tutto funziona
             }
                 else $this->_helper->redirector('catalogo','liv1');   
         }else if(!is_null($IdEv)){
@@ -44,6 +55,7 @@ class Liv1Controller extends Zend_Controller_Action
   }
     public function ricercaAction()
     {
+        
     }
    
     public function faqAction(){
@@ -62,6 +74,18 @@ class Liv1Controller extends Zend_Controller_Action
                 'default'
                 ));
         return $this->_form;
+    }
+     private function getRicercaForm()
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_form2 = new Application_Form_Liv1_Ricerca_Ricerca();
+        $this->_form2->setAction($urlHelper->url(array(
+                'controller' => 'liv1',
+                'action' => 'catalogo',
+                                'tiporic' => 'ricerca'),
+                'default'
+                ));
+        return $this->_form2;
     }
 }
 

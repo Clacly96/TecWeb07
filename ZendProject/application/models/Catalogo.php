@@ -38,5 +38,9 @@ class Application_Model_Catalogo extends App_Model_Abstract
     public function estraiLuoghi() {
         return $this->getResource('Evento')->estraiLuoghi();
     } 
+    
+    public function ricerca($paged=null,$data=null,$luogo=null,$cat=null,$desc=null){
+        return $this->getResource('Evento')->ricerca($paged,$data,$luogo,$cat,$desc);
+    }
 }
 
