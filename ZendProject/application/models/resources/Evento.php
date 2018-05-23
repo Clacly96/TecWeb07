@@ -5,15 +5,17 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     protected $_name    = 'Evento';
     protected $_primary  = 'Id';
     protected $_rowClass = 'Application_Resource_Evento_Item';
+  
 
-	public function init()
+    public function init()
     {
+
     }
-    
+
     public function estraiEventoPerId($IdEv) {
          return $this->find($IdEv)->current();
     }
-	// Estrae i prodotti della tipologia $tipologia, eventualmente paginati ed ordinati. 
+	// Estrae i prodotti della tipologia $tipologia, eventualmente paginati ed ordinati.
     public function estraiEventiPerTipo($tipologia, $paged=null, $order=null)
     {
         $select = $this->select()->where('Tipologia IN(?)', $tipologia);
@@ -28,8 +30,8 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 			return $paginator;
 		}
         return $this->fetchAll($select);
-    } 
-    
+    }
+
     public function estraiEventi($paged=null)
     {
         $select=$this->select()->where('CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')->order('Nome ASC');
@@ -42,8 +44,8 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 		}
         return $this->fetchAll($select);
     }
-    
-   
+
+
 
     // Estrae i prodotti IN SCONTO della tipologia $tipologia, eventualmente paginati ed ordinati
     public function ottieniEventiInSconto($paged=null)
@@ -51,7 +53,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         $select = $this->select()
         			   ->where('Sconto>0 && CURRENT_TIMESTAMP() >= Data_Inizio_Sconto && CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')                                      //query per estrarre gli eventi in sconto. Credo sia il modo migliore per estrarre direttamente gli elementi scontati dal db
                                    ->order('Sconto DESC');
-      
+
 		if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 			$paginator = new Zend_Paginator($adapter);
@@ -62,7 +64,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         return $this->fetchAll($select);
     }
 
-    
+
     public function estraiUltimiEventi($paged=null)
     {
         $select=$this->select()->where('Data_Inserimento >= DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 7 DAY)')
@@ -78,14 +80,17 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     }
     // funzione utile di mysql per la ricerca SELECT * FROM Table_name Where Month(date)='10' && YEAR(date)='2016';
 
-    
-    public function filtro($paged=null,$org=null,$data=null,$luogo=null,$cat=null) {        
-        $select=$this->select();
+
+    public function filtro($paged=null,$org=null,$mese=null,$anno=null,$luogo=null,$cat=null) {
+        $select=$this->select()->where('CURRENT_TIMESTAMP() <= Data_Fine_Acquisto'); // prendiamo solo gli eventi ancora attivi
         if (!is_null($org)){
             $select->where('Organizzazione =(?)',$org);
         }
-        if (!is_null($data)){
-            $select->where("DATE_FORMAT(Data_Ora,'%Y%m%d')=(?)",$data);
+        if (!is_null($mese)){
+            $select->where("MONTH(Data_Ora)=(?)",$mese);
+        }
+        if (!is_null($anno)){
+            $select->where("YEAR(Data_Ora)=(?)",$anno);
         }
         if (!is_null($luogo)){
             $select->where("Luogo=(?)",$luogo);
@@ -93,6 +98,39 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         if (!is_null($cat)){
             $select->where("Tipologia=(?)",$cat);
         }
+        $select->order('Nome');
+        if (null !=$paged) {
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage(6)
+		          	  ->setCurrentPageNumber((int) $paged);
+			return $paginator;
+		}
+        return $this->fetchAll($select);
+    }
+
+    public function estraiLuoghi() {
+        $select=$this->select()->distinct()->from('Evento',array('Luogo'))->order('Luogo ASC');
+        return $this->fetchAll($select);
+    }
+
+    public function ricerca($paged=null,$data=null,$luogo=null,$cat=null,$desc=null){
+         $select=$this->select();
+
+        if (!is_null($data) && $data != ""){
+            $this->_logger->info('entrato nell if data');
+            $select->where("DATE_FORMAT(Data_Ora,'%Y%m%d')=(?)",$data);
+        }
+        if (!is_null($luogo) && $luogo!=""){
+            $select->where("Luogo=(?)",$luogo);
+        }
+        if (!is_null($cat) && $cat != ""){
+            $select->where("Tipologia=(?)",$cat);
+        }
+        if(!is_null($desc) && $desc != ""){
+            $select->where("Descrizione LIKE '%$desc%'");  //sintassi del like vista online
+        }
+        $this->_logger->info('data: ' . $data . ' luogo: ' . $luogo);
         $select->order('Nome');
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
@@ -102,13 +140,8 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 			return $paginator;
 		}
         return $this->fetchAll($select);
+
+
     }
-    public function estraiLuoghi() {
-        $select=$this->select()->distinct()->from('Evento',array('Luogo'))->order('Luogo ASC');
-        return $this->fetchAll($select);
-    }
-            
+
 }
-
-
-
