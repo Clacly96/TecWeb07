@@ -33,33 +33,17 @@ class Liv1Controller extends Zend_Controller_Action
                 
                 
             } else if($tiporic=='ricerca'){
-                //paolo metti il codice relativo alla ricerca qua
-                $form=$this->_form2;
-                if (!$form->isValid($_POST)) {    //a quel che ho capito la valid è necessaria anche se non si deve fare una validazione
-			return $this->render('ricerca');
-		}
-                $desc = $form->getValue('Descrizione');
-                $luogo = $form->getValue('Luogo');
-                $data = $form->getValue('Data_Ora');
-                $tipo = $form->getValue('Categoria');
-                if($desc=='')
-                {
-                    $desc=null;
-                }
-                  if($luogo=='')
-                {
-                    $luogo=null;
-                }
-                  if($data=='')
-                {
-                    $cat=null;
-                }
-                  if($tipo=='')
-                {
-                    $tipo=null;
-                }
-             
-                $eventi=$this->_catalogModel->ricerca($paged,$data,$luogo,$tipo,$desc);  //quando si lascia vuota il campo di una form non si ha un valore null, se invece faccio la ricerca mettendo manualmente null, il tutto funziona
+                
+               if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');}
+                        
+               $form=$this->_form2;
+               if (!$form->isValid($_POST)) {    
+			return $this->render('ricerca');}
+               
+               $valori=$this->_form2->getValues();
+               $eventi= $this->_catalogModel->ricerca($paged, null,($valori['Luogo']!=' ')?$valori['Luogo']: null,($valori['Tipologia']!=' ')?$valori['Tipologia']: null, ($valori['Descrizione']!=' ')?$valori['Descrizione']: null );
+               
             }
                 else $this->_helper->redirector('catalogo','liv1');   
         }else if(!is_null($IdEv)){

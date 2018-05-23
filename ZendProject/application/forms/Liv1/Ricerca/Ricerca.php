@@ -1,36 +1,50 @@
 <?php
 class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
 {
+    protected $_catalogModel;
    
-       // protected $_catalogModel;
         
          public function init(){
-           
-           // $this->_catalogModel= new Application_Model_Catalogo();   da mettere se si decide che per categoria facciamo una select
+            $this->_catalogModel= new Application_Model_Catalogo();
             $this->setMethod('post');
             $this->setName('ricercaCatalogo');
             $this->setAction('');
-            $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
+            $this->setAttrib('enctype', 'multipart/form-data');
             
-           
-              $this->addElement('text', 'Luogo', array(
-                        'label' => 'Inserisci luogo evento da cercare',
+            $luoghi = array();
+            $luogs = $this->_catalogModel->estraiLuoghi();
+            $luoghi[' ']=null;
+            foreach ($luogs as $luogo) {
+		$luoghi[$luogo->Luogo] = $luogo->Luogo;
+		}
+            $this->addElement('select', 'Luogo', array(
+                        'label' => 'Luoghi',
                         'required' => false,
+			'multiOptions' => $luoghi,
                         'value' => null
 		));
-            $this->addElement('text', 'Categoria', array(
+                
+            $categorie = array();
+            $cats = $this->_catalogModel->estraiCategorie();
+            $categorie[' ']=null;
+            foreach ($cats as $cat) {
+			$categorie[$cat -> Nome] = $cat->Nome;
+		}
+            $this->addElement('select', 'Tipologia', array(
                         'label' => 'Categoria',
                         'required' => false,
+			'multiOptions' => $categorie,
                         'value' => null
-                ));
-        
+		));
             $this->addElement('text', 'Descrizione', array(
-                        'label' => 'Inserisci descrizione evento da cercare',
+                        'label' => 'Descrizione',
                         'required' => false,
                         'value' => null
 		));
+        
+            
             $this->addElement('text', 'Data_Ora', array(
-                        'label' => 'Inserisci data evento da cercare',
+                        'label' => 'Data',
                         'required' => false,
                         'value' => null
 		));
