@@ -2,6 +2,7 @@
 
 class Liv1Controller extends Zend_Controller_Action
 {
+<<<<<<< HEAD
     protected $_faqModel;
     protected $_catalogModel;
     protected $_utenzaModel;
@@ -18,6 +19,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
+
     }
     public function indexAction()
     {
