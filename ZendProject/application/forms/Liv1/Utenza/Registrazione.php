@@ -1,5 +1,5 @@
 <?php
-class Application_Form_Liv1_Accesso_Add extends App_Form_Abstract
+class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
 {
 	protected $_utenzaModel;
 
@@ -10,20 +10,16 @@ class Application_Form_Liv1_Accesso_Add extends App_Form_Abstract
 		$this->setName('registrazione');
 		$this->setAction('');
 		
-                $username=array();
-                $utenti=$this->_utenzaModel->getUtenti();
-                foreach ($utenti as $us) {
-                    $username[$us->Username] = $us->Username;
-                }
+                
 		$this->addElement('text', 'Username', array(
                     'label' => 'Username',
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(6,20)),
-                                            array('Db_NoRecordExists', false, $username)),
-                                            
-                    
-                ));
+                                            array('Db_NoRecordExists', true, array(
+                                                                            'table' => 'utente',
+                                                                            'field' => 'Username'))),
+                    ));
                         
                 
                 $this->addElement('password', 'Password', array(
@@ -50,18 +46,16 @@ class Application_Form_Liv1_Accesso_Add extends App_Form_Abstract
                     
                 ));
                 
-                $email=array();
-                $emails=$this->_utenzaModel->getEmails();
-                foreach ($emails as $em) {
-                    $email[$em->Email] = $em->Email;
-                }
+               
                 $this->addElement('text', 'Email', array(
                     'label' => 'Email',
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(1,30)),
                                             array('EmailAddress'),
-                                            array('Db_NoRecordExists', false, $email)),
+                                            array('Db_NoRecordExists', false, array(
+                                                                            'table' => 'utente',
+                                                                            'field' => 'Email'))),
                 ));
                 
                 $this->addElement('text', 'Residenza', array(
@@ -75,33 +69,22 @@ class Application_Form_Liv1_Accesso_Add extends App_Form_Abstract
                     'label' => 'Via/Piazza',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(1,25))),
-                ));
-                
-                $this->addElement('text', 'Residenza', array(
-                    'label' => 'Numero Civico',
-                    'filters' => array('StringTrim'),
-                    'required' => true,
-                    'validators' => array(array('StringLength',true, array(0,5)),
-                                            array('Int')),
+                    'validators' => array(array('StringLength',true, array(1,30))),
                 ));
                 
                 $this->addElement('hidden', 'Ruolo', array(
                     'value' => 'utente',
                 ));
                 
-                $telefono=array();
-                $phones=$this->_utenzaModel->getTelefoni();
-                foreach ($phones as $phone) {
-                    $telefono[$phone->Telefono] = $phone->Telefono;
-                }
                 $this->addElement('text', 'Telefono', array(
                     'label' => 'Telefono',
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(8,20)),
                                             array('Digits'),
-                                            array('Db_NoRecordExists', false, $telefono)),
+                                            array('Db_NoRecordExists', false, array(
+                                                                            'table' => 'utente',
+                                                                            'field' => 'Telefono'))),
                 ));
 
 		$this->addElement('submit', 'add', array(
