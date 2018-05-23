@@ -70,42 +70,6 @@ nav{
     padding:0;
     padding-right: 20px;
 }
-#ricerca {
-    overflow: hidden;
-    float:left;
-    width: 40%;
-    height: 60px;
-    margin: 0;
-    position: relative;
-    top:-80px;
-    transition: .8s ease;
-}
-#formricerca {
-    height: 40px;
-    margin:10px 0 10px 20px;
-}
-#formricerca input[type=text]{
-    width:60%;
-    padding:0 5px;
-    margin: 0;
-    height: 38px;
-    border:1px solid #707070;
-    border-radius: 3px;
-}
-#formricerca input[type=submit]{
-    color:#707070;
-    width: 20%;
-    padding:0 5px;
-    margin: 0;
-    height: 40px;
-    background-color: #00FF00; 
-    border:1px solid #707070;
-    border-radius: 3px;
-}
-#formricerca input[type=submit]:hover{
-    background-color: #009000;
-    color:#FFFFFF
-}
 #contenuto_pagina{
     width: 90%;
     clear: both;
