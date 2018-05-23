@@ -11,6 +11,8 @@ class Liv1Controller extends Zend_Controller_Action
        $this->_helper->layout->setLayout('main');
         $this->_catalogModel = new Application_Model_Catalogo();
         $this->view->filtroForm = $this->getFiltroForm();
+        $this->_utenzaModel = new Application_Model_Utenza();
+        $this->view->regForm=$this->getRegForm();
     }
     public function indexAction()
     {
@@ -69,6 +71,19 @@ class Liv1Controller extends Zend_Controller_Action
                 'action' => 'catalogo',
                                 'tiporic' => 'filtro'),
                 'default'
+                ));
+        return $this->_form;
+    }
+    
+    private function getRegForm() 
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_form = new Application_Form_Liv1_Accesso_Add();
+        $this->_form->setAction($urlHelper->url(array(
+                'controller' => 'liv1',
+                'action' => 'vistastatica',
+                'pagina' => 'registrazione'),
+                'default',true
                 ));
         return $this->_form;
     }
