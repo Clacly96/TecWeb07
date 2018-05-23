@@ -2,6 +2,7 @@
 
 class Liv1Controller extends Zend_Controller_Action
 {
+<<<<<<< HEAD
 
     protected $_faqModel;
     protected $_catalogModel;
@@ -20,7 +21,6 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
-
 
     }
     public function indexAction()
@@ -94,6 +94,7 @@ class Liv1Controller extends Zend_Controller_Action
         );
     }
     public function faqAction(){
+<<<<<<< HEAD
         $page=$this->_getParam('page',1);
         $listafaq= $this->_faqModel->estraiFaq($page);
         $this->view->assign(array('listafaq'=>$listafaq));
@@ -125,6 +126,7 @@ class Liv1Controller extends Zend_Controller_Action
                 'default',true
                 ));
         return $this->_formRicerca;
+
     }
     private function getLoginForm()
     {
@@ -133,10 +135,11 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_formLogin->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
                 'action' => 'index',),
+<<<<<<< HEAD
                 'default',true
                 ));
         return $this->_formLogin;
 
+
     }
 }
-
