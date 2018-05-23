@@ -28,7 +28,16 @@ class Liv1Controller extends Zend_Controller_Action
         $tiporic=$this->_getParam('tiporic',null);
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){
-                
+                if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+                }
+                $form=$this->_form;
+               if (!$form->isValid($_POST)) {
+                       // return $this->render(''); 
+                }
+               
+                $valori=$this->_form->getValues();
+                $eventi= $this->_catalogModel->filtro($paged,($valori['Username']!=' ')?$valori['Username']: null, null,($valori['Luogo']!=' ')?$valori['Luogo']: null,($valori['Tipologia']!=' ')?$valori['Tipologia']: null ); 
                 
             } else if($tiporic=='ricerca'){
                 //paolo metti il codice relativo alla ricerca qua

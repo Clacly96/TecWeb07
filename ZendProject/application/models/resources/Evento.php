@@ -13,22 +13,6 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function estraiEventoPerId($IdEv) {
          return $this->find($IdEv)->current();
     }
-	// Estrae i prodotti della tipologia $tipologia, eventualmente paginati ed ordinati. 
-    public function estraiEventiPerTipo($tipologia, $paged=null, $order=null)
-    {
-        $select = $this->select()->where('Tipologia IN(?)', $tipologia);
-        if (true === is_array($order)) {
-            $select->order($order);
-        }
-		if (null !== $paged) {
-			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);   //restituisce un oggetto contenente il rowset da paginare
-			$paginator = new Zend_Paginator($adapter);  //è un oggetto che wrappa i dati provenienti dal db e risultanti dalla select effettuata; rispetto al metodo fetchAll ha dei metodi fatti per specificare la paginazione
-			$paginator->setItemCountPerPage(6)
-		          	  ->setCurrentPageNumber((int) $paged); //va fatto il casting perchè il metodo cuole un int, invece paged è una stringa
-			return $paginator;
-		}
-        return $this->fetchAll($select);
-    } 
     
     public function estraiEventi($paged=null)
     {
@@ -65,7 +49,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     
     public function estraiUltimiEventi($paged=null)
     {
-        $select=$this->select()->where('Data_Inserimento >= DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 7 DAY)')
+        $select=$this->select()->where('Data_Inserimento >= DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 7 DAY) && CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')
                                 ->order('Nome ASC');
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
@@ -80,7 +64,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 
     
     public function filtro($paged=null,$org=null,$data=null,$luogo=null,$cat=null) {        
-        $select=$this->select();
+        $select=$this->select()->where('CURRENT_TIMESTAMP() <= Data_Fine_Acquisto'); // prendiamo solo gli eventi ancora attivi
         if (!is_null($org)){
             $select->where('Organizzazione =(?)',$org);
         }
@@ -94,7 +78,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("Tipologia=(?)",$cat);
         }
         $select->order('Nome');
-        if (null !== $paged) {
+        if (null !=$paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 			$paginator = new Zend_Paginator($adapter);
 			$paginator->setItemCountPerPage(6)

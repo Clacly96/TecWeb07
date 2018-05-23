@@ -7,17 +7,18 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
         public function init(){
             $this->_catalogModel= new Application_Model_Catalogo();
             $this->_userModel= new Application_Model_Utenza(); 
-            $this->setMethod('post');
+            $this->setMethod('POST');
             $this->setName('filtroCatalogo');
             $this->setAction('');
-            $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
+            $this->setAttrib('enctype', 'multipart/form-data');
             
             $categorie = array();
 		$cats = $this->_catalogModel->estraiCategorie();
+                $categorie[' ']=null;
 		foreach ($cats as $cat) {
 			$categorie[$cat -> Nome] = $cat->Nome;
 		}
-		$this->addElement('select', 'Nome', array(
+		$this->addElement('select', 'Tipologia', array(
                         'label' => 'Categoria',
                         'required' => false,
 			'multiOptions' => $categorie,
@@ -26,6 +27,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                 
                 $organizzazioni = array();
 		$orgs = $this->_userModel->getOrg();
+                $organizzazioni[' ']=null;
 		foreach ($orgs as $org) {
 			$organizzazioni[$org -> Username] = $org->Username;
 		}
@@ -38,6 +40,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                 
                 $luoghi = array();
 		$luogs = $this->_catalogModel->estraiLuoghi();
+                $luoghi[' ']=null;
 		foreach ($luogs as $luogo) {
 			$luoghi[$luogo->Luogo] = $luogo->Luogo;
 		}
