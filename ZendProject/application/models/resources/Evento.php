@@ -52,7 +52,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     
     public function estraiUltimiEventi($paged=null)
     {
-        $select=$this->select()->where('Data_Inserimento >= DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 7 DAY)' && CURRENT_TIMESTAMP()<=Data_Fine_Acquisto')
+        $select=$this->select()->where('Data_Inserimento >= DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 7 DAY) && CURRENT_TIMESTAMP()<=Data_Fine_Acquisto')
                                 ->order('Nome ASC');
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
