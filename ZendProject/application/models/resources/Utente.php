@@ -31,4 +31,31 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
         }
         return $this->fetchAll($select);
     }
+    
+    //prende tutti gli utenti(utenti, organizz, admin)
+    public function getUtenti()
+    {
+        $select=$this->select()
+                ->from('utente', array('Username'));
+        return $this->fetchAll($select);
+    }
+    
+    public function getEmails()
+    {
+        $select=$this->select()
+                ->from('utente', array('Email'));
+        return $this->fetchAll($select);
+    }
+    
+    public function getTelefoni()
+    {
+        $select=$this->select()
+                ->from('utente', array('Telefono'));
+        return $this->fetchAll($select);
+    }
+    
+    public function insertUtente($info)
+    {
+        $insert=$this->insert($info);
+    }
 }

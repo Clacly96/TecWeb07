@@ -17,6 +17,23 @@ class Application_Model_Utenza extends App_Model_Abstract
         return $this->getResource('Utente')->getUtenteByUsername($username);
 
     }
+	
+    public function getUtenti() {
+        return $this->getResource('Utente')->getUtenti();
+        
+    }
+    
+    public function getEmails() {
+        return $this->getResource('Utente')->getEmails();
+    }
+
+    public function getTelefoni() {
+        return $this->getResource('Utente')->getTelefoni();
+    }
+    
+    public function insertUtente($info) {
+        return $this->getResource('Utente')->insertUtente($info);
+    }
 }
 
 

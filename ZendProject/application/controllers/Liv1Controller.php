@@ -10,6 +10,7 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formFiltro;
     protected $_formRicerca;
     protected $_formLogin;
+    protected $_formReg;
 
     public function init()
     {
@@ -21,6 +22,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
+        $this->view->regForm=$this->getRegForm();
 
     }
     public function indexAction()
@@ -38,7 +40,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->render($page);
     }
     public function catalogoAction()
-    {        
+    {
         $IdEv=$this->_getParam('evento',null);
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
@@ -49,30 +51,30 @@ class Liv1Controller extends Zend_Controller_Action
                 }
                 $form=$this->_formFiltro;
                if (!$form->isValid($_POST)) {
-                       //return $this->render('catalogo'); 
+                       //return $this->render('catalogo');
                 }
-               
+
                 $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia'])); 
-                
+                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']));
+
             } else if($tiporic=='ricerca'){
                 if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
-                }                        
+                }
                 $form=$this->_formRicerca;
-                
-                if (!$form->isValid($_POST)) {    
+
+                if (!$form->isValid($_POST)) {
 			return $this->render('ricerca');}
-               
+
                $valori=$form->getValues();
                $eventi= $this->_catalogModel->ricerca($paged, $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']),$this->settaNullCondizionale($valori['Descrizione']) );
             }
-                else {$this->_helper->redirector('catalogo','liv1');}   
+                else {$this->_helper->redirector('catalogo','liv1');}
         }else if(!is_null($IdEv)){
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
         }
         else { $eventi=$this->_catalogModel->estraiEventi($paged);}
-        
+
         $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv));
     }
     public function ricercaAction()
@@ -84,11 +86,11 @@ class Liv1Controller extends Zend_Controller_Action
         $paged = $this->_getParam('page',1);
         if(is_null($OrgId)){
             $org=$this->_utenzaModel->getOrg($paged);
-        } else { 
+        } else {
             $org=$this->_utenzaModel->getUtenteByUsername($OrgId);
         }
         $this->view->assign(array(
-                        'organizzazioni'=>$org, 
+                        'organizzazioni'=>$org,
                         'selectedOrg'=>$OrgId
                         )
         );
@@ -102,6 +104,17 @@ class Liv1Controller extends Zend_Controller_Action
     }
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
+    }
+    public function registrazioneAction() {
+        if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+            }
+        $form=$this->_formReg;
+        if (!$form->isValid($_POST)) {
+                       return $this->render('registrazione');
+            }
+        $valori=$form->getValues();
+        $this->_utenzaModel->insertUtente($valori);
     }
     private function getFiltroForm()
     {
@@ -126,7 +139,17 @@ class Liv1Controller extends Zend_Controller_Action
                 'default',true
                 ));
         return $this->_formRicerca;
-
+    }
+    private function getRegForm()
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formReg = new Application_Form_Liv1_Utenza_Registrazione();
+        $this->_formReg->setAction($urlHelper->url(array(
+                'controller' => 'liv1',
+                'action' => 'registrazione'),
+                'default',true
+                ));
+        return $this->_formReg;
     }
     private function getLoginForm()
     {
