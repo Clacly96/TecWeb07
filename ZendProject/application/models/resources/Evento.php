@@ -9,7 +9,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 
     public function init()
     {
-            $this->_logger = Zend_Registry::get('log');
+        //    $this->_logger = Zend_Registry::get('log');
     }
     
     public function estraiEventoPerId($IdEv) {
