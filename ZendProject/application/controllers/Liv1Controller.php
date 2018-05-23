@@ -4,7 +4,7 @@ class Liv1Controller extends Zend_Controller_Action
 
 {
     protected $_catalogModel;
-    protected $_form;
+    protected $_formReg;
     
     public function init()
     {
@@ -57,10 +57,18 @@ class Liv1Controller extends Zend_Controller_Action
     {
     }
    
-    public function faqAction(){
-        
-        
-        
+    public function faqAction(){       
+    }
+    public function registrazioneAction() {
+        if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+            }
+        $form=$this->_formReg;
+        if (!$form->isValid($_POST)) {
+                       return $this->render('registrazione'); 
+            }
+        $valori=$form->getValues();
+        $this->_utenzaModel->insertUtente($valori);
     }
     private function getFiltroForm()
     {
@@ -78,14 +86,13 @@ class Liv1Controller extends Zend_Controller_Action
     private function getRegForm() 
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_form = new Application_Form_Liv1_Accesso_Add();
-        $this->_form->setAction($urlHelper->url(array(
+        $this->_formReg = new Application_Form_Liv1_Utenza_Registrazione();
+        $this->_formReg->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
-                'action' => 'vistastatica',
-                'pagina' => 'registrazione'),
+                'action' => 'registrazione'),
                 'default',true
                 ));
-        return $this->_form;
+        return $this->_formReg;
     }
 }
 
