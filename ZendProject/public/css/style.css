@@ -315,6 +315,7 @@ nav{
     background-color: #DDDDDD;
     margin: 10px;
     padding: 4px;
+    box-shadow: 0 0 5px 3px #707070;
 }
 .org_logo{
     width: 250px;
@@ -327,7 +328,25 @@ nav{
     left:50%;
     transform: translate(-50%,-50%);
 }
-
+#pagination{
+    margin: 0 0 40px 0;
+    position: fixed;
+    bottom:0;
+    left:50%;
+    transform: translate(-50%,0);
+    background-color: #700000;
+    box-shadow: 0 -4px 5px #707070;
+    z-index: 4;
+    padding: 10px;
+    color: #ffffff;
+}
+#pagination a {
+    text-decoration: none;
+    color: #ffff50;
+}
+#pagination a:hover{
+    color:#707070;
+}
 #footer {
     position:  fixed;
     bottom:0;
