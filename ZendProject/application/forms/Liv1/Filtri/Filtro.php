@@ -14,7 +14,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
             
             $categorie = array();
 		$cats = $this->_catalogModel->estraiCategorie();
-                $categorie[' ']=null;
+                $categorie['']=null;
 		foreach ($cats as $cat) {
 			$categorie[$cat -> Nome] = $cat->Nome;
 		}
@@ -27,7 +27,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                 
                 $organizzazioni = array();
 		$orgs = $this->_userModel->getOrg();
-                $organizzazioni[' ']=null;
+                $organizzazioni['']=null;
 		foreach ($orgs as $org) {
 			$organizzazioni[$org -> Username] = $org->Username;
 		}
@@ -40,7 +40,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                 
                 $luoghi = array();
 		$luogs = $this->_catalogModel->estraiLuoghi();
-                $luoghi[' ']=null;
+                $luoghi['']=null;
 		foreach ($luogs as $luogo) {
 			$luoghi[$luogo->Luogo] = $luogo->Luogo;
 		}
@@ -50,31 +50,39 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
 			'multiOptions' => $luoghi,
                         'value' => null
 		));
+                $mesi=array();
+                    $mesi[''] = null;
+                    $mesi[1] = 'Gennaio';
+                    $mesi[2] = 'Febbraio';
+                    $mesi[3] ='Marzo';
+                    $mesi[4] = 'Aprile';
+                    $mesi[5]='Maggio';
+                    $mesi[6]='Giugno';
+                    $mesi[7]='Luglio';
+                    $mesi[8]='Agosto';
+                    $mesi[9]='Settembre';
+                    $mesi[10]='Ottobre';
+                    $mesi[11]='Novembre';
+                    $mesi[12]='Dicembre';
+                $this->addElement('select', 'Mese', array(
+                        'label' => 'Mese',
+                        'required' => false,
+			'multiOptions' => $mesi,
+                        'value' => null
+		));
                 
+                $this->addElement('text', 'Anno', array(
+                        'label' => 'Anno',
+                        'required' => false,
+                        'value' => '',
+                        'validators' => array('int')
+                    ));
                 
-                
-                
-
-             /*   $date = new Element_Date('appointment-date');
-                $date->setLabel('Appointment Date');
-                $date->setAttributes([
-                    'min'  => '2012-01-01',
-                    'max'  => '2020-01-01',
-                    'step' => '1', // days; default step interval is 1 day
-                ]);
-                $date->setOptions([
-                    'format' => 'Y-m-d',
-                ]);
-
-                
-                $this->add($date);*/
-
                 $this->addElement('submit', 'filtra', array(
                         'label' => 'Filtra Eventi',
 		));
                 
                 
-
             
             
         }

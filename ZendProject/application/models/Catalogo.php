@@ -12,6 +12,11 @@ class Application_Model_Catalogo extends App_Model_Abstract
         return $this->getResource('Tipologia')->estraiCategorie();
     }
        
+    public function estraiEventiPerTipo($tipologia, $paged=null, $order=null)
+    {     
+        return $this->getResource('Evento')->estraiEventiPerTipo($tipologia, $paged, $order);
+    }    
+    
     public function ottieniEventiInSconto($paged=null)
     {     
         return $this->getResource('Evento')->ottieniEventiInSconto($paged);
