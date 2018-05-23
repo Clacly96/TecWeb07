@@ -31,7 +31,7 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                         . '<img src="'.$this->view->baseUrl('/images/locandine/' . $evento->Locandina).'"><div id="info_biglietti"> ';
                     
                       if($evento->scontato()) {$tag=$tag.'<div class="old_price">Vecchio prezzo:'.$this->view->prezzoEventi($evento,false).'</div>'
-                              . '<div><b> Sconto: </b>'.$evento->Sconto.'%</div>' ;
+                              . '<div><b> Sconto: </b>'.$evento->Sconto.'%</div>' ;}
                       
                     $tag=$tag .'<div><b> Prezzo: </b>'.$this->view->prezzoEventi($evento,true).'</div> '
                         . '<div><b> Biglietti rimanenti: </b>'.$evento->Biglietti_Rimanenti.'</div></div>'
@@ -41,7 +41,7 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                         . '<div><b> Programma: </b>'.$evento->Programma.'</div><br><br>'
                         . '<div><b> Organizzazione: </b>'.$evento->Organizzazione.'</div>'
                         . '<div><b> Acquista il biglietto entro: </b>'.$evento->Data_Fine_Acquisto.'</div>'
-                        . '</div>';}
+                        . '</div>';
                 }
                 return $tag;
 	}
