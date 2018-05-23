@@ -2,8 +2,7 @@
 
 class Liv1Controller extends Zend_Controller_Action
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     protected $_faqModel;
     protected $_catalogModel;
     protected $_utenzaModel;
@@ -98,6 +97,7 @@ class Liv1Controller extends Zend_Controller_Action
         $page=$this->_getParam('page',1);
         $listafaq= $this->_faqModel->estraiFaq($page);
         $this->view->assign(array('listafaq'=>$listafaq));
+<<<<<<< HEAD
     }
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
@@ -136,6 +136,7 @@ class Liv1Controller extends Zend_Controller_Action
                 'default',true
                 ));
         return $this->_formLogin;
+
     }
 }
 
