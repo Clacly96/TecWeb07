@@ -1,4 +1,4 @@
-<div id="contenuto_centrale">
+<section id="contenuto_centrale">
     <?php if(is_null($this->selectedOrg)) {
         echo '<h1>Le nostre organizzazioni</h1>';
         echo '<ul id="listaorg">';
@@ -27,5 +27,8 @@
         echo $this->paginationControl($this->organizzazioni,'Sliding','liv1/_paginatororganizzazioni.phtml');
     } 
     ?>
-</div>
+</section>
+<section id="contenuto_laterale">
+<?php echo "<a href=" .$this->url(array('controller' => 'liv1','action' => 'vistastatica','pagina' => 'adesioneorganizzazioni'), 'default',true). ">" ?>
+Info per l'adesione delle Organizzazioni</a></section>
 
