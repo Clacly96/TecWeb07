@@ -311,6 +311,36 @@ nav{
 #pagination a:hover{
     color:#707070;
 }
+form .errors{
+    background-color: #DD0000;
+    color:#ffffff;
+}
+form select {
+    width: 100%;
+}
+form td {
+    padding:5px;
+}
+form ul{
+    margin:0;
+    padding: 2px 2px 2px 40px;
+}
+.formerror{
+    text-align: center;
+    color: #ffffff;
+    background-color: #DD0000;
+    padding: 10px 0;
+}
+.td_button input[type=submit]{
+    color: #444444;
+    padding: 20px;
+    background-color: #00CC00;
+    border:1px solid #707070;
+    border-radius: 3px;
+}
+.td_button input[type=submit]:hover{
+    background-color: #007700;
+}
 #footer {
     position:  fixed;
     bottom:0;
