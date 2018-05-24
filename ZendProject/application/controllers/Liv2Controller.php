@@ -6,6 +6,7 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_catalogModel;
     protected $_formFiltro;
     protected $_formRicerca;
+    protected $_authService;
     
     public function init(){
         $this->_helper->layout->setLayout('mainliv2');
@@ -13,6 +14,7 @@ class Liv2Controller extends Zend_Controller_Action
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
+        $this->_authService = new Application_Service_Auth();
     }
     
     public function indexAction(){
@@ -24,6 +26,12 @@ class Liv2Controller extends Zend_Controller_Action
                                     'eventiscontati' => $eventiscontati));
         
     }
+    
+    public function logoutAction()
+	{
+		$this->_authService->clear();
+		return $this->_helper->redirector('index','public');	
+	}
     
     public function catalogoAction(){
         $IdEv=$this->_getParam('evento',null);
