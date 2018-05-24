@@ -6,7 +6,7 @@
         if (!is_null($this->EvSelezionato))
         {
             echo $this->AnteprimaEvento($this->eventi,'singolo');
-        } else
+        } else if (!is_null($this->eventi))
         {
             echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
@@ -26,6 +26,7 @@
 <section id="contenuto_laterale">
     <?php 
     if (is_null($this->EvSelezionato)){
+        echo "<h1>Filtra eventi</h1>";
         echo $this->filtroForm; }
     ?>
     
