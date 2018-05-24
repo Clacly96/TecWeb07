@@ -1,9 +1,6 @@
 <?php
-
 class Liv1Controller extends Zend_Controller_Action
 {
-
-
     protected $_faqModel;
     protected $_catalogModel;
     protected $_utenzaModel;
@@ -13,11 +10,9 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formReg;
 	
     protected $_authService;
-
     public function init()
     {
         $this->_helper->layout->setLayout('main');
-
         $this->_faqModel=new Application_Model_Faq;
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
@@ -27,7 +22,6 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->regForm=$this->getRegForm();
 	    
 	$this->_authService = new Application_Service_Autenticazione();
-
     }
     public function indexAction()
     {
@@ -57,19 +51,15 @@ class Liv1Controller extends Zend_Controller_Action
                if (!$form->isValid($_POST)) {
                        return $this->render('catalogo');
                 }
-
                 $valori=$form->getValues();
                 $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']));
-
             } else if($tiporic=='ricerca'){
                 if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
                 }
                 $form=$this->_formRicerca;
-
                 if (!$form->isValid($_POST)) {
 			return $this->render('ricerca');}
-
                $valori=$form->getValues();
                $eventi= $this->_catalogModel->ricerca($paged, $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']),$this->settaNullCondizionale($valori['Descrizione']) );
             }
@@ -78,7 +68,6 @@ class Liv1Controller extends Zend_Controller_Action
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
         }
         else { $eventi=$this->_catalogModel->estraiEventi($paged);}
-
         $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv));
     }
     public function ricercaAction()
@@ -100,16 +89,17 @@ class Liv1Controller extends Zend_Controller_Action
         );
     }
     public function faqAction(){
-
         $page=$this->_getParam('page',1);
         $listafaq= $this->_faqModel->estraiFaq($page);
         $this->view->assign(array('listafaq'=>$listafaq));
-
     }
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
     }
     public function registrazioneAction() {
+        
+    }
+    public function inserisciutenteAction() {
         if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
             }
@@ -142,9 +132,25 @@ class Liv1Controller extends Zend_Controller_Action
             $form->setDescription('Autenticazione fallita. Riprova');
             return $this->render('login');
         }
-        return $this->_helper->redirector('index', $this->_authService->getIdentity()->role);
+        return $this->_helper->redirector('index', $this->RimappaUtenti($this->_authService->getIdentity()->Ruolo));
     }
-
+    private function RimappaUtenti($ruolo) {
+        $livello=null;
+        switch ($ruolo) {
+            case 'utente':
+                $livello='liv2';
+                break;
+            case 'organizzazione':
+                $livello='liv3';
+                break;
+            case 'admin':
+                $livello='liv4';
+                break;
+            default:
+                break;
+        }
+        return $livello;
+    }
     private function getFiltroForm()
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -175,7 +181,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_formReg = new Application_Form_Liv1_Utenza_Registrazione();
         $this->_formReg->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
-                'action' => 'registrazione'),
+                'action' => 'inserisciutente'),
                 'default',true
                 ));
         return $this->_formReg;
@@ -187,11 +193,8 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_formLogin->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
                 'action' => 'autenticazione',),
-
                 'default',true
                 ));
         return $this->_formLogin;
-
-
     }
 }

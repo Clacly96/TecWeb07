@@ -9,12 +9,12 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_authService;
     
     public function init(){
-        $this->_helper->layout->setLayout('mainliv2');
+        $this->_helper->layout->setLayout('main');
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
-        $this->_authService = new Application_Service_Auth();
+        $this->_authService = new Application_Service_Autenticazione();
     }
     
     public function indexAction(){
@@ -30,7 +30,7 @@ class Liv2Controller extends Zend_Controller_Action
     public function logoutAction()
 	{
 		$this->_authService->clear();
-		return $this->_helper->redirector('index','public');	
+		return $this->_helper->redirector('index','liv1');	
 	}
     
     public function catalogoAction(){

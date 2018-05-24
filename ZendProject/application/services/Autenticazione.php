@@ -10,11 +10,11 @@ class Application_Service_Autenticazione
         $this->_utenzaModel = new Application_Model_Utenza();
     }
     
-    public function autenticato($credenziali)
+    public function autenticazione($credenziali)
     {
         $adapter = $this->getAuthAdapter($credenziali);
         $auth    = $this->getAuth();
-        $result  = $auth->autenticato($adapter);
+        $result  = $auth->authenticate($adapter);
 
         if (!$result->isValid()) {
             return false;

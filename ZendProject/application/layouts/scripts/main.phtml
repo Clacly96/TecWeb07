@@ -17,7 +17,30 @@
                         'default',true
                     ); 
                  ?>">TecWeb</a>
-                <?= $this->render('navbar.phtml') ?>
+                <?php
+                    //$aut=Zend_Auth::getInstance();    
+                    // echo $aut->hasIdentity();
+                    $ruolo=$this->authInfo('Ruolo');
+                    
+                    
+                    switch ($ruolo) {
+                        case 'utente':
+                            echo $this->render('navbarliv2.phtml');
+                            break;
+                        case 'organizzazione':
+                            echo $this->render('navbarliv3.phtml');
+                            break;
+                        case 'admin':
+                            echo $this->render('navbarliv4.phtml');
+                            break;
+                        default:
+                            echo $this->render('navbar.phtml');
+                            break;
+                    }
+                    //echo $this->render('navbar.phtml');
+                    //}else {$this->render('navbar.phtml'); }
+                     
+                ?>
             </nav>
         </header>
         <div id="contenuto_pagina">

@@ -1,3 +1,9 @@
+<section id="contenuto_top">
+    <?php 
+    if (is_null($this->EvSelezionato)){
+        echo $this->filtroForm; }
+    ?>    
+</section>
 <section id="contenuto_centrale">
 <?php 
        
@@ -28,12 +34,6 @@
         } 
         ?> 
 </section>   
-<section id="contenuto_laterale">
-    <?php 
-    if (is_null($this->EvSelezionato)){
-        echo $this->filtroForm; }
-    ?>
-    
-</section>
+
 
 

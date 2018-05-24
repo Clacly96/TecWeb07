@@ -30,16 +30,20 @@
                  ?>"><img id="searchimg" src="<?= $this->baseUrl('css/images/search.png')  ?>" width="30" height="30"></a></li>
             <li><a href="<?= $this->url(array(
                         'controller' => 'liv2',
-                        'action'     => 'areaprivata'                           
+                        'action'     => 'areaprivata',
                         ), 
                         'default',true
                     ); 
-                 ?>">Area Privata</a></li>
-                                
+                 ?>">Area privata</a></li>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv2',
+                        'action'     => 'logout',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Logout</a></li>                        
         </ul>
                     
     </div>
 </div>
-
-
 

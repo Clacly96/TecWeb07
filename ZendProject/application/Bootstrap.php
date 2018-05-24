@@ -3,7 +3,19 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
     protected $_view;
+    protected $_logger;
+/*
+ protected function _initLogging()
+    {
+        $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH . '/data/log/logFile.log');        
+        $logger = new Zend_Log($writer);
 
+        Zend_Registry::set('log', $logger);
+
+        $this->_logger = $logger;
+    	$this->_logger->info('Bootstrap ' . __METHOD__);
+    }*/
+    
 protected function _initRequest()
 	// Aggiunge un'istanza di Zend_Controller_Request_Http nel Front_Controller
 	// che permette di utilizzare l'helper baseUrl() nel Bootstrap.php
@@ -31,5 +43,10 @@ protected function _initViewSettings()
         $this->getResourceLoader()
              ->addResourceType('modelResource','models/resources','Resource');
   	}
+    protected function _initFrontControllerPlugin()
+    {
+    	$front = Zend_Controller_Front::getInstance();
+    	$front->registerPlugin(new App_Controller_Plugin_Acl());
+    }
 }
 
