@@ -21,7 +21,8 @@ class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
                         'label' => 'Luoghi',
                         'required' => false,
 			'multiOptions' => $luoghi,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
                 
             $categorie = array();
@@ -34,12 +35,14 @@ class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
                         'label' => 'Categoria',
                         'required' => false,
 			'multiOptions' => $categorie,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
             $this->addElement('text', 'Descrizione', array(
                         'label' => 'Descrizione',
                         'required' => false,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
         
             
@@ -61,19 +64,28 @@ class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
                         'label' => 'Mese',
                         'required' => false,
 			'multiOptions' => $mesi,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
                 
                 $this->addElement('text', 'Anno', array(
                         'label' => 'Anno',
                         'required' => false,
                         'value' => '',
-                        'validators' => array('int')
+                        'validators' => array('int'),
+                        'decorators' => $this->elementDecorators,
                     ));
           
             
             $this->addElement('submit', 'ricerca', array(
-                        'label' => 'Ricerca Eventi'
+                        'label' => 'Ricerca Eventi',
+                        'decorators' => $this->buttonDecorators,
+		));
+            $this->setDecorators(array(
+			'FormElements',
+			array('HtmlTag', array('tag' => 'table')),
+			array('Description', array('placement' => 'prepend', 'class' => 'formerror')),
+			'Form'
 		));
     }
 }

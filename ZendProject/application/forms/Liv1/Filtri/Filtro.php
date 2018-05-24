@@ -22,7 +22,8 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                         'label' => 'Categoria',
                         'required' => false,
 			'multiOptions' => $categorie,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
                 
                 $organizzazioni = array();
@@ -35,7 +36,8 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                         'label' => 'Organizzazioni',
                         'required' => false,
 			'multiOptions' => $organizzazioni,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
                 
                 $luoghi = array();
@@ -48,7 +50,8 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                         'label' => 'Luoghi',
                         'required' => false,
 			'multiOptions' => $luoghi,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
                 $mesi=array();
                     $mesi[''] = null;
@@ -68,20 +71,28 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
                         'label' => 'Mese',
                         'required' => false,
 			'multiOptions' => $mesi,
-                        'value' => null
+                        'value' => null,
+                        'decorators' => $this->elementDecorators,
 		));
                 
                 $this->addElement('text', 'Anno', array(
                         'label' => 'Anno',
                         'required' => false,
                         'value' => '',
-                        'validators' => array('int')
+                        'validators' => array('int'),
+                        'decorators' => $this->elementDecorators,
                     ));
                 
                 $this->addElement('submit', 'filtra', array(
                         'label' => 'Filtra Eventi',
+                        'decorators' => $this->buttonDecorators,
 		));
-                
+                $this->setDecorators(array(
+			'FormElements',
+			array('HtmlTag', array('tag' => 'table')),
+			array('Description', array('placement' => 'prepend', 'class' => 'formerror')),
+			'Form'
+		));
                 
             
             

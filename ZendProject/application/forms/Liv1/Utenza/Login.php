@@ -13,14 +13,23 @@ class Application_Form_Liv1_Utenza_Login extends App_Form_Abstract
                         'label' => 'Username',
                         'required' => false,
                         'value' => "",
+                        'decorators' => $this->elementDecorators,
                 ));
         $this->addElement('password', 'Password', array(
                         'label' => 'Password',
                         'required' => false,
                         'value' => "",
+                        'decorators' => $this->elementDecorators,
                 ));
         $this->addElement('submit', 'login', array(
-                        'label' => 'Accedi'
+                        'label' => 'Accedi',
+                        'decorators' => $this->buttonDecorators,
+		));
+        $this->setDecorators(array(
+			'FormElements',
+			array('HtmlTag', array('tag' => 'table')),
+			array('Description', array('placement' => 'prepend', 'class' => 'formerror')),
+			'Form'
 		));
     }
 }
