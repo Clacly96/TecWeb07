@@ -56,6 +56,17 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
     
     public function insertUtente($info)
     {
-        $insert=$this->insert($info);
+        
+        $residenza=$info['Citta'].'-'.$info['Via'].'-'.$info['Civico'];
+        $dati = array( 'Username' => $info['Username'],
+		    'Password' => $info['Password'],
+		    'Nome' => $info['Nome'],
+		    'Cognome' => $info['Cognome'],
+		    'Email' => $info['Email'],
+                    'Residenza' => $residenza,
+		    'Ruolo' => 'utente',
+                    'Telefono' => $info['Telefono']
+                     );
+        $insert=$this->insert($dati);
     }
 }

@@ -115,6 +115,7 @@ class Liv1Controller extends Zend_Controller_Action
             }
         $valori=$form->getValues();
         $this->_utenzaModel->insertUtente($valori);
+        $this->_helper->redirector('index');
     }
     private function getFiltroForm()
     {

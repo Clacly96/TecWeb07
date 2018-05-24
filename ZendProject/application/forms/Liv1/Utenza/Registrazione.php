@@ -58,24 +58,27 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                                                                             'field' => 'Email'))),
                 ));
                 
-                $this->addElement('text', 'Residenza', array(
+                $this->addElement('text', 'Citta', array(
                     'label' => 'Citta',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(1,25))),
+                    'validators' => array(array('StringLength',true, array(1,26))),
                 ));
                 
-                $this->addElement('text', 'Residenza', array(
+                $this->addElement('text', 'Via', array(
                     'label' => 'Via/Piazza',
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(1,30))),
                 ));
                 
-                $this->addElement('hidden', 'Ruolo', array(
-                    'value' => 'utente',
+                 $this->addElement('text', 'Civico', array(
+                    'label' => 'Numero civico',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'validators' => array(array('StringLength',true, array(1,4))),
                 ));
-                
+               
                 $this->addElement('text', 'Telefono', array(
                     'label' => 'Telefono',
                     'filters' => array('StringTrim'),
