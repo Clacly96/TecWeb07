@@ -63,13 +63,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'decorators' => $this->elementDecorators,
                 ));
                 
-                $this->addElement('text', 'Residenza', array(
-                    'label' => 'Citta',
-                    'filters' => array('StringTrim'),
-                    'required' => true,
-                    'validators' => array(array('StringLength',true, array(1,25))),
-                    'decorators' => $this->elementDecorators,
-                ));
+                
                 
                 $this->addElement('text', 'Citta', array(
                     'label' => 'Citta',
