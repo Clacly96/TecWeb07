@@ -1,8 +1,40 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<section id="contenuto_centrale">
+                <h1>Ultimi Eventi</h1>
+                <ul id="listaeventi">
+                    <?php
+                        foreach ($this->ultimieventi as $evento){
+                            echo $this->AnteprimaEvento($evento,'anteprima');
+                        }
+                        ?> 
+                </ul>
+                
+                        <?php if($this->ultimieventi instanceof Zend_Paginator) {
+	  		echo $this->paginationControl($this->ultimieventi,'Sliding','liv1/_paginatoreventihome.phtml');
+                                } 
+                                ?>
+                    
+            </section>
+            <?php if(!is_null($this->eventiscontati)) :?>
+            <section id="contenuto_laterale">
+                <div>
+                    <h1>
+                        Sconto
+                    </h1>
+                    
+                    <ul id="listasconto">
+                        <?php
+                        foreach ($this->eventiscontati as $eventoscont){
+                            
+                            echo $this->AnteprimaEvento($eventoscont,'scontato');
+                        }
+                        ?>   
+                    </ul>
+                    
+                       <?php if($this->eventiscontati instanceof Zend_Paginator) {
+	  		echo $this->paginationControl($this->eventiscontati,'Sliding','liv1/_paginatoreventiscontatihome.phtml');
+                            } 
+                            ?>
+                    
+                </div>
+            </section>
+            <?php endif ?>

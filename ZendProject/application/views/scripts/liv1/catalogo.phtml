@@ -1,0 +1,32 @@
+<section id="contenuto_centrale">
+<?php 
+       
+
+    
+        if (!is_null($this->EvSelezionato))
+        {
+            echo $this->AnteprimaEvento($this->eventi,'singolo');
+        } else
+        {
+            echo '<h1>Lista eventi</h1>';
+            echo '<ul id="listaeventi">';
+            foreach ($this->eventi as $evento){
+                echo $this->AnteprimaEvento($evento,'anteprima');
+            echo '</ul>';
+        }
+        }
+        
+        
+    
+        if($this->eventi instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->eventi,'Sliding','liv1/_paginatoreventicatalogo.phtml');
+        } 
+        ?> 
+</section>   
+<section id="contenuto_laterale">
+    <?php 
+    if (is_null($this->EvSelezionato)){
+        echo $this->filtroForm; }
+    ?>
+    
+</section>

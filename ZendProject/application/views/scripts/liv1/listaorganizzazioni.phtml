@@ -1,8 +1,34 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+<section id="contenuto_centrale">
+    <?php if(is_null($this->selectedOrg)) {
+        echo '<h1>Le nostre organizzazioni</h1>';
+        echo '<ul id="listaorg">';
+        foreach ($this->organizzazioni as $organiz) {
+            echo '<li class="org_li">'
+            . '<a href='.$this->url(array('controller' => 'liv1','action' => 'listaorganizzazioni','organizzazione' => $organiz->Username), 'default',true).'>'
+            . '<div class="org_sfondo">'
+            . '<div class="org_logo"><img src="'.$this->baseUrl('images/loghi/'.$organiz->Logo).'"></div>'
+            . '<div class="org_nome">'.$organiz->Username.'</div></div></a></li>';
+        }
+        echo '</ul>';
+    } else {
+        echo '<div id="SingolaOrganizzazione">'
+                . '<h1>'.$this->organizzazioni->Username.'</h1>'
+                . '<img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'">'                
+                . '<div><b> Sede: </b>'.$this->organizzazioni->Sede.'</div><br>'
+                . '<div><b> Email: </b>'.$this->organizzazioni->Email.'</div>'
+                . '<div><b> Telefono: </b>'.$this->organizzazioni->Telefono.'</div>';
+                if(!is_null($this->organizzazioni->Fax)) {echo '<div><b> Fax: </b>'.$this->organizzazioni->Fax.'</div><br>';}
+                echo '<br><br><div><b> Missione: </b>'.$this->organizzazioni->Missione.'</div><br>'
+                . '<div><b> Descrizione: </b>'.$this->organizzazioni->Descrizione.'</div>'
+                . '</div>';
+    }
+       
+    if($this->organizzazioni instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->organizzazioni,'Sliding','liv1/_paginatororganizzazioni.phtml');
+    } 
+    ?>
+</section>
+<section id="contenuto_laterale">
+<?php echo "<a href=" .$this->url(array('controller' => 'liv1','action' => 'vistastatica','pagina' => 'adesioneorganizzazioni'), 'default',true). ">" ?>
+Info per l'adesione delle Organizzazioni</a></section>
 

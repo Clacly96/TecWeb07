@@ -24,5 +24,12 @@ protected function _initViewSettings()
         $this->_view->headScript()->appendFile($this->_view->baseUrl('js/script.js'),'text/javascript');
         $this->_view->headTitle('TecWeb07');
     }
+    protected function _initDefaultModuleAutoloader()
+    {
+    	$loader = Zend_Loader_Autoloader::getInstance();
+		$loader->registerNamespace('App_');
+        $this->getResourceLoader()
+             ->addResourceType('modelResource','models/resources','Resource');
+  	}
 }
 
