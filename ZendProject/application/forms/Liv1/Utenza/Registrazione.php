@@ -19,6 +19,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                                             array('Db_NoRecordExists', true, array(
                                                                             'table' => 'utente',
                                                                             'field' => 'Username'))),
+                    'decorators' => $this->elementDecorators,
                     ));
                         
                 
@@ -27,7 +28,8 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(6,10)),
-                                            array('identical', true, array('Password')))
+                                            array('identical', true, array('Password'))),
+                    'decorators' => $this->elementDecorators,
                 ));
                 
                 $this->addElement('text', 'Nome', array(
@@ -35,6 +37,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'filters' => array('StringTrim'),
                     'required' => true, 
                     'validators' => array(array('StringLength',true, array(1,30))),
+                    'decorators' => $this->elementDecorators,
                     
                 ));
                 
@@ -43,6 +46,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'filters' => array('StringTrim'),
                     'required' => true, 
                     'validators' => array(array('StringLength',true, array(1,30))),
+                    'decorators' => $this->elementDecorators,
                     
                 ));
                 
@@ -56,6 +60,15 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                                             array('Db_NoRecordExists', false, array(
                                                                             'table' => 'utente',
                                                                             'field' => 'Email'))),
+                    'decorators' => $this->elementDecorators,
+                ));
+                
+                $this->addElement('text', 'Residenza', array(
+                    'label' => 'Citta',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'validators' => array(array('StringLength',true, array(1,25))),
+                    'decorators' => $this->elementDecorators,
                 ));
                 
                 $this->addElement('text', 'Citta', array(
@@ -63,6 +76,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(1,26))),
+                    'decorators' => $this->elementDecorators,
                 ));
                 
                 $this->addElement('text', 'Via', array(
@@ -70,6 +84,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(1,30))),
+                    'decorators' => $this->elementDecorators,
                 ));
                 
                  $this->addElement('text', 'Civico', array(
@@ -77,8 +92,10 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'filters' => array('StringTrim'),
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(1,4))),
-                ));
-               
+                    'decorators' => $this->elementDecorators,
+                ));            
+                
+                
                 $this->addElement('text', 'Telefono', array(
                     'label' => 'Telefono',
                     'filters' => array('StringTrim'),
@@ -88,10 +105,18 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                                             array('Db_NoRecordExists', false, array(
                                                                             'table' => 'utente',
                                                                             'field' => 'Telefono'))),
+                    'decorators' => $this->elementDecorators,
                 ));
 
-		$this->addElement('submit', 'add', array(
+		$this->addElement('submit', 'registrati', array(
                     'label' => 'Registrati',
+                    'decorators' => $this->buttonDecorators,
+		));
+                $this->setDecorators(array(
+			'FormElements',
+			array('HtmlTag', array('tag' => 'table')),
+			array('Description', array('placement' => 'prepend', 'class' => 'formerror')),
+			'Form'
 		));
                 
                 
