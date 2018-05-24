@@ -1,0 +1,40 @@
+<section id="contenuto_centrale">
+                <h1>Ultimi Eventi</h1>
+                <ul id="listaeventi">
+                    <?php
+                        foreach ($this->ultimieventi as $evento){
+                            echo $this->AnteprimaEvento($evento,'anteprima','liv2');
+                        }
+                        ?> 
+                </ul>
+                
+                        <?php if($this->ultimieventi instanceof Zend_Paginator) {
+	  		echo $this->paginationControl($this->ultimieventi,'Sliding','liv2/_paginatoreventihome.phtml');
+                                } 
+                                ?>
+                    
+            </section>
+            <?php if(!is_null($this->eventiscontati)) :?>
+            <section id="contenuto_laterale">
+                <div>
+                    <h1>
+                        Sconto
+                    </h1>
+                    
+                    <ul id="listasconto">
+                        <?php
+                        foreach ($this->eventiscontati as $eventoscont){
+                            
+                            echo $this->AnteprimaEvento($eventoscont,'scontato','liv2');
+                        }
+                        ?>   
+                    </ul>
+                    
+                       <?php if($this->eventiscontati instanceof Zend_Paginator) {
+	  		echo $this->paginationControl($this->eventiscontati,'Sliding','liv2/_paginatoreventiscontatihome.phtml');
+                            } 
+                            ?>
+                    
+                </div>
+            </section>
+            <?php endif ?>

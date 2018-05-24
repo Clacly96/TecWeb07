@@ -1,0 +1,30 @@
+<?= $this->doctype() ?>
+<html>
+    <head>
+        <?= $this->headTitle();?>
+        <?= $this->headMeta(); ?>
+        <?= $this->headScript();?>
+        <?= $this->headLink();?>        
+    </head>
+    <body> 
+        <header>
+            <nav>
+                <img id="tastomenu" src="<?= $this->baseUrl('css/images/menu.png') ?>" width="30" height="30">
+                <a id="logo" href="<?= $this->url(array(
+                        'controller' => 'liv2',
+                        'action'     => 'index',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">TecWeb</a>
+                <?= $this->render('navbarliv2.phtml') ?>
+            </nav>
+        </header>
+        <div id="contenuto_pagina">
+                <?php echo $this->layout()->content; ?>            
+        </div>
+        <footer id="footer">
+            <?= $this->render('footer.phtml') ?>
+        </footer>
+    </body>
+</html>

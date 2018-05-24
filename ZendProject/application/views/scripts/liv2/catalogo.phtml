@@ -1,0 +1,39 @@
+<section id="contenuto_centrale">
+<?php 
+       
+
+    
+        if (!is_null($this->EvSelezionato))
+        {
+            echo $this->AnteprimaEvento($this->eventi,'singolo','liv2');
+            echo '<a href='.$this->url(array(
+                            'controller'=>'liv2',
+                            'action'=>'checkout',
+                            'evento'=>$this->EvSelezionato), 'default', true
+            ).'> Acquista </a>';
+        } else
+        {
+            echo '<h1>Lista eventi</h1>';
+            echo '<ul id="listaeventi">';
+            foreach ($this->eventi as $evento){
+                echo $this->AnteprimaEvento($evento,'anteprima','liv2');
+            echo '</ul>';
+        }
+        }
+        
+        
+    
+        if($this->eventi instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->eventi,'Sliding','liv2/_paginatoreventicatalogo.phtml');
+        } 
+        ?> 
+</section>   
+<section id="contenuto_laterale">
+    <?php 
+    if (is_null($this->EvSelezionato)){
+        echo $this->filtroForm; }
+    ?>
+    
+</section>
+
+
