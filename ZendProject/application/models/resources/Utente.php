@@ -61,7 +61,7 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
         $dati = array( 'Username' => $info['Username'],
 		    'Password' => $info['Password'],
 		    'Nome' => $info['Nome'],
-		    'Cognome' => $info['Cognome'],
+		    'Cognome' => $info['Cognome'], // da ottimizzare
 		    'Email' => $info['Email'],
                     'Residenza' => $residenza,
 		    'Ruolo' => 'utente',
