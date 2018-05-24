@@ -51,7 +51,7 @@ class Liv1Controller extends Zend_Controller_Action
                 }
                 $form=$this->_formFiltro;
                if (!$form->isValid($_POST)) {
-                       //return $this->render('catalogo');
+                       return $this->render('catalogo');
                 }
 
                 $valori=$form->getValues();
@@ -111,6 +111,7 @@ class Liv1Controller extends Zend_Controller_Action
             }
         $form=$this->_formReg;
         if (!$form->isValid($_POST)) {
+			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
                        return $this->render('registrazione');
             }
         $valori=$form->getValues();
