@@ -311,12 +311,35 @@ nav{
 #pagination a:hover{
     color:#707070;
 }
+/*div contenitore per la form filtro*/
+#contenuto_top{
+    padding: 1em;
+    width: 100%;
+}
+#contenuto_top::after{
+    content:"";
+    clear: both;
+    display: block;
+}
+#contenuto_top .elemento{
+    float:left;
+    padding: 0 5px;
+}
 form .errors{
     background-color: #DD0000;
     color:#ffffff;
 }
 form select {
-    width: 100%;
+    width: 12em;
+    height: 24px;
+}
+form input[type=text]{
+    height: 19px;
+    width: 12em;
+}
+form input[type=password]{
+    height: 19px;
+    width: 12em;
 }
 form td {
     padding:5px;
@@ -331,16 +354,19 @@ form ul{
     background-color: #DD0000;
     padding: 10px 0;
 }
-.td_button input[type=submit]{
+form input[type=submit]{
     color: #444444;
-    padding: 20px;
+    height: 43px;
+    padding: 0 20px;
     background-color: #00CC00;
     border:1px solid #707070;
     border-radius: 3px;
 }
-.td_button input[type=submit]:hover{
+form input[type=submit]:hover{
     background-color: #007700;
 }
+/*fine form*/
+
 #footer {
     position:  fixed;
     bottom:0;
