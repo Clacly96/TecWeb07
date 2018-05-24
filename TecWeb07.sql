@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2018 alle 14:10
+-- Creato il: Mag 24, 2018 alle 23:30
 -- Versione del server: 10.1.31-MariaDB
--- Versione PHP: 7.2.4
+-- Versione PHP: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tecweb`
+-- Database: `tecweb07`
 --
 
 -- --------------------------------------------------------
@@ -30,31 +30,31 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `evento` (
   `Id` int(11) NOT NULL,
-  `Nome` varchar(40) COLLATE utf8_bin NOT NULL,
-  `Descrizione` text COLLATE utf8_bin NOT NULL,
-  `Luogo` varchar(60) COLLATE utf8_bin NOT NULL,
+  `Nome` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Descrizione` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Luogo` varchar(60) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Data_Ora` datetime NOT NULL,
-  `Programma` tinytext COLLATE utf8_bin NOT NULL,
+  `Programma` tinytext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Biglietti_Rimanenti` int(11) NOT NULL,
-  `Tipologia` varchar(20) COLLATE utf8_bin NOT NULL,
-  `Organizzazione` varchar(20) COLLATE utf8_bin NOT NULL,
+  `Tipologia` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Organizzazione` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Sconto` int(11) DEFAULT NULL,
   `Data_Inizio_Sconto` date DEFAULT NULL,
   `Data_Fine_Acquisto` datetime NOT NULL,
   `Data_Inserimento` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Prezzo_Biglietto` float NOT NULL,
-  `Locandina` varchar(30) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `Locandina` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `evento`
 --
 
 INSERT INTO `evento` (`Id`, `Nome`, `Descrizione`, `Luogo`, `Data_Ora`, `Programma`, `Biglietti_Rimanenti`, `Tipologia`, `Organizzazione`, `Sconto`, `Data_Inizio_Sconto`, `Data_Fine_Acquisto`, `Data_Inserimento`, `Prezzo_Biglietto`, `Locandina`) VALUES
-(1, 'Mostra di quadri', 'Esposizione di numerosi quadri nel museo cittadino', 'Roma', '2018-07-11 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 100, 'Mostra', 'rot', NULL, NULL, '2018-07-10 00:00:00', '2018-05-19 16:26:52', 25, ''),
-(2, 'Concerto Vasco', 'Concerto di Vasco Rossi', 'Bologna', '2018-06-21 20:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 300, 'Concerto', 'vasco1', NULL, NULL, '2018-06-19 00:00:00', '2018-05-19 16:36:15', 120, ''),
-(3, 'Tomb Raider', 'Film su Tomb Raider', 'Ancona', '2018-06-30 21:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 250, 'Cinema', 'rot', NULL, NULL, '2018-06-28 00:00:00', '2018-05-19 16:36:29', 25, ''),
-(11, 'Mostra estiva', 'Grande mostra di quadri e sculture organizzata da Michelangelo', 'Pescara', '2018-08-01 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 400, 'Mostra', 'Michelangelo', 20, '2018-08-28', '2018-07-31 00:00:00', '2018-05-19 17:23:39', 35, '');
+(1, 'Mostra di quadri', 'Esposizione di numerosi quadri nel museo cittadino', 'Roma', '2018-07-11 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 100, 'Mostra', 'rot', NULL, NULL, '2018-07-10 00:00:00', '2018-05-22 21:24:45', 25, 'ev1.jpg'),
+(2, 'Concerto Vasco', 'Concerto di Vasco Rossi', 'Bologna', '2018-06-21 20:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 300, 'Concerto', 'vasco1', NULL, NULL, '2018-06-19 00:00:00', '2018-05-22 21:24:45', 120, 'ev2.jpg'),
+(3, 'Tomb Raider', 'Film su Tomb Raider', 'Ancona', '2018-06-30 21:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 250, 'Cinema', 'rot', 25, '2018-05-20', '2018-06-28 00:00:00', '2018-05-22 21:24:45', 25, 'ev3.jpg'),
+(4, 'Mostra estiva', 'Grande mostra di quadri e sculture organizzata da Michelangelo', 'Pescara', '2018-08-01 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 400, 'Mostra', 'Michelangelo', 20, '2018-08-28', '2018-07-31 00:00:00', '2018-05-22 21:24:45', 35, 'ev4.jpg');
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,11 @@ CREATE TABLE `faq` (
 
 INSERT INTO `faq` (`Id`, `Domanda`, `Risposta`) VALUES
 (1, 'Come si acquistano i biglietti?', 'Bisogna registrarsi al sito, poi fare click su un evento e in seguito sarà possibile acquistare i biglietti.'),
-(2, 'Perché non riesco ad acquistare i biglietti?', 'Controllare di aver effettuato l\'accesso al sito; solo dopo aver effettuato l\'accesso si avrà la possibilità di acquistare biglietti.');
+(2, 'Perché non riesco ad acquistare i biglietti?', 'Controllare di aver effettuato l\'accesso al sito; solo dopo aver effettuato l\'accesso si avrà la possibilità di acquistare biglietti.'),
+(3, 'Come vengono spediti i biglietti?', 'Per posta o per mail'),
+(4, 'Dopo quanto tempo arrivano i biglietti?', 'Dipende dalla spedizione, generalmente in 2 settimane.'),
+(5, 'Se non ricevo un biglietto cosa faccio?', 'Ci puoi mandare una mail per chiedere informazioni'),
+(6, 'Ci sono degli autobus organizzati da voi per gli eventi?', 'No, non forniamo questo tipo di servizio');
 
 -- --------------------------------------------------------
 
@@ -167,12 +171,12 @@ CREATE TABLE `utente` (
 
 INSERT INTO `utente` (`Username`, `Password`, `Nome`, `Cognome`, `Email`, `Residenza`, `Ruolo`, `Descrizione`, `Missione`, `Telefono`, `Fax`, `Sede`, `Logo`) VALUES
 ('Frank', 'frank123', 'Francesco', 'Bruni', 'frank@gmail.com', 'Milano', 'utente', '', '', '123456789', NULL, '', ''),
-('Michelangelo', 'artisti1', 'Giorgio', 'Rossi', 'michelangelo@hotmail.com', 'Roma', 'organizzazione', 'Compagnia di artisti che organizzano mostre in tutto il territorio italiano.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', NULL, 'Roma', ''),
+('Michelangelo', 'artisti1', 'Giorgio', 'Rossi', 'michelangelo@hotmail.com', 'Roma', 'organizzazione', 'Compagnia di artisti che organizzano mostre in tutto il territorio italiano.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', NULL, 'Roma', 'az4.png'),
 ('amministratore', 'amminis', 'Mario', 'Bruni', 'admin@gmail.com', 'Genova', 'admin', '', '', '123456789', NULL, '', ''),
-('azienda1', 'az1enda', 'Giuseppe', 'Verdi', 'azienda1@outlook.com', 'Roma', 'organizzazione', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae diam venenatis, et blandit metus vehicula.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', NULL, 'Roma', ''),
+('azienda1', 'az1enda', 'Giuseppe', 'Verdi', 'azienda1@outlook.com', 'Roma', 'organizzazione', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae diam venenatis, et blandit metus vehicula.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', NULL, 'Roma', 'az3.png'),
 ('mario1', 'mario', 'mario', 'rossi', 'mario@outlook.it', 'Roma', 'utente', '', '', '123456789', '123456789', '', ''),
-('rot', 'wefkuhbksd', 'reb3', 'ertbrb', 'feakjh@gmail.com', 'wefkjnhubfwe', 'organizzazione', 'erbgrwewer3bwe3grewbg', 'w3egg4w', '4567867', NULL, 'juekjbvs', ''),
-('vasco1', 'vasco', 'vasco', 'rossi', 'vasco@gmail.com', 'Bologna', 'organizzazione', 'Cantautore', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', '123456789', 'Bologna', '');
+('rot', 'wefkuhbksd', 'reb3', 'ertbrb', 'feakjh@gmail.com', 'wefkjnhubfwe', 'organizzazione', 'erbgrwewer3bwe3grewbg', 'w3egg4w', '4567867', NULL, 'juekjbvs', 'az1.png'),
+('vasco1', 'vasco', 'vasco', 'rossi', 'vasco@gmail.com', 'Bologna', 'organizzazione', 'Cantautore', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', '123456789', '123456789', 'Bologna', 'az2.png');
 
 --
 -- Indici per le tabelle scaricate
@@ -233,7 +237,7 @@ ALTER TABLE `evento`
 -- AUTO_INCREMENT per la tabella `faq`
 --
 ALTER TABLE `faq`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `storico`
