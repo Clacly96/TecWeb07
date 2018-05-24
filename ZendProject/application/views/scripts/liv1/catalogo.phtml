@@ -1,8 +1,12 @@
+<section id="contenuto_top">
+    <?php 
+    if (is_null($this->EvSelezionato)){
+        echo $this->filtroForm; }
+    ?>    
+</section>
 <section id="contenuto_centrale">
 <?php 
        
-
-    
         if (!is_null($this->EvSelezionato))
         {
             echo $this->AnteprimaEvento($this->eventi,'singolo');
@@ -10,10 +14,15 @@
         {
             echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
+            $count=0;
             foreach ($this->eventi as $evento){
                 echo $this->AnteprimaEvento($evento,'anteprima');
+                $count++;
+            }
             echo '</ul>';
-        }
+            if($count==0){
+                echo '<h2>Non ci sono eventi che corrispondono ai parametri di ricerca</h2>';
+            }
         }
         
         
@@ -23,11 +32,3 @@
         } 
         ?> 
 </section>   
-<section id="contenuto_laterale">
-    <?php 
-    if (is_null($this->EvSelezionato)){
-        echo "<h1>Filtra eventi</h1>";
-        echo $this->filtroForm; }
-    ?>
-    
-</section>
