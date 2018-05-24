@@ -11,6 +11,8 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formRicerca;
     protected $_formLogin;
     protected $_formReg;
+	
+    protected $_authService;
 
     public function init()
     {
@@ -23,6 +25,8 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
         $this->view->regForm=$this->getRegForm();
+	    
+	$this->_authService = new Application_Service_Autenticazione();
 
     }
     public function indexAction()
@@ -118,6 +122,29 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_utenzaModel->insertUtente($valori);
         $this->_helper->redirector('index');
     }
+	
+    public function loginAction() 
+    {
+    }
+    
+    public function autenticazioneAction()
+    {        
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return $this->_helper->redirector('login');
+        }
+        $form = $this->_formLogin;
+        if (!$form->isValid($request->getPost())) {
+            $form->setDescription('Attenzione: credenziali inserite errate.');
+            return $this->render('login');
+        }
+        if (false === $this->_authService->autenticazione($form->getValues())) {
+            $form->setDescription('Autenticazione fallita. Riprova');
+            return $this->render('login');
+        }
+        return $this->_helper->redirector('index', $this->_authService->getIdentity()->role);
+    }
+
     private function getFiltroForm()
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -159,7 +186,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_formLogin = new Application_Form_Liv1_Utenza_Login();
         $this->_formLogin->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
-                'action' => 'index',),
+                'action' => 'autenticazione',),
 
                 'default',true
                 ));
