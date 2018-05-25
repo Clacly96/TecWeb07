@@ -8,7 +8,8 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formRicerca;
     protected $_formLogin;
     protected $_formReg;
-	
+    protected $_formAcquisto;
+    
     protected $_authService;
 
     public function init()
@@ -21,7 +22,9 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
         $this->view->regForm=$this->getRegForm();
-	    $this->_authService = new Application_Service_Autenticazione();
+        
+        
+	$this->_authService = new Application_Service_Autenticazione();
         
     }
     public function indexAction()
@@ -43,6 +46,8 @@ class Liv1Controller extends Zend_Controller_Action
         $IdEv=$this->_getParam('evento',null);
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
+        
+        
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){
                 if (!$this->getRequest()->isPost()) {
@@ -54,7 +59,10 @@ class Liv1Controller extends Zend_Controller_Action
                 }
                 $valori=$form->getValues();
                 $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']));
-            } else if($tiporic=='ricerca'){
+            } 
+            
+            
+            else if($tiporic=='ricerca'){
                 if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
                 }
@@ -64,12 +72,19 @@ class Liv1Controller extends Zend_Controller_Action
                $valori=$form->getValues();
                $eventi= $this->_catalogModel->ricerca($paged, $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']),$this->settaNullCondizionale($valori['Descrizione']) );
             }
-                else {$this->_helper->redirector('catalogo','liv1');}
-        }else if(!is_null($IdEv)){
+            
+            else {$this->_helper->redirector('catalogo','liv1');}
+        }
+        
+        else if(!is_null($IdEv)){
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
         }
+        
         else { $eventi=$this->_catalogModel->estraiEventi($paged);}
+        
+        
         $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv));
+        $this->view->tastoacquistoForm=$this->getTastoacquistoForm($IdEv);
     }
     public function ricercaAction()
     {
@@ -197,5 +212,21 @@ class Liv1Controller extends Zend_Controller_Action
                 'default',true
                 ));
         return $this->_formLogin;
+    }
+    private function getTastoacquistoForm($IdEv)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_Tastoacquisto(); 
+        $this->_formAcquisto->setAction($urlHelper->url(array(
+                'controller' => 'liv2',
+                'action' => 'checkout',),
+                'default',true
+                ));
+        //l'ho messo qui l'elemento hidden perchè ho provato a passare un parametro alla form, ma non lo riceve e non capisco perchè
+        $this->_formAcquisto->addElement('hidden', 'evento', array(
+                        'required' => false,
+                        'value' => $IdEv,
+                ));
+        return $this->_formAcquisto;
     }
 }

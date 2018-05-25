@@ -23,8 +23,7 @@ class App_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 	
 	private function denyAccess()
 	{
-   		$this->_request->setModuleName('default')
-                               ->setControllerName('liv1')
-                               ->setActionName('index');
+           $redirector = new Zend_Controller_Action_Helper_Redirector;
+           $redirector->gotoSimple('index','liv1');
 	}
 }

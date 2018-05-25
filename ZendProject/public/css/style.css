@@ -292,6 +292,7 @@ nav{
     left:50%;
     transform: translate(-50%,-50%);
 }
+/*stile dei paginator*/
 #pagination{
     margin: 0 0 40px 0;
     position: fixed;
@@ -311,6 +312,20 @@ nav{
 #pagination a:hover{
     color:#707070;
 }
+#contenuto_laterale #pagination{
+    margin: 0 0 40px 0;
+    position: fixed;
+    bottom:0;
+    left:100%;
+    transform: translate(0,0);
+    background-color: #700000;
+    box-shadow: 0 -4px 5px #707070;
+    z-index: 4;
+    padding: 10px;
+    color: #ffffff;
+}
+/*fine stile dei paginator*/
+
 /*div contenitore per la form filtro*/
 #contenuto_top{
     padding: 1em;

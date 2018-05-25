@@ -23,7 +23,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);   //restituisce un oggetto contenente il rowset da paginare
 			$paginator = new Zend_Paginator($adapter);  //è un oggetto che wrappa i dati provenienti dal db e risultanti dalla select effettuata; rispetto al metodo fetchAll ha dei metodi fatti per specificare la paginazione
-			$paginator->setItemCountPerPage(6)
+			$paginator->setItemCountPerPage(1)
 		          	  ->setCurrentPageNumber((int) $paged); //va fatto il casting perchè il metodo cuole un int, invece paged è una stringa
 			return $paginator;
 		}
@@ -42,7 +42,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 		if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 			$paginator = new Zend_Paginator($adapter);
-			$paginator->setItemCountPerPage(3)
+			$paginator->setItemCountPerPage(1)
 		          	  ->setCurrentPageNumber((int) $paged);
 			return $paginator;
 		}
@@ -57,7 +57,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 			$paginator = new Zend_Paginator($adapter);
-			$paginator->setItemCountPerPage(6)
+			$paginator->setItemCountPerPage(1)
 		          	  ->setCurrentPageNumber((int) $paged);
 			return $paginator;
 		}
