@@ -8,37 +8,24 @@
     </head>
     <body> 
         <header>
-            <nav>
-                <img id="tastomenu" src="<?= $this->baseUrl('css/images/menu.png') ?>" width="30" height="30">
-                <a id="logo" href="<?= $this->url(array(
-                        'controller' => 'liv1',
-                        'action'     => 'index',
-                        ), 
-                        'default',true
-                    ); 
-                 ?>">TecWeb</a>
+            
                 <?php
-                    //$aut=Zend_Auth::getInstance();    
-                    // echo $aut->hasIdentity();
+
                     $ruolo=$this->authInfo('Ruolo');
-                    
-                    
                     switch ($ruolo) {
                         case 'utente':
                             echo $this->render('navbarliv2.phtml');
                             break;
-                        case 'organizzazione':
+                    /*    case 'organizzazione':
                             echo $this->render('navbarliv3.phtml');
                             break;
                         case 'admin':
                             echo $this->render('navbarliv4.phtml');
-                            break;
+                            break;*/
                         default:
                             echo $this->render('navbar.phtml');
                             break;
                     }
-                    //echo $this->render('navbar.phtml');
-                    //}else {$this->render('navbar.phtml'); }
                      
                 ?>
             </nav>

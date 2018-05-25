@@ -10,6 +10,7 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formReg;
 	
     protected $_authService;
+
     public function init()
     {
         $this->_helper->layout->setLayout('main');
@@ -20,8 +21,8 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
         $this->view->regForm=$this->getRegForm();
-	    
-	$this->_authService = new Application_Service_Autenticazione();
+	    $this->_authService = new Application_Service_Autenticazione();
+        
     }
     public function indexAction()
     {
