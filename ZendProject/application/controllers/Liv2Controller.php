@@ -24,7 +24,12 @@ class Liv2Controller extends Zend_Controller_Action
 		$this->_authService->clear();
 		return $this->_helper->redirector('index','liv1');	
     }
-    
+    public function storicoAction(){
+        $paged = $this->_getParam('page', 1);
+        $utente=$this->view->AuthInfo('Username');
+        $ordini=$this->_utenzaModel->estraiOrdiniPerUtente($paged,$utente);
+        $this->view->assign(array('ordini' => $ordini));
+    }
     public function areaprivataAction(){
         
     }

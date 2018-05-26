@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/views/helpers/AnteprimaEvento.php</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/layouts/scripts/main.phtml</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/layouts/scripts/navbar.phtml</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/models/resources/Evento.php</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/layouts/scripts/navbarliv2.phtml</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/views/scripts/liv1/index.phtml</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/application/controllers/Liv1Controller.php</file>
-            <file>file:/C:/xampp/htdocs/ZendProject/public/css/style.css</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

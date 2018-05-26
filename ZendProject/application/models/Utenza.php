@@ -30,6 +30,12 @@ class Application_Model_Utenza extends App_Model_Abstract
     public function insertUtente($info) {
         return $this->getResource('Utente')->insertUtente($info);
     }
+    public function estraiOrdinePerNumero($NumOrdine) {
+        return $this->getResource('Storico')->estraiOrdinePerNumero($NumOrdine);
+    }
+    public function estraiOrdiniPerUtente($paged=null,$utente) {
+        return $this->getResource('Storico')->estraiOrdiniPerUtente($paged,$utente);
+    }
 }
 
 

@@ -11,17 +11,17 @@
         {
             echo $this->AnteprimaEvento($this->eventi,'singolo');
             $ruolo=$this->authInfo('Ruolo');
-            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)
-            /*echo '<div class="tasto_acquista"><a href='.$this->url(array(
-                            'controller'=>'liv2',
-                            'action'=>'checkout',
-                            'evento'=>$this->EvSelezionato), 'default', true
-                            ).'> Acquista </a></div>';*/
-            echo $this->tastoacquistoForm;
-            echo '<h1>'.$this->EvSelezionato.'</h1>';
-            }
-
-        } else if (!is_null($this->eventi))
+            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)                
+                
+                $evento=$this->eventi;
+                if ($evento->Biglietti_Rimanenti==0){
+                    echo '<div class="tasto_acquisto"><h3>I biglietti sono terminati</h3></div>';
+                }
+                else{
+                    echo '<div class="tasto_acquisto">'.$this->tastoacquistoForm.'</div>';}
+                }   
+        }
+         else if (!is_null($this->eventi))
         {
             echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
@@ -42,4 +42,4 @@
         echo $this->paginationControl($this->eventi,'Sliding','liv1/_paginatoreventicatalogo.phtml');
         } 
         ?> 
-</section>   
+</section>

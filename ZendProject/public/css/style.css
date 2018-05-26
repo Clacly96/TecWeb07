@@ -186,6 +186,7 @@ nav{
 .sconto_li img{
     position: absolute;
     top: 50%;
+    right: 0;
     transform: translate(0,-50%);
     width: 35%;
     float: right;
@@ -293,30 +294,30 @@ nav{
     transform: translate(-50%,-50%);
 }
 /*stile dei paginator*/
-#pagination{
+.pagination{
     margin: 0 0 40px 0;
     position: fixed;
     bottom:0;
-    left:50%;
-    transform: translate(-50%,0);
+    right: 50%;
+    transform: translate(50%,0);
     background-color: #700000;
     box-shadow: 0 -4px 5px #707070;
     z-index: 4;
     padding: 10px;
     color: #ffffff;
 }
-#pagination a {
+.pagination a {
     text-decoration: none;
     color: #ffff50;
 }
-#pagination a:hover{
+.pagination a:hover{
     color:#707070;
 }
-#contenuto_laterale #pagination{
-    margin: 0 0 40px 0;
+#contenuto_laterale .pagination{
+    margin: 0 20px 40px 0;
     position: fixed;
     bottom:0;
-    left:100%;
+    right: 0;
     transform: translate(0,0);
     background-color: #700000;
     box-shadow: 0 -4px 5px #707070;
@@ -339,6 +340,10 @@ nav{
 #contenuto_top .elemento{
     float:left;
     padding: 0 5px;
+}
+/*FINE  div contenitore per la form filtro*/
+#tasto_acquisto{
+    
 }
 form .errors{
     background-color: #DD0000;
