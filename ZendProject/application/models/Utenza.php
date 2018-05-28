@@ -34,7 +34,18 @@ class Application_Model_Utenza extends App_Model_Abstract
         return $this->getResource('Storico')->estraiOrdinePerNumero($NumOrdine);
     }
     public function estraiOrdiniPerUtente($paged=null,$utente) {
-        return $this->getResource('Storico')->estraiOrdiniPerUtente($paged,$utente);
+
+        $ordini= $this->getResource('Storico')->estraiOrdiniPerUtente($paged,$utente);
+        $ordininonpg=array();
+        foreach ($ordini as $ordine) {
+            $ordininonpg[]=$ordine['Evento'];
+        }
+        $nomi = $this->getResource('Evento')->estraiNomeEventi($ordininonpg);
+        foreach ($ordini as $ordine) {
+            $ordine['Nome_Ordine']=$nomi[$ordine['Evento']];
+        }
+        return $ordini;
+
     }
 }
 
