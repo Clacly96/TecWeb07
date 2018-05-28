@@ -1,7 +1,14 @@
 <h1>Lista ordini effettuati</h1>
 <?php foreach ($this->ordini as $ordine): ?>
 <div class="ordine">
-    Evento: <?=$this->nomi_eventi[$ordine->Evento]?><br>
+    Evento: <a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'catalogo',
+                        'evento' => $ordine->Evento,
+                        ), 
+                        'default',true
+                    ); 
+                 ?>"><?=$this->nomi_eventi[$ordine->Evento]?></a><br>
     Data e ora: <?=$ordine->Data_Ora?><br>
     Numero di biglietti acquistati: <?=$ordine->Numero_Biglietti?><br>
     Modalità di pagamento: <?=$ordine->Modalita_Pagamento?>
