@@ -1,7 +1,7 @@
 <h1>Lista ordini effettuati</h1>
 <?php foreach ($this->ordini as $ordine): ?>
 <div class="ordine">
-    Evento: <?=$ordine->Evento?><br>
+    Evento: <?=$this->nomi_eventi[$ordine->Evento]?><br>
     Data e ora: <?=$ordine->Data_Ora?><br>
     Numero di biglietti acquistati: <?=$ordine->Numero_Biglietti?><br>
     Modalità di pagamento: <?=$ordine->Modalita_Pagamento?>

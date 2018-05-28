@@ -28,7 +28,7 @@ class Liv2Controller extends Zend_Controller_Action
         $paged = $this->_getParam('page', 1);
         $utente=$this->view->AuthInfo('Username');
         $ordini=$this->_utenzaModel->estraiOrdiniPerUtente($paged,$utente);
-        $this->view->assign(array('ordini' => $ordini));
+        $this->view->assign(array('ordini' => $ordini['ordini'],'nomi_eventi' => $ordini['nomieventi']));
     }
     public function areaprivataAction(){
         

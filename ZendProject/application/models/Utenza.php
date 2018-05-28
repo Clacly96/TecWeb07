@@ -38,13 +38,12 @@ class Application_Model_Utenza extends App_Model_Abstract
         $ordini= $this->getResource('Storico')->estraiOrdiniPerUtente($paged,$utente);
         $ordininonpg=array();
         foreach ($ordini as $ordine) {
-            $ordininonpg[]=$ordine['Evento'];
+            $ordininonpg[$ordine['Numero_Ordine']]=$ordine['Evento'];
         }
         $nomi = $this->getResource('Evento')->estraiNomeEventi($ordininonpg);
-        foreach ($ordini as $ordine) {
-            $ordine['Nome_Ordine']=$nomi[$ordine['Evento']];
-        }
-        return $ordini;
+        $ordiniEnomiEventi['ordini']=$ordini;
+        $ordiniEnomiEventi['nomieventi']=$nomi;
+        return $ordiniEnomiEventi;
 
     }
 }
