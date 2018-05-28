@@ -57,7 +57,7 @@ class Liv2Controller extends Zend_Controller_Action
         if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
                 }
-                $this->view->formAcquisto=$this->getFormAcquisto('1');
+                $this->view->formAcquisto=$this->getFormAcquisto();
                 $form=$this->_formAcquisto;
                 if (!$form->isValid($_POST)) {
 			return $this->_helper->redirector('index');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
@@ -66,8 +66,8 @@ class Liv2Controller extends Zend_Controller_Action
         
            $user=$this->view->authInfo('Username');
             $this->_catalogModel->insertOrdine($user,$valori);
-            
             $this->_helper->redirector('storico');
+            
                
     }
     
@@ -88,7 +88,7 @@ class Liv2Controller extends Zend_Controller_Action
         return $this->_formTastoacquisto;
     }
     
-    private function getFormAcquisto($IdEv)
+    private function getFormAcquisto($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
         $this->_formAcquisto = new Application_Form_Liv2_Acquisto_FormAcquisto(); 

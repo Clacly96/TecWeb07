@@ -30,7 +30,7 @@ class Application_Resource_Storico extends Zend_Db_Table_Abstract
     {
         
         $dati = array( 'Utente' => $utente,
-		    'Evento' => $info['Evento'],
+		    'Evento' => $ordine['Evento'],
 		    'Modalita_Pagamento' => $ordine['Modalita_Pagamento'],
 		    'Numero_Biglietti' => $ordine['Numero_Biglietti']
 		    
