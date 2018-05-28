@@ -132,7 +132,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     }
 
     public function estraiNomeEventi($eventi){
-        $select=$this->select()->from() // non so farlo, bisogna estrarre solo id e nome dell'evento
+        $select=$this->select()->from(array('Id', 'Nome')) 
                                 ->where('Id IN ?',$eventi);
         $result=$this->fetchAll($select);
         $nomi=array();
