@@ -8,7 +8,7 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formRicerca;
     protected $_formLogin;
     protected $_formReg;
-    protected $_formAcquisto;
+    protected $_formTastoacquisto;
     
     protected $_authService;
 
@@ -216,17 +216,17 @@ class Liv1Controller extends Zend_Controller_Action
     private function getTastoacquistoForm($IdEv)
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_Tastoacquisto(); 
-        $this->_formAcquisto->setAction($urlHelper->url(array(
+        $this->_formTastoacquisto = new Application_Form_Liv2_Acquisto_Tastoacquisto(); 
+        $this->_formTastoacquisto->setAction($urlHelper->url(array(
                 'controller' => 'liv2',
                 'action' => 'checkout',),
                 'default',true
                 ));
         //l'ho messo qui l'elemento hidden perchè ho provato a passare un parametro alla form, ma non lo riceve e non capisco perchè
-        $this->_formAcquisto->addElement('hidden', 'evento', array(
+        $this->_formTastoacquisto->addElement('hidden', 'Evento', array(
                         'required' => false,
                         'value' => $IdEv,
                 ));
-        return $this->_formAcquisto;
+        return $this->_formTastoacquisto;
     }
 }

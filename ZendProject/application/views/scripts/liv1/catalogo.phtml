@@ -17,7 +17,7 @@
                 if ($evento->Biglietti_Rimanenti==0){
                     echo '<div class="tasto_acquisto"><h3>I biglietti sono terminati</h3></div>';
                 }
-                else{
+                else{ //da considerare il fatto che se il current time > data_fine_acquisto questo tasto non di deve vedere, perchè su questa pagina verranno reindirizzati gli utenti dallo storico
                     echo '<div class="tasto_acquisto">'.$this->tastoacquistoForm.'</div>';}
                 }   
         }

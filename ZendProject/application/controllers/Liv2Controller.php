@@ -6,6 +6,7 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_catalogModel;
     protected $_authService;
     protected $_formTastoacquisto;
+    protected $_formAcquisto;
     
     public function init(){
         $this->_helper->layout->setLayout('main');
@@ -13,6 +14,7 @@ class Liv2Controller extends Zend_Controller_Action
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
         $this->view->tastoacquistoForm=$this->getTastoacquistoForm($IdEv=null);
+        
     }
     
     public function indexAction(){
@@ -44,9 +46,29 @@ class Liv2Controller extends Zend_Controller_Action
 			return $this->render('index');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
                $valori=$form->getValues();
         
-            $ev=$this->_catalogModel->estraiEventoPerId($valori['evento']);
+            $ev=$this->_catalogModel->estraiEventoPerId($valori['Evento']);
             $this->view->assign(array('evento'=>$ev));
+            $this->view->formAcquisto=$this->getFormAcquisto($ev['Id']); //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden
+            
+            
+    }
+    
+    public function completacheckoutAction(){ //ho creato anche sopra la _formAcquisto, il problema è che in questo modo id evento va a null e non so come fare
+        if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+                }
+                $this->view->formAcquisto=$this->getFormAcquisto('1');
+                $form=$this->_formAcquisto;
+                if (!$form->isValid($_POST)) {
+			return $this->_helper->redirector('index');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
+               
+               $valori=$form->getValues();
         
+           $user=$this->view->authInfo('Username');
+            $this->_catalogModel->insertOrdine($user,$valori);
+            
+            $this->_helper->redirector('storico');
+               
     }
     
     private function getTastoacquistoForm($IdEv=null)
@@ -59,12 +81,31 @@ class Liv2Controller extends Zend_Controller_Action
                 'default',true
                 ));
         //l'ho messo qui l'elemento hidden perchè ho provato a passare un parametro alla form, ma non lo riceve e non capisco perchè
-        $this->_formTastoacquisto->addElement('hidden', 'evento', array(
+        $this->_formTastoacquisto->addElement('hidden', 'Evento', array(
                         'required' => false,
                         'value' => $IdEv,
                 ));
         return $this->_formTastoacquisto;
     }
+    
+    private function getFormAcquisto($IdEv)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_FormAcquisto(); 
+        $this->_formAcquisto->setAction($urlHelper->url(array(
+                'controller' => 'liv2',
+                'action' => 'completacheckout',),
+                'default',true
+                ));
+        $this->_formAcquisto->addElement('hidden', 'Evento', array(
+                        'required' => false,
+                        'value' => $IdEv,
+                        
+                ));
+        
+        return $this->_formAcquisto;
+    }
+   
     
     
     private function settaNullCondizionale($elemento){

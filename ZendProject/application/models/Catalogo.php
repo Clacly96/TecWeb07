@@ -36,5 +36,9 @@ class Application_Model_Catalogo extends App_Model_Abstract
     public function ricerca($paged=null,$mese=null,$anno=null,$luogo=null,$cat=null,$desc=null){
         return $this->getResource('Evento')->ricerca($paged,$mese,$anno,$luogo,$cat,$desc);
     }
+    public function insertOrdine($utente,$ordine) //non so se sono necessari controlli
+    {
+        $this->getResource('Storico')->insertOrdine($utente,$ordine);
+    }
 }
 

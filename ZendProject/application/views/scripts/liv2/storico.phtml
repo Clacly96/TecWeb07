@@ -14,4 +14,7 @@
     Modalità di pagamento: <?=$ordine->Modalita_Pagamento?>
 </div>
 <?php endforeach;?>
+<?php if($this->ordini instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->ordini,'Sliding','liv2/_paginatorstorico.phtml');
+        }  ?>
 
