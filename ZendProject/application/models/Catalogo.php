@@ -43,11 +43,15 @@ class Application_Model_Catalogo extends App_Model_Abstract
     
     public function estraiPartecipazioniPerEv($IdEv)
     {
-        $this->getResource('Partecipazione')->estraiPartecipazioniPerEv($IdEv);
+       return $this->getResource('Partecipazione')->estraiPartecipazioniPerEv($IdEv);
     }
       public function estraiPartecipazioni()
     {
-        $this->getResource('Partecipazione')->estraiPartecipazioni();
+        return $this->getResource('Partecipazione')->estraiPartecipazioni();
+    }
+    public function estraiPartecipazione($idEv,$utente)
+    {
+        return $this->getResource('Partecipazione')->estraiPartecipazione($idEv,$utente);
     }
     
      public function insertPartecipazione($utente,$evento)
@@ -56,7 +60,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
      }
      
      public function contaPartecipazioniPerEv($IdEv){
-         $this->getResource('Partecipazione')->contaPartecipazioniPerEv($IdEv);
+        return $this->getResource('Partecipazione')->contaPartecipazioniPerEv($IdEv);
      }
 }
 

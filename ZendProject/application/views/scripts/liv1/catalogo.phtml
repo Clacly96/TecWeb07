@@ -13,13 +13,9 @@
             $nascosto=false;
             $ruolo=$this->authInfo('Ruolo');
             $utente=$this->authInfo('Username');
-            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)                
-                
-                foreach($this->partecipazioni as $part){
-                    if($part->Utente==$utente)
-                        $nascosto=true;                   
-                }
-               if($nascosto==false){
+            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)      
+                 
+               if(!$this->partecipato){
                 echo '<div class="tasto_partecipazione">'.$this->tastopartecipazioneForm.'</div>';}
                 
                 $evento=$this->eventi;

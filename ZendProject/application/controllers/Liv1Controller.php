@@ -46,7 +46,7 @@ class Liv1Controller extends Zend_Controller_Action
         $IdEv=$this->_getParam('evento',null);
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
-        $partecipazioni=null;
+        $partecipato=null;
         $numpart=null;
         
         
@@ -80,14 +80,14 @@ class Liv1Controller extends Zend_Controller_Action
         
         else if(!is_null($IdEv)){
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
-            $partecipazioni=$this->_catalogModel->estraiPartecipazioniPerEv($IdEv);
+            $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$this->view->AuthInfo('Username'))))? false : true ;
             $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
         }
         
         else { $eventi=$this->_catalogModel->estraiEventi($paged);}
         
         
-        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipazioni'=>$partecipazioni,'numpart'=>$numpart));
+        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
        
         $this->view->tastoacquistoForm=$this->getTastoacquistoForm($IdEv);
         $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv);
