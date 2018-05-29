@@ -90,7 +90,7 @@ class Liv2Controller extends Zend_Controller_Action
 
             $this->_helper->redirector('storico');
         }
-    }
+    
 
     public function partecipazioneAction(){
          if (!$this->getRequest()->isPost()) {
