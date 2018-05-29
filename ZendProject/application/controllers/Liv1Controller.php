@@ -9,7 +9,7 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formLogin;
     protected $_formReg;
     protected $_formTastoacquisto;
-    
+    protected $_formTastopartecipazione;
     protected $_authService;
 
     public function init()
@@ -46,6 +46,8 @@ class Liv1Controller extends Zend_Controller_Action
         $IdEv=$this->_getParam('evento',null);
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
+        $partecipazioni=null;
+        $numpart=null;
         
         
         if(!is_null($tiporic)){
@@ -78,13 +80,17 @@ class Liv1Controller extends Zend_Controller_Action
         
         else if(!is_null($IdEv)){
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
+            $partecipazioni=$this->_catalogModel->estraiPartecipazioniPerEv($IdEv);
+            $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
         }
         
         else { $eventi=$this->_catalogModel->estraiEventi($paged);}
         
         
-        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv));
+        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipazioni'=>$partecipazioni,'numpart'=>$numpart));
+       
         $this->view->tastoacquistoForm=$this->getTastoacquistoForm($IdEv);
+        $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv);
     }
     public function ricercaAction()
     {
@@ -108,6 +114,7 @@ class Liv1Controller extends Zend_Controller_Action
         $page=$this->_getParam('page',1);
         $listafaq= $this->_faqModel->estraiFaq($page);
         $this->view->assign(array('listafaq'=>$listafaq));
+        
     }
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
@@ -228,5 +235,22 @@ class Liv1Controller extends Zend_Controller_Action
                         'value' => $IdEv,
                 ));
         return $this->_formTastoacquisto;
+    }
+    
+      private function getTastopartecipazioneForm($IdEv)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formTastopartecipazione = new Application_Form_Liv2_Partecipazione_Tastopartecipazione(); 
+        $this->_formTastopartecipazione->setAction($urlHelper->url(array(
+                'controller' => 'liv2',
+                'action' => 'partecipazione'),
+                'default',true
+                ));
+         $this->_formTastopartecipazione->addElement('hidden', 'Evento', array(
+                        'required' => false,
+                        'value' => $IdEv,
+                ));
+     
+        return $this->_formTastopartecipazione;
     }
 }

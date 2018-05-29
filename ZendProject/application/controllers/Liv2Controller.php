@@ -7,6 +7,7 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_authService;
     protected $_formTastoacquisto;
     protected $_formAcquisto;
+    protected $_formTastopartecipazione;
     
     protected $verifica=true;
     public function init(){
@@ -15,6 +16,7 @@ class Liv2Controller extends Zend_Controller_Action
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
         $this->view->tastoacquistoForm=$this->getTastoacquistoForm($IdEv=null);
+        $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv=null);
         
     }
     
@@ -87,6 +89,21 @@ class Liv2Controller extends Zend_Controller_Action
             }              
     }
     
+    public function partecipazioneAction(){
+         if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+                }
+                
+          $form=$this->_formTastopartecipazione;
+          $user=$this->view->authInfo('Username');
+                if (!$form->isValid($_POST)) {
+                    return $this->render('index');} 
+               $valori=$form->getValues();
+               $this->_catalogModel->insertPartecipazione($user, $valori['Evento']);
+               $this->_helper->redirector('index');
+        
+    }
+    
     private function getTastoacquistoForm($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -102,6 +119,23 @@ class Liv2Controller extends Zend_Controller_Action
                         'value' => $IdEv,
                 ));
         return $this->_formTastoacquisto;
+    }
+    
+        private function getTastopartecipazioneForm($IdEv)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formTastopartecipazione = new Application_Form_Liv2_Partecipazione_Tastopartecipazione(); 
+        $this->_formTastopartecipazione->setAction($urlHelper->url(array(
+                'controller' => 'liv2',
+                'action' => 'partecipazione'),
+                'default',true
+                ));
+         $this->_formTastopartecipazione->addElement('hidden', 'Evento', array(
+                        'required' => false,
+                        'value' => $IdEv,
+                ));
+     
+        return $this->_formTastopartecipazione;
     }
     
     private function getFormAcquisto($IdEv=null)

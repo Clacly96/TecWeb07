@@ -40,5 +40,23 @@ class Application_Model_Catalogo extends App_Model_Abstract
     {
         $this->getResource('Storico')->insertOrdine($utente,$ordine);
     }
+    
+    public function estraiPartecipazioniPerEv($IdEv)
+    {
+        $this->getResource('Partecipazione')->estraiPartecipazioniPerEv($IdEv);
+    }
+      public function estraiPartecipazioni()
+    {
+        $this->getResource('Partecipazione')->estraiPartecipazioni();
+    }
+    
+     public function insertPartecipazione($utente,$evento)
+     {
+         $this->getResource('Partecipazione')->insertPartecipazione($utente,$evento);
+     }
+     
+     public function contaPartecipazioniPerEv($IdEv){
+         $this->getResource('Partecipazione')->contaPartecipazioniPerEv($IdEv);
+     }
 }
 
