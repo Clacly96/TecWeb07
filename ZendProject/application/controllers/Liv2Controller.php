@@ -5,16 +5,13 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_utenzaModel;
     protected $_catalogModel;
     protected $_authService;
-    protected $_formTastoacquisto;
     protected $_formAcquisto;
-    
-    protected $verifica=true;
+
     public function init(){
         $this->_helper->layout->setLayout('main');
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
-        $this->view->tastoacquistoForm=$this->getTastoacquistoForm($IdEv=null);
         
     }
     
@@ -40,83 +37,66 @@ class Liv2Controller extends Zend_Controller_Action
     public function stampaordineAction() {
         $this->_helper->layout->disableLayout();
         $numordine=$this->getParam('ordine');
-        $ordine= $this->_utenzaModel->estraiOrdinePerNumero($numordine);
-        $evento=$this->_catalogModel->estraiEventoPerId($ordine->Evento);
-        $this->view->assign(array('ordine'=>$ordine,'evento'=>$evento));
+        if(is_null($numordine)) {$this->_helper->redirector('index');}
+        else{
+            $ordine= $this->_utenzaModel->estraiOrdinePerNumero($numordine);
+            if ($ordine->Utente==$this->view->AuthInfo('Username')){
+                $evento=$this->_catalogModel->estraiEventoPerId($ordine->Evento);
+                $this->view->assign(array('ordine'=>$ordine,'evento'=>$evento));
+            }
+            else {$this->_helper->redirector('index');}
+        }
     }
     
     public function checkoutAction()
-    {
-        if (!$this->getRequest()->isPost()) {
-                    $this->_helper->redirector('index');
-                }
-                $form=$this->_formTastoacquisto;
-                if (!$form->isValid($_POST)) {
-                    
-			return $this->render('index');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
-               $valori=$form->getValues();
-        
-            $ev=$this->_catalogModel->estraiEventoPerId($valori['Evento']);
-            $this->view->assign(array('evento'=>$ev));
-            if ($this->verifica){$this->view->formAcquisto=$this->getFormAcquisto($ev['Id']);} //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden
-            
-            
-    }
-    
-    public function completacheckoutAction(){ //ho creato anche sopra la _formAcquisto, il problema è che in questo modo id evento va a null e non so come fare
-        if (!$this->getRequest()->isPost()) {
-                    $this->_helper->redirector('index');
-                }
-                $this->view->formAcquisto=$this->getFormAcquisto();
-                $form=$this->_formAcquisto;
-                if (!$form->isValid($_POST)) {
-                    return $this->render('checkout');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
-               
-               $valori=$form->getValues();
-        
-            $user=$this->view->authInfo('Username');
-            $ev=$this->_catalogModel->estraiEventoPerId($valori['Evento']);
-            $bigliettiRim=$ev->Biglietti_Rimanenti;
-            if($valori['Numero_Biglietti']>$bigliettiRim){
-                $form->setDescription('Attenzione: Il numero di biglietti è superiore ai biglietti rimanenti; Inserire un numero minore di '.$bigliettiRim);
-                return $this->render('checkout');
+    {       
+            $IdEv= $this->getParam('evento');
+            if(is_null($IdEv)){
+                $this->_helper->redirector('index');
             }
-            else{
-                $this->_catalogModel->insertOrdine($user,$valori);
-                $this->_helper->redirector('storico');
-            }              
+            $ev=$this->_catalogModel->estraiEventoPerId($IdEv);
+            $this->view->assign(array('evento'=>$ev));
+            $this->view->formAcquisto=$this->getFormAcquisto($IdEv); //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden      
     }
     
-    private function getTastoacquistoForm($IdEv=null)
-    {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formTastoacquisto = new Application_Form_Liv2_Acquisto_Tastoacquisto(); 
-        $this->_formTastoacquisto->setAction($urlHelper->url(array(
-                'controller' => 'liv2',
-                'action' => 'checkout',),
-                'default',true
-                ));
-        //l'ho messo qui l'elemento hidden perchè ho provato a passare un parametro alla form, ma non lo riceve e non capisco perchè
-        $this->_formTastoacquisto->addElement('hidden', 'Evento', array(
-                        'required' => false,
-                        'value' => $IdEv,
-                ));
-        return $this->_formTastoacquisto;
+    public function completacheckoutAction(){
+        if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+                }
+        if(is_null($this->getParam('evento'))){
+            $this->_helper->redirector('index');
+        }
+        
+        $IdEv=$this->getParam('evento');
+        $this->view->formAcquisto=$this->getFormAcquisto($IdEv);
+        $form=$this->_formAcquisto;
+        $ev=$this->_catalogModel->estraiEventoPerId($IdEv);
+        
+        if (!$form->isValid($_POST)) {
+            $this->view->assign(array('evento'=>$ev));
+            $form->setDescription('Attenzione: controllare i dati inseriti');
+            return $this->render('checkout');
+        }
+
+        $valori=$form->getValues();
+
+        $valori['Evento']=$IdEv;
+
+        $user=$this->view->authInfo('Username');
+        $this->_catalogModel->insertOrdine($user,$valori);
+        
+        $this->_helper->redirector('storico');                          
     }
     
-    private function getFormAcquisto($IdEv=null)
+    private function getFormAcquisto($IdEv)
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_FormAcquisto(); 
+        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_FormAcquisto(array('evento'=>$IdEv)); 
         $this->_formAcquisto->setAction($urlHelper->url(array(
                 'controller' => 'liv2',
-                'action' => 'completacheckout',),
-                'default',true
-                ));
-        $this->_formAcquisto->addElement('hidden', 'Evento', array(
-                        'required' => false,
-                        'value' => $IdEv,
-                        
+                'action' => 'completacheckout',
+                ),
+                'default',false
                 ));
         return $this->_formAcquisto;
     }

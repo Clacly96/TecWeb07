@@ -38,7 +38,10 @@ class Application_Model_Catalogo extends App_Model_Abstract
     }
     public function insertOrdine($utente,$ordine) //non so se sono necessari controlli
     {
-        $this->getResource('Storico')->insertOrdine($utente,$ordine);
+        $Ev=$this->getResource('Evento')->estraiEventoPerId($ordine['Evento']);
+        $prezzoEv=$Ev->ottieniPrezzo();
+        $totale=$prezzoEv*$ordine['Numero_Biglietti'];
+        $this->getResource('Storico')->insertOrdine($utente,$ordine,$totale);
     }
 }
 

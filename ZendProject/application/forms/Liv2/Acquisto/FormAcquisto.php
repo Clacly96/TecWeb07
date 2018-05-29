@@ -11,12 +11,14 @@ class Application_Form_Liv2_Acquisto_FormAcquisto extends App_Form_Abstract
         $this->setName('formAcquisto');
         $this->setAction('');
         $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
-        
+        $IdEv = $this->getAttrib('evento');
+        $Ev=$this->_catalogModel->estraiEventoPerId($IdEv);
         $this->addElement('text', 'Numero_Biglietti', array(
                         'label' => 'Numero di biglietti',
                         'required' => true,
+                        'value' => 1,
                         'validators' => array('int',
-                                                array('between',true,array('min' => 0,'max'=>1000))), // da validare correttamente strettmente >0 e minore del numero totale di biglietti
+                                                array('between',true,array('min' => 0,'max'=>$Ev->Biglietti_Rimanenti))),
                         'decorators' => $this->elementDecorators
 		));
        

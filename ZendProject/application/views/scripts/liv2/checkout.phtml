@@ -1,3 +1,4 @@
 <h1> Vuoi acquistare questo biglietto? </h1>
-<?php if(!is_null($this->evento)) echo $this->evento->Nome;
-    echo $this->formAcquisto;?>
+<?php if(!is_null($this->evento)) echo '<h2>'.$this->evento->Nome.'</h2>';?>
+<h3>Totale: <div id="totale_ordine"><?=$this->evento->ottieniPrezzo()?></div>€</h3> 
+<?=$this->formAcquisto;?>
