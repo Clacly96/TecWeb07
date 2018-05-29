@@ -5,8 +5,8 @@
 <h2>Ordine numero: <?=$ordine->Numero_Ordine?></h2>
 <h3>Dettagli Ordine</h3>
     <dl>
-        <dt>Utente</dt>
-        <dd><?=$ordine->Utente?></dd>
+        <dt>Nome e cognome</dt>
+        <dd><?=$this->AuthInfo('Nome').' '.$this->AuthInfo('Cognome')?></dd>
         <dt>Data ordine</dt>
         <dd><?=$ordine->Data_Ora?></dd>
         <dt>Numero di biglietti acquistati</dt>
@@ -14,7 +14,7 @@
         <dt>Modalità di pagamento</dt>
         <dd><?=$ordine->Modalita_Pagamento?></dd>
         <dt>Totale</dt>
-        <dd><?=$moneta->toCurrency($ordine->totale($evento));?></dd>
+        <dd><?=$moneta->toCurrency($ordine->Totale);?></dd>
     </dl>
 <h3>Dettagli evento</h3>
     <dl>

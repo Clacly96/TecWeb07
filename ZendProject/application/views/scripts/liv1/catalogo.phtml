@@ -1,30 +1,41 @@
 <section id="contenuto_top">
-    <?php 
+    <?php
     if (is_null($this->EvSelezionato)){
         echo $this->filtroForm; }
-    ?>    
+    ?>
 </section>
 <section id="contenuto_centrale">
-<?php 
-       
+<?php
+
         if (!is_null($this->EvSelezionato))
         {
             echo $this->AnteprimaEvento($this->eventi,$this->numpart,'singolo');
-            $nascosto=false;
+            $evento=$this->eventi;
             $ruolo=$this->authInfo('Ruolo');
             $utente=$this->authInfo('Username');
-            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)      
-                 
+            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)
+
                if(!$this->partecipato){
                 echo '<div class="tasto_partecipazione">'.$this->tastopartecipazioneForm.'</div>';}
-                
-                $evento=$this->eventi;
-                if ($evento->Biglietti_Rimanenti==0){
-                    echo '<div class="tasto_acquisto"><h3>I biglietti sono terminati</h3></div>';
+
+
+                if (!$evento->acquistabile()) {
+                    echo '<div class="messaggio_importante">I biglietti non sono più acquistabili</div>';
                 }
-                else{ //da considerare il fatto che se il current time > data_fine_acquisto questo tasto non di deve vedere, perchè su questa pagina verranno reindirizzati gli utenti dallo storico
-                    echo '<div class="tasto_acquisto">'.$this->tastoacquistoForm.'</div>';}
-                }   
+                else if ($evento->Biglietti_Rimanenti==0){
+                    echo '<div class="messaggio_importante">I biglietti sono terminati</div>';
+                }
+                else{
+                    echo '<div class="tasto_acquisto"><a href="'.$this->url(array(
+                                                        'controller' => 'liv2',
+                                                        'action' => 'checkout',
+                                                        'evento' => $this->eventi->Id),
+                                                        'default',true
+                                                        ).'">Acquista</a></div>';}
+                }
+                echo '<div style="clear:both;"></div>';
+                echo '<h3>Luogo evento</h3>';
+                echo $evento->Mappa;
         }
          else if (!is_null($this->eventi))
         {
@@ -40,11 +51,11 @@
                 echo '<h2>Non ci sono eventi che corrispondono ai parametri di ricerca</h2>';
             }
         }
-        
-        
-    
+
+
+
         if($this->eventi instanceof Zend_Paginator) {
         echo $this->paginationControl($this->eventi,'Sliding','liv1/_paginatoreventicatalogo.phtml');
-        } 
-        ?> 
+        }
+        ?>
 </section>
