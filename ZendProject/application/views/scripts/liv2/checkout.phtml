@@ -1,3 +1,3 @@
 <h1> Vuoi acquistare questo biglietto? </h1>
-<?=$this->evento->Nome;
+<?php if(!is_null($this->evento)) echo $this->evento->Nome;
     echo $this->formAcquisto;?>

@@ -15,9 +15,11 @@ class Application_Form_Liv2_Acquisto_FormAcquisto extends App_Form_Abstract
         $this->addElement('text', 'Numero_Biglietti', array(
                         'label' => 'Numero di biglietti',
                         'required' => true,
-                        'validators' => array('int'), // da validare correttamente strettmente >0 e minore del numero totale di biglietti
+                        'validators' => array('int',
+                                                array('between',true,array('min' => 0,'max'=>1000))), // da validare correttamente strettmente >0 e minore del numero totale di biglietti
                         'decorators' => $this->elementDecorators
 		));
+       
         $pagamenti=array();
         $pagamenti['Mastercard']='Mastercard';
         $pagamenti['Visa']='Visa';

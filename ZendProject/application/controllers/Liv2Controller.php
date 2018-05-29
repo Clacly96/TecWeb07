@@ -8,6 +8,7 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_formTastoacquisto;
     protected $_formAcquisto;
     
+    protected $verifica=true;
     public function init(){
         $this->_helper->layout->setLayout('main');
         $this->_catalogModel=new Application_Model_Catalogo();
@@ -36,6 +37,14 @@ class Liv2Controller extends Zend_Controller_Action
         
     }
     
+    public function stampaordineAction() {
+        $this->_helper->layout->disableLayout();
+        $numordine=$this->getParam('ordine');
+        $ordine= $this->_utenzaModel->estraiOrdinePerNumero($numordine);
+        $evento=$this->_catalogModel->estraiEventoPerId($ordine->Evento);
+        $this->view->assign(array('ordine'=>$ordine,'evento'=>$evento));
+    }
+    
     public function checkoutAction()
     {
         if (!$this->getRequest()->isPost()) {
@@ -43,12 +52,13 @@ class Liv2Controller extends Zend_Controller_Action
                 }
                 $form=$this->_formTastoacquisto;
                 if (!$form->isValid($_POST)) {
+                    
 			return $this->render('index');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
                $valori=$form->getValues();
         
             $ev=$this->_catalogModel->estraiEventoPerId($valori['Evento']);
             $this->view->assign(array('evento'=>$ev));
-            $this->view->formAcquisto=$this->getFormAcquisto($ev['Id']); //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden
+            if ($this->verifica){$this->view->formAcquisto=$this->getFormAcquisto($ev['Id']);} //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden
             
             
     }
@@ -60,15 +70,21 @@ class Liv2Controller extends Zend_Controller_Action
                 $this->view->formAcquisto=$this->getFormAcquisto();
                 $form=$this->_formAcquisto;
                 if (!$form->isValid($_POST)) {
-			return $this->_helper->redirector('index');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
+                    return $this->render('checkout');} //non deve renderizzare la pagina index, ma dovrebbe renderizzare la pagina dell'evento da cui è stato premuto il tasto acquista
                
                $valori=$form->getValues();
         
-           $user=$this->view->authInfo('Username');
-            $this->_catalogModel->insertOrdine($user,$valori);
-            $this->_helper->redirector('storico');
-            
-               
+            $user=$this->view->authInfo('Username');
+            $ev=$this->_catalogModel->estraiEventoPerId($valori['Evento']);
+            $bigliettiRim=$ev->Biglietti_Rimanenti;
+            if($valori['Numero_Biglietti']>$bigliettiRim){
+                $form->setDescription('Attenzione: Il numero di biglietti è superiore ai biglietti rimanenti; Inserire un numero minore di '.$bigliettiRim);
+                return $this->render('checkout');
+            }
+            else{
+                $this->_catalogModel->insertOrdine($user,$valori);
+                $this->_helper->redirector('storico');
+            }              
     }
     
     private function getTastoacquistoForm($IdEv=null)
@@ -102,7 +118,6 @@ class Liv2Controller extends Zend_Controller_Action
                         'value' => $IdEv,
                         
                 ));
-        
         return $this->_formAcquisto;
     }
    

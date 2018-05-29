@@ -1,0 +1,33 @@
+<h1>TecWeb07 Ordine biglietto stampa</h1>
+<?php $ordine=$this->ordine;
+      $evento=$this->evento;
+      $moneta = new Zend_Currency();?>
+<h2>Ordine numero: <?=$ordine->Numero_Ordine?></h2>
+<h3>Dettagli Ordine</h3>
+    <dl>
+        <dt>Utente</dt>
+        <dd><?=$ordine->Utente?></dd>
+        <dt>Data ordine</dt>
+        <dd><?=$ordine->Data_Ora?></dd>
+        <dt>Numero di biglietti acquistati</dt>
+        <dd><?=$ordine->Numero_Biglietti?></dd>
+        <dt>Modalità di pagamento</dt>
+        <dd><?=$ordine->Modalita_Pagamento?></dd>
+        <dt>Totale</dt>
+        <dd><?=$moneta->toCurrency($ordine->totale($evento));?></dd>
+    </dl>
+<h3>Dettagli evento</h3>
+    <dl>
+        <dt>Nome</dt>
+        <dd><?=$evento->Nome?></dd>
+        <dt>Descrizione</dt>
+        <dd><?=$evento->Descrizione?></dd>
+        <dt>Nome organizzazione</dt>
+        <dd><?=$evento->Organizzazione?></dd>
+        <dt>Data</dt>
+        <dd><?=$evento->Data_Ora?></dd>
+        <dt>Luogo</dt>
+        <dd><?=$evento->Luogo?></dd>
+        <dt>Programma</dt>
+        <dd><?=$evento->Programma?></dd>
+    </dl>
