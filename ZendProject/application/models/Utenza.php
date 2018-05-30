@@ -46,6 +46,10 @@ class Application_Model_Utenza extends App_Model_Abstract
         return $ordiniEnomiEventi;
 
     }
+	
+    public function updateUtente($info) {
+        return $this->getResource('Utente')->updateUtente($info);
+    }
 }
 
 
