@@ -5,13 +5,13 @@
 <?php endif;?>
 <section id="contenuto_centrale">
 <?php
-
+        $evento=$this->eventi;
+        $ruolo=$this->authInfo('Ruolo');
+        $utente=$this->authInfo('Username');
         if (!is_null($this->EvSelezionato))  //visualizzazione evento singolo
         {
             echo $this->AnteprimaEvento($this->eventi,'singolo',$this->numpart );
-            $evento=$this->eventi;
-            $ruolo=$this->authInfo('Ruolo');
-            $utente=$this->authInfo('Username');
+            
             if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)
                    
                 if (!$evento->acquistabile()) {
@@ -59,8 +59,7 @@
     <?php if (!is_null($this->EvSelezionato)): ?>
         <h1>Utenti che parteciperanno</h1>
         <div class="partecipazione_div">
-        <?php $ruolo=$this->authInfo('Ruolo'); 
-            if(!$this->partecipato && $ruolo=='utente'):?>
+        <?php if(!$this->partecipato && $ruolo=='utente' && $evento->acquistabile() && $evento->Biglietti_Rimanenti!=0):?>
             <div class="tasto_partecipazione"><a href="<?=$this->url(array(
                                                            'controller' => 'liv2',
                                                             'action' => 'partecipazione',
