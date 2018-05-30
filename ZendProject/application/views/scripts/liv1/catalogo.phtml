@@ -1,9 +1,8 @@
-<section id="contenuto_top">
-    <?php
-    if (is_null($this->EvSelezionato)){
-        echo $this->filtroForm; }
-    ?>
-</section>
+<?php if (is_null($this->EvSelezionato)):?>
+    <section id="contenuto_top">
+        <?= $this->filtroForm; ?>
+    </section>
+<?php endif;?>
 <section id="contenuto_centrale">
 <?php
 
