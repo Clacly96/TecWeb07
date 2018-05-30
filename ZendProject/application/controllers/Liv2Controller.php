@@ -93,17 +93,12 @@ class Liv2Controller extends Zend_Controller_Action
     
 
     public function partecipazioneAction(){
-         if (!$this->getRequest()->isPost()) {
-                    $this->_helper->redirector('index');
-                }
-
-          $form=$this->_formTastopartecipazione;
+         
+          $IdEv= $this->getParam('evento');
           $user=$this->view->authInfo('Username');
-                if (!$form->isValid($_POST)) {
-                    return $this->render('index');}
-               $valori=$form->getValues();
-               $this->_catalogModel->insertPartecipazione($user, $valori['Evento']);
-               $this->_helper->redirector('index');
+          
+          $this->_catalogModel->insertPartecipazione($user, $IdEv);
+          $this->_helper->redirector('index');
 
     }
 
