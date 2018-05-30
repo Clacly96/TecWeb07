@@ -6,14 +6,13 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_catalogModel;
     protected $_authService;
     protected $_formAcquisto;
-    protected $_formTastopartecipazione;
+
 
     public function init(){
         $this->_helper->layout->setLayout('main');
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
-        $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv=null);
 
     }
 
@@ -68,7 +67,7 @@ class Liv2Controller extends Zend_Controller_Action
         if(is_null($this->getParam('evento'))){
             $this->_helper->redirector('index');
         }
-
+        
             $user=$this->view->authInfo('Username');
             $IdEv=$this->getParam('evento');
             $this->view->formAcquisto=$this->getFormAcquisto($IdEv);
@@ -98,27 +97,13 @@ class Liv2Controller extends Zend_Controller_Action
           $user=$this->view->authInfo('Username');
           
           $this->_catalogModel->insertPartecipazione($user, $IdEv);
-          $this->_helper->redirector('index');
+          $redirector = $this->_helper->getHelper('Redirector');
+          $redirector->gotoSimple('catalogo',
+                                  'liv1',
+                                   null,
+                                   array('evento' => $IdEv));
 
     }
-
-    private function getTastopartecipazioneForm($IdEv)
-    {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formTastopartecipazione = new Application_Form_Liv2_Partecipazione_Tastopartecipazione();
-        $this->_formTastopartecipazione->setAction($urlHelper->url(array(
-                'controller' => 'liv2',
-                'action' => 'partecipazione'),
-                'default',true
-                ));
-         $this->_formTastopartecipazione->addElement('hidden', 'Evento', array(
-                        'required' => false,
-                        'value' => $IdEv,
-                ));
-
-        return $this->_formTastopartecipazione;
-    }
-
     private function getFormAcquisto($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -131,9 +116,7 @@ class Liv2Controller extends Zend_Controller_Action
                 ));
         return $this->_formAcquisto;
     }
-
-
-
+    
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
     }

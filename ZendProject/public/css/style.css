@@ -252,6 +252,52 @@ nav{
     background-color:#91BE3F;
     padding: 10px;
 }
+.partecipazione_div{
+    position: relative;
+    width: 200px;
+    height: 50px;
+    border: solid 1px #AAAAAA;
+    border-radius: 5px;
+}
+.numero_partecipazione{
+    position: absolute;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 18pt;
+}
+.tasto_partecipazione{
+    position: absolute;
+    left: 0;    
+    width: 150px;
+    height: 50px;
+    background-color: #91BE3F;
+    border-radius: 3px;    
+}
+.tasto_partecipazione a{
+    width: 150px;
+    color: #fff;
+    height: 50px;
+    text-decoration: none;
+    display: block;
+    line-height: 50px;
+    text-align: center;
+}
+.tasto_partecipazione div{
+    width: 150px;
+    color: #fff;
+    height: 50px;
+    text-decoration: none;
+    display: block;
+    background-color: #505050;
+    line-height: 50px;
+    text-align: center;
+}
+.tasto_partecipazione a:hover{
+    background-color: #70992F;
+}
 #SingolaOrganizzazione{
     position: relative;
     width: 100%;
