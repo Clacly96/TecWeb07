@@ -8,12 +8,16 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_formAcquisto;
     protected $_formTastopartecipazione;
 
+    protected $_formModifica;
+
     public function init(){
         $this->_helper->layout->setLayout('main');
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
         $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv=null);
+	   
+	$this->view->modForm=$this->getModForm();
 
     }
 
@@ -34,6 +38,25 @@ class Liv2Controller extends Zend_Controller_Action
     }
     public function areaprivataAction(){
 
+    }
+	
+    public function modificadatiutenteAction() {
+        
+    }
+	
+    public function updateutenteAction () {
+        if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+        }
+        $form=$this->_formModifica;
+        if (!$form->isValid($_POST)) {
+			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
+                       return $this->render('modificadatiutente');
+            }
+        $valori=$form->getValues();
+        $this->_utenzaModel->updateUtente($valori);
+        $this->_helper->redirector('areaprivata');
+        
     }
 
     public function stampaordineAction() {
@@ -132,7 +155,17 @@ class Liv2Controller extends Zend_Controller_Action
         return $this->_formAcquisto;
     }
 
-
+    private function getModForm()
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formModifica = new Application_Form_Liv2_Modifica_FormModificadatiutente();
+        $this->_formModifica->setAction($urlHelper->url(array(
+                'controller' => 'liv2',
+                'action' => 'updateutente',),
+                'default',true
+                ));
+        return $this->_formModifica;
+    }
 
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
