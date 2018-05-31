@@ -9,9 +9,10 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formLogin;
     protected $_formReg;
 
-    protected $_formTastopartecipazione;
     protected $_authService;
-
+    
+    protected $_flashMessenger = null;
+    
     public function init()
     {
         $this->_helper->layout->setLayout('main');
@@ -22,7 +23,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
         $this->view->regForm=$this->getRegForm();
-
+        $this->_flashMessenger =$this->_helper->getHelper('FlashMessenger');
 
 	$this->_authService = new Application_Service_Autenticazione();
 
@@ -33,6 +34,10 @@ class Liv1Controller extends Zend_Controller_Action
         $pagescont=$this->_getParam('pagescont',1);
         $ultimieventi=$this->_catalogModel->estraiUltimiEventi($page);
         $eventiscontati=$this->_catalogModel->ottieniEventiInSconto($pagescont);
+        if(!is_null($this->_flashMessenger->getMessages())){
+            $this->view->messages = $this->_flashMessenger->getMessages();
+            //$this->render();
+        }
         $this->view->assign(array( 'ultimieventi' => $ultimieventi,
                                     'eventiscontati' => $eventiscontati));
     }
@@ -52,43 +57,25 @@ class Liv1Controller extends Zend_Controller_Action
 
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){
-                if (!$this->getRequest()->isPost()) {
-                        $this->_helper->redirector('index');
-                }
-                $form=$this->_formFiltro;
-               if (!$form->isValid($_POST)) {
-                       return $this->render('catalogo');
-                }
-                $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']));
+                $eventi=$this->filtro();
             }
-
 
             else if($tiporic=='ricerca'){
-                if (!$this->getRequest()->isPost()) {
-                    $this->_helper->redirector('index');
-                }
-                $form=$this->_formRicerca;
-                if (!$form->isValid($_POST)) {
-			return $this->render('ricerca');}
-               $valori=$form->getValues();
-               $eventi= $this->_catalogModel->ricerca($paged, $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']),$this->settaNullCondizionale($valori['Descrizione']) );
+                $eventi=$this->ricerca();
             }
-
             else {$this->_helper->redirector('catalogo','liv1');}
         }
-
-        else if(!is_null($IdEv)){
+        else if(!is_null($IdEv)){  //estrae singolo evento
+            $utente=$this->view->AuthInfo('Username');
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
-            $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$this->view->AuthInfo('Username'))))? false : true ;
+            if(!is_null($utente)){
+                $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$utente)))? false : true ;
+            }
             $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
         }
-
-        else { $eventi=$this->_catalogModel->estraiEventi($paged);}
+        else { $eventi=$this->_catalogModel->estraiEventi($paged);}   //estrae lista eventi
 
         $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
-
-        $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv);
 
     }
     public function ricercaAction()
@@ -115,9 +102,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->assign(array('listafaq'=>$listafaq));
 
     }
-    private function settaNullCondizionale($elemento){
-        return ($elemento != '') ? $elemento : null;
-    }
+    
     public function registrazioneAction() {
 
     }
@@ -132,6 +117,7 @@ class Liv1Controller extends Zend_Controller_Action
             }
         $valori=$form->getValues();
         $this->_utenzaModel->insertUtente($valori);
+        $this->_flashMessenger->addMessage('Registrazione avvenuta con successo. Ora puoi accedere al sito!');
         $this->_helper->redirector('index');
     }
 
@@ -154,25 +140,53 @@ class Liv1Controller extends Zend_Controller_Action
             $form->setDescription('Autenticazione fallita. Riprova');
             return $this->render('login');
         }
-        return $this->_helper->redirector('index', $this->RimappaUtenti($this->_authService->getIdentity()->Ruolo));
+        $this->_flashMessenger->addMessage('Login avvenuto con successo!');
+        $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
     }
-    private function RimappaUtenti($ruolo) {
-        $livello=null;
-        switch ($ruolo) {
-            case 'utente':
-                $livello='liv2';
-                break;
-            case 'organizzazione':
-                $livello='liv3';
-                break;
-            case 'admin':
-                $livello='liv4';
-                break;
-            default:
-                break;
-        }
-        return $livello;
+    /***********************Fine Action******************************************/
+    
+    
+    /**************************Funzioni private*************************************************/
+    private function filtro() {
+        $paged = $this->_getParam('page', 1);
+         if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+                }
+                $form=$this->_formFiltro;
+               if (!$form->isValid($_POST)) {
+                       return $this->render('catalogo');
+                }
+                $valori=$form->getValues();
+                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), 
+                        $this->settaNullCondizionale($valori['Mese']),
+                        $this->settaNullCondizionale($valori['Anno']),
+                        $this->settaNullCondizionale($valori['Luogo']),
+                        $this->settaNullCondizionale($valori['Tipologia']));
+                return $eventi;
     }
+    private function ricerca() {
+        $paged = $this->_getParam('page', 1);
+        if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+                }
+                $form=$this->_formRicerca;
+                if (!$form->isValid($_POST)) {
+			return $this->render('ricerca');}
+               $valori=$form->getValues();
+               $eventi= $this->_catalogModel->ricerca($paged, 
+                       $this->settaNullCondizionale($valori['Mese']),
+                       $this->settaNullCondizionale($valori['Anno']),
+                       $this->settaNullCondizionale($valori['Luogo']),
+                       $this->settaNullCondizionale($valori['Tipologia']),
+                       $this->settaNullCondizionale($valori['Descrizione']) );
+               return $eventi;
+    }
+    private function settaNullCondizionale($elemento){
+        return ($elemento != '') ? $elemento : null;
+    }
+    
+    
+    /************Inizio get form*********************/
     private function getFiltroForm()
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -218,21 +232,5 @@ class Liv1Controller extends Zend_Controller_Action
                 'default',true
                 ));
         return $this->_formLogin;
-    }
-      private function getTastopartecipazioneForm($IdEv)
-    {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formTastopartecipazione = new Application_Form_Liv2_Partecipazione_Tastopartecipazione();
-        $this->_formTastopartecipazione->setAction($urlHelper->url(array(
-                'controller' => 'liv2',
-                'action' => 'partecipazione'),
-                'default',true
-                ));
-         $this->_formTastopartecipazione->addElement('hidden', 'Evento', array(
-                        'required' => false,
-                        'value' => $IdEv,
-                ));
-
-        return $this->_formTastopartecipazione;
     }
 }

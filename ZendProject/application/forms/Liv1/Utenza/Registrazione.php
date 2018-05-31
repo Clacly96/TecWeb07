@@ -84,8 +84,9 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                  $this->addElement('text', 'Civico', array(
                     'label' => 'Numero civico',
                     'filters' => array('StringTrim'),
-                    'required' => true,
-                    'validators' => array(array('StringLength',true, array(1,4))),
+                   
+                    'validators' => array(array('StringLength',true, array(1,4)),
+                                            array('Int')),
                     'decorators' => $this->elementDecorators,
                 ));            
                 

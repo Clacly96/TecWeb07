@@ -6,7 +6,7 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_catalogModel;
     protected $_authService;
     protected $_formAcquisto;
-    protected $_formTastopartecipazione;
+
 
     protected $_formModifica;
 
@@ -15,9 +15,8 @@ class Liv2Controller extends Zend_Controller_Action
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
-        $this->view->tastopartecipazioneForm=$this->getTastopartecipazioneForm($IdEv=null);
-	   
-	$this->view->modForm=$this->getModForm();
+
+	       $this->view->modForm=$this->getModForm();
 
     }
 
@@ -39,11 +38,11 @@ class Liv2Controller extends Zend_Controller_Action
     public function areaprivataAction(){
 
     }
-	
+
     public function modificadatiutenteAction() {
-        
+
     }
-	
+
     public function updateutenteAction () {
         if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
@@ -56,7 +55,7 @@ class Liv2Controller extends Zend_Controller_Action
         $valori=$form->getValues();
         $this->_utenzaModel->updateUtente($valori);
         $this->_helper->redirector('areaprivata');
-        
+
     }
 
     public function stampaordineAction() {
@@ -113,35 +112,18 @@ class Liv2Controller extends Zend_Controller_Action
 
             $this->_helper->redirector('storico');
         }
-    
-
     public function partecipazioneAction(){
-         
+
           $IdEv= $this->getParam('evento');
           $user=$this->view->authInfo('Username');
-          
-          $this->_catalogModel->insertPartecipazione($user, $IdEv);
-          $this->_helper->redirector('index');
+          $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$user)))? false : true ;
+          if(!$partecipato){ //questo controllo è necessario per prevenire il problema di un eventuale doppio click sul tasto partecipa che lancia 2 azioni e quindi sql da errore
+            $this->_catalogModel->insertPartecipazione($user, $IdEv);
+          }
+
+          $this->_helper->redirector('catalogo','liv1',null,array('evento' => $IdEv));
 
     }
-
-    private function getTastopartecipazioneForm($IdEv)
-    {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formTastopartecipazione = new Application_Form_Liv2_Partecipazione_Tastopartecipazione();
-        $this->_formTastopartecipazione->setAction($urlHelper->url(array(
-                'controller' => 'liv2',
-                'action' => 'partecipazione'),
-                'default',true
-                ));
-         $this->_formTastopartecipazione->addElement('hidden', 'Evento', array(
-                        'required' => false,
-                        'value' => $IdEv,
-                ));
-
-        return $this->_formTastopartecipazione;
-    }
-
     private function getFormAcquisto($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
