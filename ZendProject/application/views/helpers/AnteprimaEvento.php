@@ -1,9 +1,7 @@
 <?php
 class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
 {
-	private $_tipo;
-
-	public function AnteprimaEvento($evento, $tipo = 'anteprima', $liv='liv1',$link=null,$path=null)
+	public function AnteprimaEvento($evento,  $tipo = 'anteprima', $liv='liv1')
 	{
             $tag='hai sbagliato parametro tipo, metti o anteprima o singolo o scontato';
 		if($tipo=='anteprima') {$tag= '<li class="ev_li">'

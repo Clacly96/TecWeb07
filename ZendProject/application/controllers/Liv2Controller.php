@@ -7,22 +7,23 @@ class Liv2Controller extends Zend_Controller_Action
     protected $_authService;
     protected $_formAcquisto;
 
+
     public function init(){
         $this->_helper->layout->setLayout('main');
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
-        
+
     }
-    
+
     public function indexAction(){
-        $this->_helper->redirector('index','liv1');        
+        $this->_helper->redirector('index','liv1');
     }
-    
+
     public function logoutAction()
     {
 		$this->_authService->clear();
-		return $this->_helper->redirector('index','liv1');	
+		return $this->_helper->redirector('index','liv1');
     }
     public function storicoAction(){
         $paged = $this->_getParam('page', 1);
@@ -31,9 +32,9 @@ class Liv2Controller extends Zend_Controller_Action
         $this->view->assign(array('ordini' => $ordini['ordini'],'nomi_eventi' => $ordini['nomieventi']));
     }
     public function areaprivataAction(){
-        
+
     }
-    
+
     public function stampaordineAction() {
         $this->_helper->layout->disableLayout();
         $numordine=$this->getParam('ordine');
@@ -47,18 +48,18 @@ class Liv2Controller extends Zend_Controller_Action
             else {$this->_helper->redirector('index');}
         }
     }
-    
+
     public function checkoutAction()
-    {       
+    {
             $IdEv= $this->getParam('evento');
             if(is_null($IdEv)){
                 $this->_helper->redirector('index');
             }
             $ev=$this->_catalogModel->estraiEventoPerId($IdEv);
             $this->view->assign(array('evento'=>$ev));
-            $this->view->formAcquisto=$this->getFormAcquisto($IdEv); //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden      
+            $this->view->formAcquisto=$this->getFormAcquisto($IdEv); //serve per passare l'id dell'evento all'altro form così da poterlo usare nel campo hidden
     }
-    
+
     public function completacheckoutAction(){
         if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
@@ -67,31 +68,46 @@ class Liv2Controller extends Zend_Controller_Action
             $this->_helper->redirector('index');
         }
         
-        $IdEv=$this->getParam('evento');
-        $this->view->formAcquisto=$this->getFormAcquisto($IdEv);
-        $form=$this->_formAcquisto;
-        $ev=$this->_catalogModel->estraiEventoPerId($IdEv);
-        
-        if (!$form->isValid($_POST)) {
-            $this->view->assign(array('evento'=>$ev));
-            $form->setDescription('Attenzione: controllare i dati inseriti');
-            return $this->render('checkout');
+            $user=$this->view->authInfo('Username');
+            $IdEv=$this->getParam('evento');
+            $this->view->formAcquisto=$this->getFormAcquisto($IdEv);
+            $form=$this->_formAcquisto;
+            $ev=$this->_catalogModel->estraiEventoPerId($IdEv);
+
+            if (!$form->isValid($_POST)) {
+                $this->view->assign(array('evento'=>$ev));
+                $form->setDescription('Attenzione: controllare i dati inseriti');
+                return $this->render('checkout');
+            }
+
+            $valori=$form->getValues();
+
+            $valori['Evento']=$IdEv;
+
+            $user=$this->view->authInfo('Username');
+            $this->_catalogModel->insertOrdine($user,$valori);
+
+            $this->_helper->redirector('storico');
         }
-
-        $valori=$form->getValues();
-
-        $valori['Evento']=$IdEv;
-
-        $user=$this->view->authInfo('Username');
-        $this->_catalogModel->insertOrdine($user,$valori);
-        
-        $this->_helper->redirector('storico');                          
-    }
     
-    private function getFormAcquisto($IdEv)
+
+    public function partecipazioneAction(){
+         
+          $IdEv= $this->getParam('evento');
+          $user=$this->view->authInfo('Username');
+          
+          $this->_catalogModel->insertPartecipazione($user, $IdEv);
+          $redirector = $this->_helper->getHelper('Redirector');
+          $redirector->gotoSimple('catalogo',
+                                  'liv1',
+                                   null,
+                                   array('evento' => $IdEv));
+
+    }
+    private function getFormAcquisto($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_FormAcquisto(array('evento'=>$IdEv)); 
+        $this->_formAcquisto = new Application_Form_Liv2_Acquisto_FormAcquisto(array('evento'=>$IdEv));
         $this->_formAcquisto->setAction($urlHelper->url(array(
                 'controller' => 'liv2',
                 'action' => 'completacheckout',
@@ -100,15 +116,10 @@ class Liv2Controller extends Zend_Controller_Action
                 ));
         return $this->_formAcquisto;
     }
-   
-    
     
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
     }
 
-    
+
 }
-
-
-
