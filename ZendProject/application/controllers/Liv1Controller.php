@@ -10,7 +10,9 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formReg;
 
     protected $_authService;
-
+    
+    protected $_flashMessenger = null;
+    
     public function init()
     {
         $this->_helper->layout->setLayout('main');
@@ -21,7 +23,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
         $this->view->regForm=$this->getRegForm();
-
+        $this->_flashMessenger =$this->_helper->getHelper('FlashMessenger');
 
 	$this->_authService = new Application_Service_Autenticazione();
 
@@ -32,6 +34,10 @@ class Liv1Controller extends Zend_Controller_Action
         $pagescont=$this->_getParam('pagescont',1);
         $ultimieventi=$this->_catalogModel->estraiUltimiEventi($page);
         $eventiscontati=$this->_catalogModel->ottieniEventiInSconto($pagescont);
+        if(!is_null($this->_flashMessenger->getMessages())){
+            $this->view->messages = $this->_flashMessenger->getMessages();
+            //$this->render();
+        }
         $this->view->assign(array( 'ultimieventi' => $ultimieventi,
                                     'eventiscontati' => $eventiscontati));
     }
@@ -111,6 +117,7 @@ class Liv1Controller extends Zend_Controller_Action
             }
         $valori=$form->getValues();
         $this->_utenzaModel->insertUtente($valori);
+        $this->_flashMessenger->addMessage('Registrazione avvenuta con successo. Ora puoi accedere al sito!');
         $this->_helper->redirector('index');
     }
 
@@ -133,7 +140,8 @@ class Liv1Controller extends Zend_Controller_Action
             $form->setDescription('Autenticazione fallita. Riprova');
             return $this->render('login');
         }
-        return $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
+        $this->_flashMessenger->addMessage('Login avvenuto con successo!');
+        $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
     }
     /***********************Fine Action******************************************/
     

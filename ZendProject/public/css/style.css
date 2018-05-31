@@ -401,6 +401,13 @@ nav{
     padding: 0 5px;
 }
 /*FINE  div contenitore per la form filtro*/
+.messaggio_positivo{
+    background-color: #00DD00;
+    color: #fff;
+    font-size: 22pt;
+    padding: 20px;
+    text-align: center;
+}
 .messaggio_importante{
     color:#FF0000;
     font-size: 22pt;
