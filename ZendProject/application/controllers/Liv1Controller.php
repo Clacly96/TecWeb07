@@ -54,14 +54,38 @@ class Liv1Controller extends Zend_Controller_Action
         $partecipato=null;
         $numpart=null;
 
-
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){
-                $eventi=$this->filtro();
+                if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+                }
+                $form=$this->_formFiltro;
+                if (!$form->isValid($_POST)) {
+                       return $this->render('catalogo');
+                }
+                $valori=$form->getValues();
+                $eventi= $this->_catalogModel->filtro($paged,
+                        $this->settaNullCondizionale($valori['Username']), 
+                        $this->settaNullCondizionale($valori['Mese']),
+                        $this->settaNullCondizionale($valori['Anno']),
+                        $this->settaNullCondizionale($valori['Luogo']),
+                        $this->settaNullCondizionale($valori['Tipologia']));
             }
 
             else if($tiporic=='ricerca'){
-                $eventi=$this->ricerca();
+                if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+                }
+                $form=$this->_formRicerca;
+                if (!$form->isValid($_POST)) {
+			return $this->render('ricerca');}
+                $valori=$form->getValues();
+                $eventi= $this->_catalogModel->ricerca($paged, 
+                       $this->settaNullCondizionale($valori['Mese']),
+                       $this->settaNullCondizionale($valori['Anno']),
+                       $this->settaNullCondizionale($valori['Luogo']),
+                       $this->settaNullCondizionale($valori['Tipologia']),
+                       $this->settaNullCondizionale($valori['Descrizione']) );
             }
             else {$this->_helper->redirector('catalogo','liv1');}
         }
@@ -147,40 +171,6 @@ class Liv1Controller extends Zend_Controller_Action
     
     
     /**************************Funzioni private*************************************************/
-    private function filtro() {
-        $paged = $this->_getParam('page', 1);
-         if (!$this->getRequest()->isPost()) {
-                        $this->_helper->redirector('index');
-                }
-                $form=$this->_formFiltro;
-               if (!$form->isValid($_POST)) {
-                       return $this->render('catalogo');
-                }
-                $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), 
-                        $this->settaNullCondizionale($valori['Mese']),
-                        $this->settaNullCondizionale($valori['Anno']),
-                        $this->settaNullCondizionale($valori['Luogo']),
-                        $this->settaNullCondizionale($valori['Tipologia']));
-                return $eventi;
-    }
-    private function ricerca() {
-        $paged = $this->_getParam('page', 1);
-        if (!$this->getRequest()->isPost()) {
-                    $this->_helper->redirector('index');
-                }
-                $form=$this->_formRicerca;
-                if (!$form->isValid($_POST)) {
-			return $this->render('ricerca');}
-               $valori=$form->getValues();
-               $eventi= $this->_catalogModel->ricerca($paged, 
-                       $this->settaNullCondizionale($valori['Mese']),
-                       $this->settaNullCondizionale($valori['Anno']),
-                       $this->settaNullCondizionale($valori['Luogo']),
-                       $this->settaNullCondizionale($valori['Tipologia']),
-                       $this->settaNullCondizionale($valori['Descrizione']) );
-               return $eventi;
-    }
     private function settaNullCondizionale($elemento){
         return ($elemento != '') ? $elemento : null;
     }
