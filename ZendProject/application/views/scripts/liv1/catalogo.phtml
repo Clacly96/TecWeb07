@@ -59,7 +59,7 @@
     <?php if (!is_null($this->EvSelezionato)): ?>
         <h1>Utenti che parteciperanno</h1>
         <div class="partecipazione_div">
-        <?php if(!$this->partecipato && $ruolo=='liv2' && $evento->acquistabile() && $evento->Biglietti_Rimanenti!=0):?>
+        <?php if(!$this->partecipato && $ruolo=='liv2' && $evento->acquistabile()):?>
             <div class="tasto_partecipazione"><a href="<?=$this->url(array(
                                                            'controller' => 'liv2',
                                                             'action' => 'partecipazione',

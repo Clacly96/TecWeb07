@@ -93,12 +93,11 @@ class Liv2Controller extends Zend_Controller_Action
          
           $IdEv= $this->getParam('evento');
           $user=$this->view->authInfo('Username');
-          if(!is_null($user)){
-              $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$user)))? false : true ;
-              if(!$partecipato){
-                $this->_catalogModel->insertPartecipazione($user, $IdEv);
-              }
+          $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$user)))? false : true ;
+          if(!$partecipato){ //questo controllo è necessario per prevenire il problema di un eventuale doppio click sul tasto partecipa che lancia 2 azioni e quindi sql da errore
+            $this->_catalogModel->insertPartecipazione($user, $IdEv);
           }
+          
           $this->_helper->redirector('catalogo','liv1',null,array('evento' => $IdEv));
 
     }
