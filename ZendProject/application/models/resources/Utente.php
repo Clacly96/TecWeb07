@@ -80,7 +80,7 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
 		    'Cognome' => $info['Cognome'],
 		    'Email' => $info['Email'],
                     'Residenza' => $residenza,
-		    'Ruolo' => 'utente',
+		    'Ruolo' => 'liv2',
                     'Telefono' => $info['Telefono']
                      );
         $update=$this->update($dati, $where);
