@@ -96,9 +96,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->assign(array('listafaq'=>$listafaq));
 
     }
-    private function settaNullCondizionale($elemento){
-        return ($elemento != '') ? $elemento : null;
-    }
+    
     public function registrazioneAction() {
 
     }
@@ -135,29 +133,12 @@ class Liv1Controller extends Zend_Controller_Action
             $form->setDescription('Autenticazione fallita. Riprova');
             return $this->render('login');
         }
-        return $this->_helper->redirector('index', $this->RimappaUtenti($this->_authService->getIdentity()->Ruolo));
+        return $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
     }
     /***********************Fine Action******************************************/
     
     
     /**************************Funzioni private*************************************************/
-    private function RimappaUtenti($ruolo) {
-        $livello=null;
-        switch ($ruolo) {
-            case 'utente':
-                $livello='liv2';
-                break;
-            case 'organizzazione':
-                $livello='liv3';
-                break;
-            case 'admin':
-                $livello='liv4';
-                break;
-            default:
-                break;
-        }
-        return $livello;
-    }
     private function filtro() {
         $paged = $this->_getParam('page', 1);
          if (!$this->getRequest()->isPost()) {
@@ -192,7 +173,9 @@ class Liv1Controller extends Zend_Controller_Action
                        $this->settaNullCondizionale($valori['Descrizione']) );
                return $eventi;
     }
-    
+    private function settaNullCondizionale($elemento){
+        return ($elemento != '') ? $elemento : null;
+    }
     
     
     /************Inizio get form*********************/

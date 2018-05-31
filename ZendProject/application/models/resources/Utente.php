@@ -64,7 +64,7 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
 		    'Cognome' => $info['Cognome'], // da ottimizzare
 		    'Email' => $info['Email'],
                     'Residenza' => $residenza,
-		    'Ruolo' => 'utente',
+		    'Ruolo' => 'liv2',
                     'Telefono' => $info['Telefono']
                      );
         $insert=$this->insert($dati);

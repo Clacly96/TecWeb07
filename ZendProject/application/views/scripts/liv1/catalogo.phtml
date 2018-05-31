@@ -12,7 +12,7 @@
         {
             echo $this->AnteprimaEvento($this->eventi,'singolo',$this->numpart );
             
-            if($ruolo=='utente'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)
+            if($ruolo=='liv2'){ //modificare per rendere visibile su tutti i livelli tranne liv1 es: !is_null($ruolo)
                    
                 if (!$evento->acquistabile()) {
                     echo '<div class="messaggio_importante">I biglietti non sono più acquistabili</div>';
@@ -59,7 +59,7 @@
     <?php if (!is_null($this->EvSelezionato)): ?>
         <h1>Utenti che parteciperanno</h1>
         <div class="partecipazione_div">
-        <?php if(!$this->partecipato && $ruolo=='utente' && $evento->acquistabile() && $evento->Biglietti_Rimanenti!=0):?>
+        <?php if(!$this->partecipato && $ruolo=='liv2' && $evento->acquistabile() && $evento->Biglietti_Rimanenti!=0):?>
             <div class="tasto_partecipazione"><a href="<?=$this->url(array(
                                                            'controller' => 'liv2',
                                                             'action' => 'partecipazione',
