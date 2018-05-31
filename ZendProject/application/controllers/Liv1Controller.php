@@ -1,9 +1,6 @@
 <?php
-
 class Liv1Controller extends Zend_Controller_Action
 {
-
-
     protected $_faqModel;
     protected $_catalogModel;
     protected $_utenzaModel;
@@ -12,10 +9,13 @@ class Liv1Controller extends Zend_Controller_Action
     protected $_formLogin;
     protected $_formReg;
 
+    protected $_authService;
+    
+    protected $_flashMessenger = null;
+    
     public function init()
     {
         $this->_helper->layout->setLayout('main');
-
         $this->_faqModel=new Application_Model_Faq;
         $this->_catalogModel=new Application_Model_Catalogo();
         $this->_utenzaModel = new Application_Model_Utenza();
@@ -23,6 +23,9 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->filtroRicerca = $this->getRicercaForm();
         $this->view->formLogin = $this->getLoginForm();
         $this->view->regForm=$this->getRegForm();
+        $this->_flashMessenger =$this->_helper->getHelper('FlashMessenger');
+
+	$this->_authService = new Application_Service_Autenticazione();
 
     }
     public function indexAction()
@@ -31,6 +34,10 @@ class Liv1Controller extends Zend_Controller_Action
         $pagescont=$this->_getParam('pagescont',1);
         $ultimieventi=$this->_catalogModel->estraiUltimiEventi($page);
         $eventiscontati=$this->_catalogModel->ottieniEventiInSconto($pagescont);
+        if(!is_null($this->_flashMessenger->getMessages())){
+            $this->view->messages = $this->_flashMessenger->getMessages();
+            //$this->render();
+        }
         $this->view->assign(array( 'ultimieventi' => $ultimieventi,
                                     'eventiscontati' => $eventiscontati));
     }
@@ -44,38 +51,32 @@ class Liv1Controller extends Zend_Controller_Action
         $IdEv=$this->_getParam('evento',null);
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
+        $partecipato=null;
+        $numpart=null;
+
+
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){
-                if (!$this->getRequest()->isPost()) {
-                        $this->_helper->redirector('index');
-                }
-                $form=$this->_formFiltro;
-               if (!$form->isValid($_POST)) {
-                       return $this->render('catalogo');
-                }
-
-                $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']));
-
-            } else if($tiporic=='ricerca'){
-                if (!$this->getRequest()->isPost()) {
-                    $this->_helper->redirector('index');
-                }
-                $form=$this->_formRicerca;
-
-                if (!$form->isValid($_POST)) {
-			return $this->render('ricerca');}
-
-               $valori=$form->getValues();
-               $eventi= $this->_catalogModel->ricerca($paged, $this->settaNullCondizionale($valori['Mese']),$this->settaNullCondizionale($valori['Anno']),$this->settaNullCondizionale($valori['Luogo']),$this->settaNullCondizionale($valori['Tipologia']),$this->settaNullCondizionale($valori['Descrizione']) );
+                $eventi=$this->filtro();
             }
-                else {$this->_helper->redirector('catalogo','liv1');}
-        }else if(!is_null($IdEv)){
-            $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
-        }
-        else { $eventi=$this->_catalogModel->estraiEventi($paged);}
 
-        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv));
+            else if($tiporic=='ricerca'){
+                $eventi=$this->ricerca();
+            }
+            else {$this->_helper->redirector('catalogo','liv1');}
+        }
+        else if(!is_null($IdEv)){  //estrae singolo evento
+            $utente=$this->view->AuthInfo('Username');
+            $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
+            if(!is_null($utente)){
+                $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$utente)))? false : true ;
+            }
+            $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
+        }
+        else { $eventi=$this->_catalogModel->estraiEventi($paged);}   //estrae lista eventi
+
+        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
+
     }
     public function ricercaAction()
     {
@@ -96,16 +97,16 @@ class Liv1Controller extends Zend_Controller_Action
         );
     }
     public function faqAction(){
-
         $page=$this->_getParam('page',1);
         $listafaq= $this->_faqModel->estraiFaq($page);
         $this->view->assign(array('listafaq'=>$listafaq));
 
     }
-    private function settaNullCondizionale($elemento){
-        return ($elemento != '') ? $elemento : null;
-    }
+    
     public function registrazioneAction() {
+
+    }
+    public function inserisciutenteAction() {
         if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
             }
@@ -116,8 +117,76 @@ class Liv1Controller extends Zend_Controller_Action
             }
         $valori=$form->getValues();
         $this->_utenzaModel->insertUtente($valori);
+        $this->_flashMessenger->addMessage('Registrazione avvenuta con successo. Ora puoi accedere al sito!');
         $this->_helper->redirector('index');
     }
+
+    public function loginAction()
+    {
+    }
+
+    public function autenticazioneAction()
+    {
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return $this->_helper->redirector('login');
+        }
+        $form = $this->_formLogin;
+        if (!$form->isValid($request->getPost())) {
+            $form->setDescription('Attenzione: credenziali inserite errate.');
+            return $this->render('login');
+        }
+        if (false === $this->_authService->autenticazione($form->getValues())) {
+            $form->setDescription('Autenticazione fallita. Riprova');
+            return $this->render('login');
+        }
+        $this->_flashMessenger->addMessage('Login avvenuto con successo!');
+        $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
+    }
+    /***********************Fine Action******************************************/
+    
+    
+    /**************************Funzioni private*************************************************/
+    private function filtro() {
+        $paged = $this->_getParam('page', 1);
+         if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+                }
+                $form=$this->_formFiltro;
+               if (!$form->isValid($_POST)) {
+                       return $this->render('catalogo');
+                }
+                $valori=$form->getValues();
+                $eventi= $this->_catalogModel->filtro($paged,$this->settaNullCondizionale($valori['Username']), 
+                        $this->settaNullCondizionale($valori['Mese']),
+                        $this->settaNullCondizionale($valori['Anno']),
+                        $this->settaNullCondizionale($valori['Luogo']),
+                        $this->settaNullCondizionale($valori['Tipologia']));
+                return $eventi;
+    }
+    private function ricerca() {
+        $paged = $this->_getParam('page', 1);
+        if (!$this->getRequest()->isPost()) {
+                    $this->_helper->redirector('index');
+                }
+                $form=$this->_formRicerca;
+                if (!$form->isValid($_POST)) {
+			return $this->render('ricerca');}
+               $valori=$form->getValues();
+               $eventi= $this->_catalogModel->ricerca($paged, 
+                       $this->settaNullCondizionale($valori['Mese']),
+                       $this->settaNullCondizionale($valori['Anno']),
+                       $this->settaNullCondizionale($valori['Luogo']),
+                       $this->settaNullCondizionale($valori['Tipologia']),
+                       $this->settaNullCondizionale($valori['Descrizione']) );
+               return $eventi;
+    }
+    private function settaNullCondizionale($elemento){
+        return ($elemento != '') ? $elemento : null;
+    }
+    
+    
+    /************Inizio get form*********************/
     private function getFiltroForm()
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -148,7 +217,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_formReg = new Application_Form_Liv1_Utenza_Registrazione();
         $this->_formReg->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
-                'action' => 'registrazione'),
+                'action' => 'inserisciutente'),
                 'default',true
                 ));
         return $this->_formReg;
@@ -159,12 +228,9 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_formLogin = new Application_Form_Liv1_Utenza_Login();
         $this->_formLogin->setAction($urlHelper->url(array(
                 'controller' => 'liv1',
-                'action' => 'index',),
-
+                'action' => 'autenticazione',),
                 'default',true
                 ));
         return $this->_formLogin;
-
-
     }
 }

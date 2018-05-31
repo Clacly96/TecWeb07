@@ -36,5 +36,34 @@ class Application_Model_Catalogo extends App_Model_Abstract
     public function ricerca($paged=null,$mese=null,$anno=null,$luogo=null,$cat=null,$desc=null){
         return $this->getResource('Evento')->ricerca($paged,$mese,$anno,$luogo,$cat,$desc);
     }
+    public function insertOrdine($utente,$ordine) //non so se sono necessari controlli
+    {
+        $Ev=$this->getResource('Evento')->estraiEventoPerId($ordine['Evento']);
+        $prezzoEv=$Ev->ottieniPrezzo();
+        $totale=$prezzoEv*$ordine['Numero_Biglietti'];
+        $this->getResource('Storico')->insertOrdine($utente,$ordine,$totale);
+    }
+    
+    public function estraiPartecipazioniPerEv($IdEv)
+    {
+       return $this->getResource('Partecipazione')->estraiPartecipazioniPerEv($IdEv);
+    }
+      public function estraiPartecipazioni()
+    {
+        return $this->getResource('Partecipazione')->estraiPartecipazioni();
+    }
+    public function estraiPartecipazione($idEv,$utente)
+    {
+        return $this->getResource('Partecipazione')->estraiPartecipazione($idEv,$utente);
+    }
+    
+     public function insertPartecipazione($utente,$evento)
+     {
+         $this->getResource('Partecipazione')->insertPartecipazione($utente,$evento);
+     }
+     
+     public function contaPartecipazioniPerEv($IdEv){
+        return $this->getResource('Partecipazione')->contaPartecipazioniPerEv($IdEv);
+     }
 }
 

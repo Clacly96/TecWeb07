@@ -1,13 +1,11 @@
 <?php
 class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
 {
-	private $_tipo;
-
-	public function AnteprimaEvento($evento, $tipo = 'anteprima', $link=null,$path=null)
+	public function AnteprimaEvento($evento,  $tipo = 'anteprima', $liv='liv1')
 	{
             $tag='hai sbagliato parametro tipo, metti o anteprima o singolo o scontato';
 		if($tipo=='anteprima') {$tag= '<li class="ev_li">'
-                        . '<a href='.$this->view->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'>'
+                        . '<a href='.$this->view->url(array('controller' => $liv , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true).'>'
                         . '<div class="ev_sfondo"> '
                         . '<div class="descev">Descrizione:<br>'. $evento->estraiDescrBreve() .'...</div>'
                         . '<div class="przev"> Prezzo: '. $this->view->prezzoEventi($evento,true) .'</div>'
@@ -15,7 +13,7 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                         . '<div class="titoloev">'.$evento->Nome.'</div></a></li>';}
 
                 if($tipo=='scontato') {$tag= '<li class="sconto_li">'
-                        . '<a href="'.  $this->view->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true) .'">'
+                        . '<a href="'.  $this->view->url(array('controller' => $liv , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true) .'">'
                         . '<div class="prezzi_sconto">'
                         . '<div class="titoloev">'.  $evento->Nome  .'</div> '
                         . '<div class="old_price">Prezzo: '. $this->view->prezzoEventi($evento,false) .'</div>'

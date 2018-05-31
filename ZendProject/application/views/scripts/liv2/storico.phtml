@@ -1,0 +1,30 @@
+<h1>Lista ordini effettuati</h1>
+<?php $moneta = new Zend_Currency(); ?>
+<?php foreach ($this->ordini as $ordine): ?>
+<div class="ordine">
+    <b>Evento:</b> <a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'catalogo',
+                        'evento' => $ordine->Evento,
+                        ), 
+                        'default',true
+                    ); 
+                 ?>"><?=$this->nomi_eventi[$ordine->Evento]?></a><br>
+    <b>Data e ora:</b> <?=$ordine->Data_Ora?><br>
+    <b>Numero di biglietti acquistati:</b> <?=$ordine->Numero_Biglietti?><br>
+    <b>Modalità di pagamento:</b> <?=$ordine->Modalita_Pagamento?><br>
+    <b>Totale:</b> <?=$moneta->toCurrency($ordine->Totale)?><br>
+    <a href="<?= $this->url(array(
+                        'controller' => 'liv2',
+                        'action'     => 'stampaordine',
+                        'ordine' => $ordine->Numero_Ordine,
+                        ), 
+                        'default',true
+                    ); 
+                 ?>" target="_blank"><b>Stampa Ordine</b></a>
+</div>
+<?php endforeach;?>
+<?php if($this->ordini instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->ordini,'Sliding','liv2/_paginatorstorico.phtml');
+        }  ?>
+

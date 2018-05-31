@@ -5,6 +5,11 @@ class Application_Resource_Evento_Item extends Zend_Db_Table_Row_Abstract
     public function init()
     {
     }
+    public function acquistabile() {
+        $datazend=new Zend_Date();
+        $data=$datazend->get(Zend_Date::W3C);
+        return ($data<$this->Data_Fine_Acquisto) ? true : false;
+    }
     public function scontato(){
         $datazend=new Zend_Date();
         $data=$datazend->get(Zend_Date::W3C);

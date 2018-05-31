@@ -1,0 +1,14 @@
+<h1> Ciao, <?=$this->AuthInfo('Nome').' '.$this->AuthInfo('Cognome')?>! </h1>
+<a href="<?= $this->url(array(
+                'controller' => 'liv2',
+                'action' => 'storico',),
+                'default',true
+                );?>">Storico</a>
+
+<br>
+<a href="<?= $this->url(array(
+                'controller' => 'liv2',
+                'action' => 'modificadatiutente'),
+                'default',true
+                );?>">Modifica dati utente</a>
+

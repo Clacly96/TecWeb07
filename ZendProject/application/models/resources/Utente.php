@@ -19,7 +19,7 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
     {
         $select = $this->select()
 
-                ->where("Ruolo = 'organizzazione'")
+                ->where("Ruolo = 'liv3'")
                 ->order('Username');
 
         if($paged != null) {
@@ -61,12 +61,28 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
         $dati = array( 'Username' => $info['Username'],
 		    'Password' => $info['Password'],
 		    'Nome' => $info['Nome'],
+		    'Cognome' => $info['Cognome'], // da ottimizzare
+		    'Email' => $info['Email'],
+                    'Residenza' => $residenza,
+		    'Ruolo' => 'liv2',
+                    'Telefono' => $info['Telefono']
+                     );
+        $insert=$this->insert($dati);
+    }
+	
+    public function updateUtente ($info) {
+        
+        $residenza=$info['Citta'].'-'.$info['Via'].'-'.$info['Civico'];
+        $where['Username = ?'] = $info['Username'];
+        $dati = array( 'Username' => $info['Username'],
+		    'Password' => $info['Password'],
+		    'Nome' => $info['Nome'],
 		    'Cognome' => $info['Cognome'],
 		    'Email' => $info['Email'],
                     'Residenza' => $residenza,
 		    'Ruolo' => 'utente',
                     'Telefono' => $info['Telefono']
                      );
-        $insert=$this->insert($dati);
+        $update=$this->update($dati, $where);
     }
 }

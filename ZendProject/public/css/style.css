@@ -82,8 +82,13 @@ nav{
   clear: both;
 }
 #contenuto_centrale {
+    position: relative;
     width: 80%;    
     float:left;
+}
+#contenuto_centrale iframe{
+    clear: both;
+    display: block;
 }
 .ev_li{
     position: relative;
@@ -186,6 +191,7 @@ nav{
 .sconto_li img{
     position: absolute;
     top: 50%;
+    right: 0;
     transform: translate(0,-50%);
     width: 35%;
     float: right;
@@ -246,6 +252,52 @@ nav{
     background-color:#91BE3F;
     padding: 10px;
 }
+.partecipazione_div{
+    position: relative;
+    width: 200px;
+    height: 50px;
+    border: solid 1px #AAAAAA;
+    border-radius: 5px;
+}
+.numero_partecipazione{
+    position: absolute;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 18pt;
+}
+.tasto_partecipazione{
+    position: absolute;
+    left: 0;    
+    width: 150px;
+    height: 50px;
+    background-color: #91BE3F;
+    border-radius: 3px;    
+}
+.tasto_partecipazione a{
+    width: 150px;
+    color: #fff;
+    height: 50px;
+    text-decoration: none;
+    display: block;
+    line-height: 50px;
+    text-align: center;
+}
+.tasto_partecipazione div{
+    width: 150px;
+    color: #fff;
+    height: 50px;
+    text-decoration: none;
+    display: block;
+    background-color: #505050;
+    line-height: 50px;
+    text-align: center;
+}
+.tasto_partecipazione a:hover{
+    background-color: #70992F;
+}
 #SingolaOrganizzazione{
     position: relative;
     width: 100%;
@@ -292,25 +344,48 @@ nav{
     left:50%;
     transform: translate(-50%,-50%);
 }
-#pagination{
+.ordine{
+    float: left;
+    padding: 20px;
+    border: solid 2px #700000;
+    border-radius: 10px;
+    margin: 10px;
+    width: 20em;
+}
+/*stile dei paginator*/
+.pagination{
     margin: 0 0 40px 0;
     position: fixed;
     bottom:0;
-    left:50%;
-    transform: translate(-50%,0);
+    right: 50%;
+    transform: translate(50%,0);
     background-color: #700000;
     box-shadow: 0 -4px 5px #707070;
     z-index: 4;
     padding: 10px;
     color: #ffffff;
 }
-#pagination a {
+.pagination a {
     text-decoration: none;
     color: #ffff50;
 }
-#pagination a:hover{
+.pagination a:hover{
     color:#707070;
 }
+#contenuto_laterale .pagination{
+    margin: 0 20px 40px 0;
+    position: fixed;
+    bottom:0;
+    right: 0;
+    transform: translate(0,0);
+    background-color: #700000;
+    box-shadow: 0 -4px 5px #707070;
+    z-index: 4;
+    padding: 10px;
+    color: #ffffff;
+}
+/*fine stile dei paginator*/
+
 /*div contenitore per la form filtro*/
 #contenuto_top{
     padding: 1em;
@@ -324,6 +399,41 @@ nav{
 #contenuto_top .elemento{
     float:left;
     padding: 0 5px;
+}
+/*FINE  div contenitore per la form filtro*/
+.messaggio_positivo{
+    background-color: #00DD00;
+    color: #fff;
+    font-size: 22pt;
+    padding: 20px;
+    text-align: center;
+}
+.messaggio_importante{
+    color:#FF0000;
+    font-size: 22pt;
+    font-weight: 700;
+    padding: 20px;
+}
+.tasto_acquisto{
+    position: absolute;
+    right: 0;    
+    width: 100px;
+    height: 50px;
+    background-color: #91BE3F;
+    border-radius: 3px;
+    
+}
+.tasto_acquisto a{
+    width: 100px;
+    color: #fff;
+    height: 50px;
+    text-decoration: none;
+    display: block;
+    line-height: 50px;
+    text-align: center;
+}
+.tasto_acquisto:hover{
+    background-color: #70992F;
 }
 form .errors{
     background-color: #DD0000;
@@ -355,15 +465,19 @@ form ul{
     padding: 10px 0;
 }
 form input[type=submit]{
-    color: #444444;
+    color: #fff;
     height: 43px;
     padding: 0 20px;
-    background-color: #00CC00;
-    border:1px solid #707070;
+    background-color: #91BE3F;
+    border:none;
     border-radius: 3px;
+    cursor: pointer;
 }
 form input[type=submit]:hover{
-    background-color: #007700;
+    background-color: #70992F;
+}
+#totale_ordine{
+    display: inline;
 }
 /*fine form*/
 
