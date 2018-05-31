@@ -33,8 +33,8 @@ class Liv2Controller extends Zend_Controller_Action
     }
     public function areaprivataAction(){
 
-    }
-
+    } 
+    
     public function stampaordineAction() {
         $this->_helper->layout->disableLayout();
         $numordine=$this->getParam('ordine');
@@ -89,19 +89,17 @@ class Liv2Controller extends Zend_Controller_Action
 
             $this->_helper->redirector('storico');
         }
-    
-
     public function partecipazioneAction(){
          
           $IdEv= $this->getParam('evento');
           $user=$this->view->authInfo('Username');
-          
-          $this->_catalogModel->insertPartecipazione($user, $IdEv);
-          $redirector = $this->_helper->getHelper('Redirector');
-          $redirector->gotoSimple('catalogo',
-                                  'liv1',
-                                   null,
-                                   array('evento' => $IdEv));
+          if(!is_null($user)){
+              $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$user)))? false : true ;
+              if(!$partecipato){
+                $this->_catalogModel->insertPartecipazione($user, $IdEv);
+              }
+          }
+          $this->_helper->redirector('catalogo','liv1',null,array('evento' => $IdEv));
 
     }
     private function getFormAcquisto($IdEv=null)
