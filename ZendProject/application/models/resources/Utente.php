@@ -19,7 +19,7 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
     {
         $select = $this->select()
 
-                ->where("Ruolo = 'organizzazione'")
+                ->where("Ruolo = 'liv3'")
                 ->order('Username');
 
         if($paged != null) {
