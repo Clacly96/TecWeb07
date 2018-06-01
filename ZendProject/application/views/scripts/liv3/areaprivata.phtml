@@ -1,0 +1,22 @@
+<section id="contenuto_centrale">
+    <?php if(!is_null($this->messages)):?>
+        <?php foreach ($this->messages as $messaggio): ?>
+            <div class="messaggio_positivo">
+                <?=$messaggio;?>
+            </div>
+        <?php endforeach;?>
+    <?php endif;?>
+    <h1>Area privata dell'organizzazione: <?= $this->AuthInfo('Username');?></h1>
+    <a href="<?= $this->url(array(
+                'controller' => 'liv3',
+                'action' => 'inserimento',),
+                'default',true
+                );?>">Inserimento nuovo evento</a>
+    
+    <a href="<?= $this->url(array(
+                'controller' => 'liv3',
+                'action' => 'listaeventi',),
+                'default',true
+                );?>">Lista eventi</a>
+</section>
+

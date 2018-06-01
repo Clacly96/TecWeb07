@@ -65,5 +65,14 @@ class Application_Model_Catalogo extends App_Model_Abstract
      public function contaPartecipazioniPerEv($IdEv){
         return $this->getResource('Partecipazione')->contaPartecipazioniPerEv($IdEv);
      }
+     public function inserisciEvento($ev) {
+         $this->getResource('Evento')->inserisciEvento($ev);
+     }
+     public function modificaEvento($ev) {
+         $this->getResource('Evento')->modificaEvento($ev);
+     }
+     public function estraiEventiPerOrganizzazione($paged=null,$organizzazione) {
+         return $this->getResource('Evento')->estraiEventiPerOrganizzazione($paged,$organizzazione);
+     }
 }
 

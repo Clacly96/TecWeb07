@@ -15,6 +15,17 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function estraiEventoPerId($IdEv) {
          return $this->find($IdEv)->current();
     }
+    public function estraiEventiPerOrganizzazione($paged=null,$organizzazione) {
+        $select=$this->select()->where('Organizzazione =(?)',$organizzazione)->order('Nome ASC');
+        if (null !== $paged) {
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage(5)
+		          	  ->setCurrentPageNumber((int) $paged);
+			return $paginator;
+		}
+        return $this->fetchAll($select);
+    }
 
     
     public function estraiEventi($paged=null)
@@ -140,6 +151,58 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $nomi[$risultato['Id']]=$risultato['Nome'];
         }
         return $nomi;
+    }
+
+    public function inserisciEvento($ev) {
+        $evento=array();
+        $evento['Nome']=$ev['Nome'];
+        $evento['Descrizione']=$ev['Descrizione'];
+        $evento['Luogo']= implode('-', array($ev['Citta'],$ev['Via'],$ev['Civico']));
+        $dataora=$ev['Data'].' '.implode(':',array($ev['Ora'],$ev['Minuti'],'00'));
+        $evento['Data_Ora']=$dataora;
+        $evento['Programma']=$ev['Programma'];
+        $evento['Biglietti_Rimanenti']=$ev['Biglietti_Rimanenti'];
+        $evento['Tipologia']=$ev['Tipologia'];
+        $evento['Organizzazione']=$ev['Organizzazione'];
+        $evento['Sconto']=$ev['Sconto'];
+        
+        $data= new Zend_Date($ev['Data']);
+        $data->subDay($ev['Giorni_Sconto']);
+        
+        $evento['Data_Inizio_Sconto']=$data->toString('yyyy-MM-dd');
+        $evento['Data_Fine_Acquisto']=$ev['Data_Fine_Acquisto'];
+        $evento['Prezzo_Biglietto']=$ev['Prezzo_Biglietto'];
+        $evento['Locandina']=$ev['Locandina'];
+        $evento['Mappa']=$ev['Mappa'];
+        $this->insert($evento);
+    }
+    public function modificaEvento($ev) {
+        $evento=array();
+        $evento['Nome']=$ev['Nome'];
+        $evento['Descrizione']=$ev['Descrizione'];
+        $evento['Luogo']= implode('-', array($ev['Citta'],$ev['Via'],$ev['Civico']));
+        $dataora=$ev['Data'].' '.implode(':',array($ev['Ora'],$ev['Minuti'],'00'));
+        $evento['Data_Ora']=$dataora;
+        $evento['Programma']=$ev['Programma'];
+        $evento['Biglietti_Rimanenti']=$ev['Biglietti_Rimanenti'];
+        $evento['Tipologia']=$ev['Tipologia'];
+        $evento['Organizzazione']=$ev['Organizzazione'];
+        $evento['Sconto']=$ev['Sconto'];
+        
+        $data= new Zend_Date($ev['Data']);
+        $data->subDay($ev['Giorni_Sconto']);
+        
+        $evento['Data_Inizio_Sconto']=$data->toString('yyyy-MM-dd');
+        $evento['Data_Fine_Acquisto']=$ev['Data_Fine_Acquisto'];
+        $evento['Prezzo_Biglietto']=$ev['Prezzo_Biglietto'];
+        $evento['Locandina']=$ev['Locandina'];
+        $evento['Mappa']=$ev['Mappa'];
+        
+        $where['Id = (?)'] = $ev['Id'];
+        $this->update($evento, $where);
+    }
+    public function cancellaEvento($IdEv) {
+        $this->delete(array("Id=(?)"=>$IdEv));
     }
             
 }

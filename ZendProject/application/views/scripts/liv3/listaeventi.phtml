@@ -1,0 +1,23 @@
+<section id="contenuto_centrale">
+    <h1>Lista eventi organizzati</h1>
+    <table>
+        <tr><th>Nome evento</th><th>Modifica</th><th>Cancella</th></tr>
+        <?php foreach ($this->eventi as $evento): ?>
+        <tr><td><?=$evento->Nome?></td>
+            <td><a href="<?= $this->url(array(
+                'controller' => 'liv3',
+                'action' => 'modifica',
+                'evento' => $evento->Id),
+                'default',true
+                );?>">Modifica</a></td>
+            <td><a href="<?= $this->url(array(
+                'controller' => 'liv3',
+                'action' => 'cancella',
+                'evento' => $evento->Id),
+                'default',true
+                );?>">Cancella</a></td>
+        </tr>
+        <?php endforeach;?>
+    </table>
+</section>
+

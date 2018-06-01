@@ -16,15 +16,16 @@ class Application_Model_Acl extends Zend_Acl
 			 ->add(new Zend_Acl_Resource('liv2'))
 			 ->allow('liv2','liv2')
                          ->deny('liv2','liv1',array('login','registrazione'));
-               /* 
+               
                 // ACL per organizzazione (liv3)
 		$this->addRole(new Zend_Acl_Role('liv3'), 'liv2')
 			 ->add(new Zend_Acl_Resource('liv3'))
-			 ->allow('liv3','liv3');
+			 ->allow('liv3','liv3')
+                         ->deny('liv3','liv1',array('login','registrazione'));
 				   
 		// ACL per amministratore (liv4)
 		$this->addRole(new Zend_Acl_Role('liv4'), 'liv3')
 			 ->add(new Zend_Acl_Resource('liv4'))
-			 ->allow('liv4','liv4');*/
+			 ->allow('liv4','liv4');
 	}
 }
