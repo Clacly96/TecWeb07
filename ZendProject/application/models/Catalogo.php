@@ -74,5 +74,8 @@ class Application_Model_Catalogo extends App_Model_Abstract
      public function estraiEventiPerOrganizzazione($paged=null,$organizzazione) {
          return $this->getResource('Evento')->estraiEventiPerOrganizzazione($paged,$organizzazione);
      }
+     public function cancellaEvento($IdEv) {
+         $this->getResource('Evento')->cancellaEvento($IdEv);
+     }
 }
 

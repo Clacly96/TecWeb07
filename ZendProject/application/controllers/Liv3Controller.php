@@ -97,7 +97,7 @@ class Liv3Controller extends Zend_Controller_Action
         $this->_flashMessenger->addMessage('Evento modificato con successo!');
         $this->_helper->redirector('areaprivata');
     }
-    public function cancella() {
+    public function cancellaAction() {
         if(!is_null($this->_getParam('evento'))){
             $IdEv=$this->_getParam('evento');
         } else {
