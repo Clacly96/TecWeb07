@@ -20,4 +20,7 @@
         <?php endforeach;?>
     </table>
 </section>
+<?php if($this->eventi instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->eventi,'Sliding','liv3/_paginatorlistaeventi.phtml');
+      }  ?>
 

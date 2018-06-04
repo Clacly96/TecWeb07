@@ -31,11 +31,16 @@ class Liv3Controller extends Zend_Controller_Action
         if(!is_null($this->_flashMessenger->getMessages())){
             $this->view->messages = $this->_flashMessenger->getMessages();
         }
-
+        $loc=$this->_catalogModel->estraiLocandine();
+        $this->view->assign(array('locandine'=>$loc));
     }
-    public function inserimentoAction(){
+    
+    
+    public function inserimentoAction(){        
         $this->view->formInserimento = $this->getFormInserimentoEvento();
     }
+    
+    
     public function inseriscieventoAction(){
         $this->view->formInserimento = $this->getFormInserimentoEvento();
         if (!$this->getRequest()->isPost()) {
@@ -47,12 +52,30 @@ class Liv3Controller extends Zend_Controller_Action
 			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
                        return $this->render('inserimento');
         }
+        
+        $loc=$this->_catalogModel->estraiLocandine();
+        if(count($loc)==0){
+            $nomeNuovaLocandina=0;
+        }
+        foreach ($loc as $locandina) {
+            $nomilocandine[]=pathinfo($locandina->Locandina, PATHINFO_FILENAME); //estrae il nome della locandina senza estensione
+        }
+        $nomeNuovaLocandina= max($nomilocandine)+1;
+        
+        $estensione = pathinfo($form->getElement('Locandina')->getFileName(), PATHINFO_EXTENSION); 
+        $form->getElement('Locandina')->addFilter('Rename', array(
+            'target' => $nomeNuovaLocandina . '.' . $estensione,
+            'overwrite' => true
+            ));
+      
         $valori=$form->getValues();
         $valori['Organizzazione']=$this->view->AuthInfo('Username');
         $this->_catalogModel->inserisciEvento($valori);
         $this->_flashMessenger->addMessage('Evento inserito con successo!');
         $this->_helper->redirector('areaprivata');
     }
+    
+    
     public function modificaAction(){
         if(is_null($this->_getParam('evento'))){
             $this->_helper->redirector('index');
@@ -66,6 +89,8 @@ class Liv3Controller extends Zend_Controller_Action
         }
         $this->view->formModifica = $this->getFormModificaEvento($IdEv);
     }
+    
+    
     public function modificaeventoAction(){        
         if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
@@ -89,6 +114,13 @@ class Liv3Controller extends Zend_Controller_Action
 			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
                        return $this->render('modifica');
         }
+        $nomeLocandina=pathinfo($evento->Locandina, PATHINFO_FILENAME);
+        $estensione = pathinfo($form->getElement('Locandina')->getFileName(), PATHINFO_EXTENSION); 
+        $form->getElement('Locandina')->addFilter('Rename', array(
+            'target' => $nomeLocandina . '.' . $estensione,
+            'overwrite' => true
+            ));
+        
         $valori=$form->getValues();
         $valori['Organizzazione']=$organizzazione;       
         $valori['Id']=$IdEv;
@@ -113,6 +145,7 @@ class Liv3Controller extends Zend_Controller_Action
         $this->_flashMessenger->addMessage('Evento eliminato con successo!');
         $this->_helper->redirector('areaprivata');
     }
+    
     public function listaeventiAction() {
         $page=$this->_getParam('page',1);
         $organizzazione=$this->view->AuthInfo('Username');
@@ -126,7 +159,7 @@ class Liv3Controller extends Zend_Controller_Action
     private function getFormInserimentoEvento()
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formInserimentoEvento = new Application_Form_Liv3_Eventi_Inserimento();
+        $this->_formInserimentoEvento = new Application_Form_Liv3_Eventi_Inserimento();        
         $this->_formInserimentoEvento->setAction($urlHelper->url(array(
                 'controller' => 'liv3',
                 'action' => 'inseriscievento',
@@ -138,7 +171,8 @@ class Liv3Controller extends Zend_Controller_Action
     private function getFormModificaEvento($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formModificaEvento = new Application_Form_Liv3_Eventi_Modifica(array('evento'=>$IdEv));
+        $this->_formModificaEvento = new Application_Form_Liv3_Eventi_Modifica(array('evento'=>$IdEv));        
+        
         $this->_formModificaEvento->setAction($urlHelper->url(array(
                 'controller' => 'liv3',
                 'action' => 'modificaevento',

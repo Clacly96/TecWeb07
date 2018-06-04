@@ -204,6 +204,10 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function cancellaEvento($IdEv) {
         $this->delete(array("Id=(?)"=>$IdEv));
     }
+    public function estraiLocandine() {
+        $select = $this->select()->from('Evento',array('Locandina'));
+        return $this->fetchAll($select);
+    }
             
 }
 

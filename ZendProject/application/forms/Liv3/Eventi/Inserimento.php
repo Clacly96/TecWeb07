@@ -130,23 +130,26 @@ class Application_Form_Liv3_Eventi_Inserimento extends App_Form_Abstract{
                     'decorators' => $this->elementDecorators,
                     ));
                 
+                
+                
                 $this->addElement('file', 'Locandina', array(
 			'label' => 'Locandina',
 			'destination' => APPLICATION_PATH . '/../public/images/locandine',
 			'validators' => array( 
-			array('Count', false, 1),
-			array('Size', false, 1024000),
-			array('Extension', false, array('jpg', 'gif')),
-                        array('ImageSize', false,
-                                array('minwidth' => 150,             
-                                      'maxwidth' => 360,
-                                      'minheight' => 250,
-                                      'maxheight' => 450)),
-                        array('Db_NoRecordExists', true, array(     
-                                        'table' => 'evento',
-                                        'field' => 'Locandina'))),                    
+                            array('Count', false, 1),
+                            array('Size', false, 1024000),
+                            array('Extension', false, array('jpg', 'gif')),
+                            array('ImageSize', false,
+                                    array('minwidth' => 150,             
+                                          'maxwidth' => 360,
+                                          'minheight' => 250,
+                                          'maxheight' => 450)),
+                            array('Db_NoRecordExists', true, array(     
+                                            'table' => 'evento',
+                                            'field' => 'Locandina'))),             
                         'decorators' => $this->fileDecorators,
 			));
+                
                 $this->addElement('textarea', 'Mappa', array(
                     'label' => 'Inserire iframe di Google Maps',
                     'filters' => array('StringTrim'),

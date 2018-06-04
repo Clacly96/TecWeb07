@@ -77,5 +77,8 @@ class Application_Model_Catalogo extends App_Model_Abstract
      public function cancellaEvento($IdEv) {
          $this->getResource('Evento')->cancellaEvento($IdEv);
      }
+     public function estraiLocandine() {
+         return $this->getResource('Evento')->estraiLocandine();
+     }
 }
 
