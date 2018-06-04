@@ -15,7 +15,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'label' => 'Username',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(6,20)),
+                    'validators' => array(array('StringLength',true, array(3,20)),
                                             array('Db_NoRecordExists', true, array(
                                                                             'table' => 'utente',
                                                                             'field' => 'Username'))),
@@ -27,7 +27,7 @@ class Application_Form_Liv1_Utenza_Registrazione extends App_Form_Abstract
                     'label' => 'Password',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(6,10)),
+                    'validators' => array(array('StringLength',true, array(4,20)),
                                             array('identical', true, array('Password'))),
                     'decorators' => $this->elementDecorators,
                 ));
