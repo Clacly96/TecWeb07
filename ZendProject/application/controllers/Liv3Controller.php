@@ -31,8 +31,6 @@ class Liv3Controller extends Zend_Controller_Action
         if(!is_null($this->_flashMessenger->getMessages())){
             $this->view->messages = $this->_flashMessenger->getMessages();
         }
-        $loc=$this->_catalogModel->estraiLocandine();
-        $this->view->assign(array('locandine'=>$loc));
     }
     
     
@@ -53,22 +51,25 @@ class Liv3Controller extends Zend_Controller_Action
                        return $this->render('inserimento');
         }
         
-        $loc=$this->_catalogModel->estraiLocandine();
-        if(count($loc)==0){
-            $nomeNuovaLocandina=0;
+        $ultimoId=$this->_catalogModel->estraiUltimoId();
+        if($ultimoId==null){
+            $IdEv=0;
         }
-        foreach ($loc as $locandina) {
-            $nomilocandine[]=pathinfo($locandina->Locandina, PATHINFO_FILENAME); //estrae il nome della locandina senza estensione
+        else{
+            $IdEv=$ultimoId+1;
         }
-        $nomeNuovaLocandina= max($nomilocandine)+1;
         
         $estensione = pathinfo($form->getElement('Locandina')->getFileName(), PATHINFO_EXTENSION); 
         $form->getElement('Locandina')->addFilter('Rename', array(
-            'target' => $nomeNuovaLocandina . '.' . $estensione,
+            'target' => $IdEv . '.' . $estensione,
             'overwrite' => true
             ));
       
         $valori=$form->getValues();
+        if ($valori['Sconto']==null){$valori['Sconto']=0;}
+        if ($valori['Giorni_Sconto']==null){$valori['Giorni_Sconto']=0;}
+        if ($valori['Locandina']==null){$valori['Locandina']='noimage.jpg';}
+        $valori['IdEv']=$IdEv;
         $valori['Organizzazione']=$this->view->AuthInfo('Username');
         $this->_catalogModel->inserisciEvento($valori);
         $this->_flashMessenger->addMessage('Evento inserito con successo!');
@@ -88,6 +89,7 @@ class Liv3Controller extends Zend_Controller_Action
             $this->_helper->redirector('index');
         }
         $this->view->formModifica = $this->getFormModificaEvento($IdEv);
+        $this->view->assign(array('idevento'=>$IdEv));
     }
     
     
@@ -111,17 +113,22 @@ class Liv3Controller extends Zend_Controller_Action
        
         $form=$this->_formModificaEvento;
         if (!$form->isValid($_POST)) {
-			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
-                       return $this->render('modifica');
+                    $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
+                    return $this->render('modifica');
         }
-        $nomeLocandina=pathinfo($evento->Locandina, PATHINFO_FILENAME);
+        
         $estensione = pathinfo($form->getElement('Locandina')->getFileName(), PATHINFO_EXTENSION); 
         $form->getElement('Locandina')->addFilter('Rename', array(
-            'target' => $nomeLocandina . '.' . $estensione,
+            'target' => $IdEv . '.' . $estensione,
             'overwrite' => true
             ));
         
         $valori=$form->getValues();
+        if($valori['elimina_locandina']){$valori['Locandina']='noimage.jpg';}
+        else if($valori['Locandina']==null){             //se non viene inserita una nuova locandina, viene reinserita la vecchia
+            $valori['Locandina']=$evento->Locandina;
+        }
+        
         $valori['Organizzazione']=$organizzazione;       
         $valori['Id']=$IdEv;
         

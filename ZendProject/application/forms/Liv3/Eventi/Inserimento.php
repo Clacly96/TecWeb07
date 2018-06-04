@@ -66,14 +66,14 @@ class Application_Form_Liv3_Eventi_Inserimento extends App_Form_Abstract{
                 
                 $this->addElement('text', 'Citta', array(
                     'label' => 'Città',
-                    'filters' => array('StringTrim'),
+                    'filters' => array('StringTrim','StringToLower'),
                     'required' => true,
                     'decorators' => $this->elementDecorators,
                     ));
                 
                 $this->addElement('text', 'Via', array(
                     'label' => 'Via/piazza',
-                    'filters' => array('StringTrim'),
+                    'filters' => array('StringTrim','StringToLower'),
                     'required' => true,
                     'decorators' => $this->elementDecorators,
                     ));
@@ -139,11 +139,6 @@ class Application_Form_Liv3_Eventi_Inserimento extends App_Form_Abstract{
                             array('Count', false, 1),
                             array('Size', false, 1024000),
                             array('Extension', false, array('jpg', 'gif')),
-                            array('ImageSize', false,
-                                    array('minwidth' => 150,             
-                                          'maxwidth' => 360,
-                                          'minheight' => 250,
-                                          'maxheight' => 450)),
                             array('Db_NoRecordExists', true, array(     
                                             'table' => 'evento',
                                             'field' => 'Locandina'))),             

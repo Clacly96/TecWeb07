@@ -44,7 +44,7 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
 		$luogs = $this->_catalogModel->estraiLuoghi();
                 $luoghi['']=null;
 		foreach ($luogs as $luogo) {
-			$luoghi[$luogo->Luogo] = $luogo->Luogo;
+			$luoghi[$luogo] = $luogo;
 		}
 		$this->addElement('select', 'Luogo', array(
                         'label' => 'Luoghi',
