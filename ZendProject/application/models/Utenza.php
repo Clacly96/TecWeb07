@@ -50,6 +50,26 @@ class Application_Model_Utenza extends App_Model_Abstract
     public function updateUtente($info) {
         return $this->getResource('Utente')->updateUtente($info);
     }
+    public function estraiNomeCognPerUsername($username,$paged=null) {
+        return $this->getResource('Utente')->estraiNomeCognPerUsername($username,$paged);
+    }
+    
+    public function estraiPartecipanti($IdEv,$paged=null){
+        $partecipazioni=$this->getResource('Partecipazione')->estraiPartecipazioniPerEv($IdEv);
+        $utenti=array();
+        foreach ($partecipazioni as $part){
+            $utenti[]=$part['Utente']; 
+            
+        }
+        if(count($partecipazioni)>0)
+        {
+            return $this->getResource('Utente')->estraiNomeCognPerUsername($utenti,$paged);
+            
+        }
+        
+        else { return null; }
+        
+    }
 }
 
 
