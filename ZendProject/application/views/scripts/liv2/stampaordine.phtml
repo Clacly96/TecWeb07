@@ -1,8 +1,40 @@
+<style>
+    dt{
+        font-weight: 700;
+        padding-top: 0.5em;
+    }
+    #ordine{
+       position: relative;
+       border:solid 2px #DD2020;      
+    }
+    #intestazione{
+        border:solid 2px #DD2020;
+        padding: 1em;
+    }
+    #dettagli_ordine{        
+        position: relative;
+        left:0;
+        padding: 1em;
+        float: left;
+    }
+    #dettagli_evento{
+        position: relative;
+        right: 0;
+        padding: 1em;
+        margin-left: 20em;
+        border-left: solid 2px #DD2020;
+    }
+</style>
+
+<div id="intestazione">
 <h1>TecWeb07 Ordine biglietto stampa</h1>
 <?php $ordine=$this->ordine;
       $evento=$this->evento;
       $moneta = new Zend_Currency();?>
 <h2>Ordine numero: <?=$ordine->Numero_Ordine?></h2>
+</div>
+<div id="ordine">
+<div id="dettagli_ordine">
 <h3>Dettagli Ordine</h3>
     <dl>
         <dt>Nome e cognome</dt>
@@ -16,6 +48,8 @@
         <dt>Totale</dt>
         <dd><?=$moneta->toCurrency($ordine->Totale);?></dd>
     </dl>
+</div>
+<div id="dettagli_evento">
 <h3>Dettagli evento</h3>
     <dl>
         <dt>Nome</dt>
@@ -26,8 +60,15 @@
         <dd><?=$evento->Organizzazione?></dd>
         <dt>Data</dt>
         <dd><?=$evento->Data_Ora?></dd>
-        <dt>Luogo</dt>
-        <dd><?=$evento->Luogo?></dd>
+        <?php $luogo= explode('-', $evento->Luogo); ?>
+        <dt>Città</dt>
+        <dd><?=$luogo[0]?></dd>
+        <dt>Via</dt>
+        <dd><?=$luogo[1]?></dd>
+        <dt>Numero civico</dt>
+        <dd><?=$luogo[2]?></dd>
         <dt>Programma</dt>
         <dd><?=$evento->Programma?></dd>
     </dl>
+</div>
+</div>

@@ -31,7 +31,13 @@ class Application_Model_Catalogo extends App_Model_Abstract
         return $this->getResource('Evento')->filtro($paged,$org,$mese,$anno,$luogo,$cat);
     }
     public function estraiLuoghi() {
-        return $this->getResource('Evento')->estraiLuoghi();
+        $luoghi= $this->getResource('Evento')->estraiLuoghi();
+        $citta=array();
+        foreach ($luoghi as $luogo) {
+            $luog= explode('-', $luogo->Luogo);
+            $citta[]=$luog[0];
+        }
+        return $citta;
     }
     public function ricerca($paged=null,$mese=null,$anno=null,$luogo=null,$cat=null,$desc=null){
         return $this->getResource('Evento')->ricerca($paged,$mese,$anno,$luogo,$cat,$desc);
@@ -77,6 +83,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
      public function cancellaEvento($IdEv) {
          $this->getResource('Evento')->cancellaEvento($IdEv);
      }
+
      
      public function estraiStatistichePerOrg($organizzazione,$paged=null) {
          $eventi=$this->getResource('Evento')->estraiEventiPerOrganizzazione($paged,$organizzazione);
@@ -121,5 +128,10 @@ class Application_Model_Catalogo extends App_Model_Abstract
             }
            return $this->getResource('Storico')->estraiIncassoPeriodo($date,$ideventi);
         }
+
+     public function estraiUltimoId() {
+         return $this->getResource('Evento')->estraiUltimoId();
+     }
+
 }
 

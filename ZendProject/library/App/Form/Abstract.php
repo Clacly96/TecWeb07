@@ -36,7 +36,7 @@ class App_Form_Abstract extends Zend_Form
 	public $fileDecorators = array(
         'File',
         array(array('alias1' => 'HtmlTag'),array('tag' => 'td', 'class' => 'file')),
-		array(array('alias2' => 'HtmlTag'), array('tag' => 'td', 'class' => 'errors', 'openOnly' => true, 'placement' => 'append')),
+		array(array('alias2' => 'HtmlTag'), array('tag' => 'td', 'class' => 'td_errors', 'openOnly' => true, 'placement' => 'append')),
 		'Errors',
 		array(array('alias3' => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => 'append')),
         array('Label', array('tag' => 'td')),

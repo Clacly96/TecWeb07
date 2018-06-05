@@ -55,6 +55,7 @@
         }
         ?>
 </section>
+<?php if($ruolo=='liv2' || $ruolo == null): ?>
 <section id="contenuto_laterale">
     <?php if (!is_null($this->EvSelezionato)): ?>
         <h1>Utenti che parteciperanno</h1>
@@ -77,3 +78,4 @@
         </div>
     <?php endif;?>
 </section>
+<?php endif;?>
