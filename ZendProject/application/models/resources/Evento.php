@@ -20,7 +20,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 			$paginator = new Zend_Paginator($adapter);
-			$paginator->setItemCountPerPage(5)
+			$paginator->setItemCountPerPage(10)
 		          	  ->setCurrentPageNumber((int) $paged);
 			return $paginator;
 		}
@@ -205,10 +205,25 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function cancellaEvento($IdEv) {
         $this->delete(array("Id=(?)"=>$IdEv));
     }
+    
+    public function estraiBigliettiRimanenti($idEv){
+        $select=$this->select() // ->from(array('evento'),array('Id','Biglietti_Rimanenti')) da errore di joi perchè sopra la tabella è scritta con la E maiuscola
+                ->where('Id IN (?)',$idEv);
+        $biglietti= $this->fetchAll($select);
+        $bigliassoc=array();
+        foreach($biglietti as $biglietto){
+            $bigliassoc[$biglietto['Id']]=$biglietto['Biglietti_Rimanenti'];
+        }
+        return $bigliassoc;
+    }
+    
+    
+
     public function estraiUltimoId() {
         $select = $this->select()->from('Evento',array('Id'))->order('Id DESC')->limit(1);
         return $this->fetchRow($select);
     }
+
             
 }
 

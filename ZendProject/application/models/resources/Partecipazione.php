@@ -39,12 +39,27 @@ class Application_Resource_Partecipazione extends Zend_Db_Table_Abstract
         $insert=$this->insert($dati);
     }
 
-    public function contaPartecipazioniPerEv($IdEv)
+    public function contaPartecipazioniPerEv($IdEv,$more=null) //more serve per mantere la funzione utilizzabile nel codice già scritto, senza ritoccare nulla
     {
+        if(is_null($more)){
         $select=$this->select()->where('Evento=(?)',$IdEv);
         return count($this->fetchAll($select)->toArray());
+        } 
+        $select=$this->select()->from('partecipazione',array('Evento','COUNT(*) AS Num_Partecipazioni'))
+                ->where('Evento IN (?)',$IdEv)->group('Evento');
+        $partecipazioni= $this->fetchAll($select);
+        $partassoc=array();
+        foreach ($partecipazioni as $partecipazione){
+            $partassoc[$partecipazione['Evento']]=$partecipazione['Num_Partecipazioni'];
+        }
+        foreach($IdEv as $evento){ //importante per creare il vettore associativo con tutti gli eventi presenti della variabile IdEv che non compaiono come risultato della query perchè non presenti nella tabella
+            if(!isset($partassoc[$evento]))
+                $partassoc[$evento]=0;
+        }
+        return $partassoc;
     }
-
+    
+    
 
 
 }
