@@ -37,6 +37,47 @@ class Application_Resource_Storico extends Zend_Db_Table_Abstract
                      );
         $insert=$this->insert($dati);
     }
+    
+    public function estraiBiglVendPerEv($idEv){
+        $select=$this->select()->from('storico', array('Evento','sum(Numero_Biglietti) as Biglietti_Venduti'))
+                ->where('Evento IN (?)',$idEv)->group('Evento');
+        $biglietti= $this->fetchAll($select);
+        $bigliassoc=array();
+        foreach($biglietti as $biglietto){
+            $bigliassoc[$biglietto['Evento']]=$biglietto['Biglietti_Venduti'];
+        }
+        foreach($idEv as $evento){ //importante per creare il vettore associativo con tutti gli eventi presenti della variabile IdEv che non compaiono come risultato della query perchè non presenti nella tabella
+            if(!isset($bigliassoc[$evento]))
+                $bigliassoc[$evento]=0;
+        }
+        
+        return $bigliassoc;
+    }
+    
+    public function estraiIncassoPerEv($idEv){
+        $select=$this->select()->from('storico', array('Evento','sum(Totale) as Incasso'))
+                ->where('Evento IN (?)',$idEv)->group('Evento');
+        $incassi= $this->fetchAll($select);
+        $incassiassoc=array();
+        foreach($incassi as $incasso){
+            $incassiassoc[$incasso['Evento']]=$incasso['Incasso'];
+        }
+        foreach($idEv as $evento){ //importante per creare il vettore associativo con tutti gli eventi presenti della variabile IdEv che non compaiono come risultato della query perchè non presenti nella tabella
+            if(!isset($incassiassoc[$evento]))
+                $incassiassoc[$evento]=0;
+        }
+        return $incassiassoc;
+    }
+    
+    public function estraiIncassoPeriodo($date,$eventi=null){
+    $select= $this->select()->from('storico', array('sum(Totale) as Incasso'))
+            ->where("CAST(Data_Ora AS DATE) BETWEEN CAST( '".$date['Data_Inizio']."' AS DATE) AND CAST( '".$date['Data_Fine']."' AS DATE)")
+            ->where('Evento IN (?)',$eventi); // per prendere solo gli eventi dell'organizzazione
+     $incasso=$this->fetchRow($select);
+     return $incasso['Incasso'];
+    
+    
+    }
 }
 
 

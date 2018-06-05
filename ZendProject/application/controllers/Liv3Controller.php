@@ -8,6 +8,7 @@ class Liv3Controller extends Zend_Controller_Action
     protected $_formInserimentoEvento;
     protected $_formModificaEvento;
     protected $_flashMessenger = null;
+    protected $_formIncassoPeriodo;
 
     public function init() {
         $this->_helper->layout->setLayout('main');
@@ -119,10 +120,64 @@ class Liv3Controller extends Zend_Controller_Action
         $eventi=$this->_catalogModel->estraiEventiPerOrganizzazione($page,$organizzazione);
         $this->view->assign(array('eventi' => $eventi));
     }
+    /*************************Inizio Parte Statistiche***********************************/
     
+    public function statisticheAction(){
+        $page=$this->_getParam('page',1);
+        $organizzazione=$this->view->AuthInfo('Username');
+        $statistiche=$this->_catalogModel->estraiStatistichePerOrg($organizzazione,$page);
+        $this->view->assign(array('eventi' => $statistiche['eventi'],'statistiche' => $statistiche['tuple']));
+        $this->view->formIncasso=$this->getFormIncassoPeriodo();
+        
+    }
     
+    public function infopartecipazioniAction(){ 
+        $page=$this->_getParam('page',1);
+        $idev=$this->_getParam('evento');
+        $organizzazione=$this->view->AuthInfo('Username');
+        $evento= $this->_catalogModel->estraiEventoPerId($idev);
+        
+        if($organizzazione==$evento->Organizzazione){
+            $partecipanti=$this->_utenzaModel->estraiPartecipanti($idev, $page);
+            if(!is_null($partecipanti))
+                $this->view->assign(array('info' => $partecipanti,'evento' => $evento->Nome));
+           
+            else 
+                $this->view->assign(array('info' => 'Non sono presenti partecipanti per questo evento','evento' => $evento->Nome));
+        }
+        else
+        { 
+            $this->view->assign(array('info' => 'Non è un tuo evento','evento' => $evento->Nome));
+            
+        }
+    }
+    public function incassoAction(){
+        $this->view->formIncasso = $this->getFormIncassoPeriodo();
+
+    }
     
-    /*************************Inizio funzioni getform***********************************/
+    public function calcoloincassoAction(){ 
+        $this->view->formIncasso = $this->getFormIncassoPeriodo();
+        if (!$this->getRequest()->isPost()) {
+                        $this->_helper->redirector('index');
+        }
+        $form=$this->_formIncassoPeriodo;
+        if (!$form->isValid($_POST)) {
+			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
+                       return $this->render('incasso');
+        }
+        $valori=$form->getValues();
+        $incasso=$this->_catalogModel->estraiIncassoPeriodo($valori,$this->view->AuthInfo('Username'));
+        $this->view->assign(array('incasso' => $incasso));
+        $this->render('incasso');
+        
+        
+        
+    }
+
+    
+        /*************************Inizio funzioni getform***********************************/
+    
     private function getFormInserimentoEvento()
     {
         $urlHelper = $this->_helper->getHelper('url');
@@ -147,6 +202,18 @@ class Liv3Controller extends Zend_Controller_Action
                 'default',true
                 ));
         return $this->_formModificaEvento;
+    }
+    private function getFormIncassoPeriodo()
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $this->_formIncassoPeriodo = new Application_Form_Liv3_Statistiche_Incassototale();
+        $this->_formIncassoPeriodo->setAction($urlHelper->url(array(
+                'controller' => 'liv3',
+                'action' => 'calcoloincasso',
+                ),
+                'default',true
+                ));
+        return $this->_formIncassoPeriodo;
     }
 }
 
