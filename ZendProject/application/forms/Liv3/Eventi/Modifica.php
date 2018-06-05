@@ -75,9 +75,10 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                     'value' => $evento->Prezzo_Biglietto,
 		));
                 $luogo=explode('-',$evento->Luogo);
+    
                 $this->addElement('text', 'Citta', array(
                     'label' => 'Città',
-                    'filters' => array('StringTrim'),
+                    'filters' => array('StringTrim','StringToLower'),
                     'required' => true,
                     'decorators' => $this->elementDecorators,
                     'value' => $luogo[0],
@@ -85,7 +86,7 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                 
                 $this->addElement('text', 'Via', array(
                     'label' => 'Via/piazza',
-                    'filters' => array('StringTrim'),
+                    'filters' => array('StringTrim','StringToLower'),
                     'required' => true,
                     'decorators' => $this->elementDecorators,
                     'value' => $luogo[1],
@@ -153,6 +154,11 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                     'value' => $evento->Data_Fine_Acquisto,
                     ));
                 
+                $this->addElement('checkbox', 'elimina_locandina', array(
+                    'label' => 'Seleziona per rimuovere la locandina',
+                    'decorators' => $this->elementDecorators,
+                    ));
+                
                 $this->addElement('file', 'Locandina', array(
 			'label' => 'Locandina',
 			'destination' => APPLICATION_PATH . '/../public/images/locandine',
@@ -160,11 +166,6 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
 			array('Count', false, 1),
 			array('Size', false, 1024000),
 			array('Extension', false, array('jpg', 'gif')),
-                        array('ImageSize', false,
-                                array('minwidth' => 150,             
-                                      'maxwidth' => 360,
-                                      'minheight' => 250,
-                                      'maxheight' => 450)),
                         array('Db_NoRecordExists', true, array(     
                                         'table' => 'evento',
                                         'field' => 'Locandina'))),                    

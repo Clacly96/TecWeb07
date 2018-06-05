@@ -13,9 +13,9 @@ class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
             
             $luoghi = array();
             $luogs = $this->_catalogModel->estraiLuoghi();
-            $luoghi['']=null;
+            $luoghi['']='Qualsiasi';
             foreach ($luogs as $luogo) {
-		$luoghi[$luogo->Luogo] = $luogo->Luogo;
+		$luoghi[$luogo] = $luogo;
 		}
             $this->addElement('select', 'Luogo', array(
                         'label' => 'Luoghi',
@@ -27,7 +27,7 @@ class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
                 
             $categorie = array();
             $cats = $this->_catalogModel->estraiCategorie();
-            $categorie['']=null;
+            $categorie['']='Qualsiasi';
             foreach ($cats as $cat) {
 			$categorie[$cat -> Nome] = $cat->Nome;
 		}
@@ -47,7 +47,7 @@ class Application_Form_Liv1_Ricerca_Ricerca extends App_Form_Abstract
         
             
             $mesi=array();
-                    $mesi[''] = null;
+                    $mesi[''] = 'Qualsiasi';
                     $mesi[1] = 'Gennaio';
                     $mesi[2] = 'Febbraio';
                     $mesi[3] ='Marzo';

@@ -32,11 +32,14 @@ class Liv3Controller extends Zend_Controller_Action
         if(!is_null($this->_flashMessenger->getMessages())){
             $this->view->messages = $this->_flashMessenger->getMessages();
         }
-
     }
-    public function inserimentoAction(){
+    
+    
+    public function inserimentoAction(){        
         $this->view->formInserimento = $this->getFormInserimentoEvento();
     }
+    
+    
     public function inseriscieventoAction(){
         $this->view->formInserimento = $this->getFormInserimentoEvento();
         if (!$this->getRequest()->isPost()) {
@@ -48,12 +51,33 @@ class Liv3Controller extends Zend_Controller_Action
 			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
                        return $this->render('inserimento');
         }
+        
+        $ultimoId=$this->_catalogModel->estraiUltimoId();
+        if($ultimoId==null){
+            $IdEv=0;
+        }
+        else{
+            $IdEv=$ultimoId+1;
+        }
+        
+        $estensione = pathinfo($form->getElement('Locandina')->getFileName(), PATHINFO_EXTENSION); 
+        $form->getElement('Locandina')->addFilter('Rename', array(
+            'target' => $IdEv . '.' . $estensione,
+            'overwrite' => true
+            ));
+      
         $valori=$form->getValues();
+        if ($valori['Sconto']==null){$valori['Sconto']=0;}
+        if ($valori['Giorni_Sconto']==null){$valori['Giorni_Sconto']=0;}
+        if ($valori['Locandina']==null){$valori['Locandina']='noimage.jpg';}
+        $valori['IdEv']=$IdEv;
         $valori['Organizzazione']=$this->view->AuthInfo('Username');
         $this->_catalogModel->inserisciEvento($valori);
         $this->_flashMessenger->addMessage('Evento inserito con successo!');
         $this->_helper->redirector('areaprivata');
     }
+    
+    
     public function modificaAction(){
         if(is_null($this->_getParam('evento'))){
             $this->_helper->redirector('index');
@@ -66,7 +90,10 @@ class Liv3Controller extends Zend_Controller_Action
             $this->_helper->redirector('index');
         }
         $this->view->formModifica = $this->getFormModificaEvento($IdEv);
+        $this->view->assign(array('idevento'=>$IdEv));
     }
+    
+    
     public function modificaeventoAction(){        
         if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
@@ -87,10 +114,22 @@ class Liv3Controller extends Zend_Controller_Action
        
         $form=$this->_formModificaEvento;
         if (!$form->isValid($_POST)) {
-			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
-                       return $this->render('modifica');
+                    $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
+                    return $this->render('modifica');
         }
+        
+        $estensione = pathinfo($form->getElement('Locandina')->getFileName(), PATHINFO_EXTENSION); 
+        $form->getElement('Locandina')->addFilter('Rename', array(
+            'target' => $IdEv . '.' . $estensione,
+            'overwrite' => true
+            ));
+        
         $valori=$form->getValues();
+        if($valori['elimina_locandina']){$valori['Locandina']='noimage.jpg';}
+        else if($valori['Locandina']==null){             //se non viene inserita una nuova locandina, viene reinserita la vecchia
+            $valori['Locandina']=$evento->Locandina;
+        }
+        
         $valori['Organizzazione']=$organizzazione;       
         $valori['Id']=$IdEv;
         
@@ -114,6 +153,7 @@ class Liv3Controller extends Zend_Controller_Action
         $this->_flashMessenger->addMessage('Evento eliminato con successo!');
         $this->_helper->redirector('areaprivata');
     }
+    
     public function listaeventiAction() {
         $page=$this->_getParam('page',1);
         $organizzazione=$this->view->AuthInfo('Username');
@@ -181,7 +221,7 @@ class Liv3Controller extends Zend_Controller_Action
     private function getFormInserimentoEvento()
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formInserimentoEvento = new Application_Form_Liv3_Eventi_Inserimento();
+        $this->_formInserimentoEvento = new Application_Form_Liv3_Eventi_Inserimento();        
         $this->_formInserimentoEvento->setAction($urlHelper->url(array(
                 'controller' => 'liv3',
                 'action' => 'inseriscievento',
@@ -193,7 +233,8 @@ class Liv3Controller extends Zend_Controller_Action
     private function getFormModificaEvento($IdEv=null)
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $this->_formModificaEvento = new Application_Form_Liv3_Eventi_Modifica(array('evento'=>$IdEv));
+        $this->_formModificaEvento = new Application_Form_Liv3_Eventi_Modifica(array('evento'=>$IdEv));        
+        
         $this->_formModificaEvento->setAction($urlHelper->url(array(
                 'controller' => 'liv3',
                 'action' => 'modificaevento',

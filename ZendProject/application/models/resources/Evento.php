@@ -89,7 +89,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("YEAR(Data_Ora)=(?)",$anno);
         }
         if (!is_null($luogo)){
-            $select->where("Luogo=(?)",$luogo);
+            $select->where("LOWER(Luogo) LIKE LOWER('%".$luogo."%')"); //usiamo il like perché sul db vengono salvati anche via e numero civico oltre alla città
         }
         if (!is_null($cat)){
             $select->where("Tipologia=(?)",$cat);
@@ -120,13 +120,13 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("YEAR(Data_Ora)=(?)",$anno);
         }
         if (!is_null($luogo)){
-            $select->where("Luogo=(?)",$luogo);
+            $select->where("LOWER(Luogo) LIKE LOWER('%".$luogo."%')");  //usiamo il like perché sul db vengono salvati anche via e numero civico oltre alla città
         }
         if (!is_null($cat)){
             $select->where("Tipologia=(?)",$cat);
         }
         if(!is_null($desc)){
-            $select->where("LOWER(Descrizione) LIKE LOWER('%".$desc."%')");  //sintassi del like vista online
+            $select->where("LOWER(Descrizione) LIKE LOWER('%".$desc."%')"); 
         }
         
         $select->order('Nome');
@@ -155,6 +155,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 
     public function inserisciEvento($ev) {
         $evento=array();
+        $evento['Id']=$ev['IdEv'];
         $evento['Nome']=$ev['Nome'];
         $evento['Descrizione']=$ev['Descrizione'];
         $evento['Luogo']= implode('-', array($ev['Citta'],$ev['Via'],$ev['Civico']));
@@ -217,6 +218,12 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     }
     
     
+
+    public function estraiUltimoId() {
+        $select = $this->select()->from('Evento',array('Id'))->order('Id DESC')->limit(1);
+        return $this->fetchRow($select);
+    }
+
             
 }
 
