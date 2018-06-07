@@ -132,6 +132,17 @@ class Application_Model_Catalogo extends App_Model_Abstract
      public function estraiUltimoId() {
          return $this->getResource('Evento')->estraiUltimoId();
      }
+     
+     public function insertTipologia($nome){
+         return $this->getResource('Tipologia')->insertTipologia($nome);
+     }
+     
+     public function cancellazioneTipologia($nome){
+         return $this->getResource('Tipologia')->cancellazioneTipologia($nome);
+     }
+     public function modificaTipologia($vecchio,$nuovo){
+         return $this->getResource('Tipologia')->modificaTipologia($vecchio,$nuovo);
+     }
 
 }
 

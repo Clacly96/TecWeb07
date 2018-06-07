@@ -1,0 +1,25 @@
+<section id="contenuto_centrale">
+    <?php if(!is_null($this->messages)):?>
+        <?php foreach ($this->messages as $messaggio): ?>
+            <div class="messaggio_positivo">
+                <?=$messaggio;?>
+            </div>
+        <?php endforeach;?>
+    <?php endif;?>
+   
+    <h1>Area privata Admin </h1>
+    <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'gestionetipo',),
+                'default',true
+                );?>">Gestione Tipologie Eventi</a>
+    <br>
+    <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'gestionefaq',),
+                'default',true
+                );?>">Gestione FAQ</a>
+    
+
+</section>
+

@@ -9,7 +9,7 @@ class Application_Resource_Faq extends Zend_Db_Table_Abstract{
     }
     public function estraiFaqPerId($Id)  //chiedere se le faq sono direttamente visibili o occorre cliccarci
     {
-        return $this->find($id)->current();
+        return $this->find($Id)->current();
     }
     
     
@@ -25,6 +25,25 @@ class Application_Resource_Faq extends Zend_Db_Table_Abstract{
 		}
         return $this->fetchAll($select);
     } 
+    
+    
+    public function insertFaq($faq){
+        $this->insert($faq);
+        
+    }
+    
+    public function cancellazioneFaqPerId($IdFaq){
+       $this->delete(array("Id=(?)"=>$IdFaq));
+    }
+    
+    public function modificaFaqPerId($IdFaq,$nuova){
+        $where=array(
+            'Id=(?)'=>$IdFaq
+        );
+        $this->update($nuova, $where);
+        
+    }
+    
     }
 
 /* 

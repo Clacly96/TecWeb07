@@ -1,0 +1,27 @@
+<section id="contenuto_laterale">
+    <h1>Inserisci una nuova tipologia</h1>
+    <?= $this->formInserimento; ?>
+</section>
+<section id="contenuto_centrale">
+    <h1>Lista tipologie</h1>
+    <table>
+        <tr><th>Nome tipologia</th><th> </th><th> </th></tr>
+        <?php foreach ($this->tipologie as $tipologie): ?>
+        <tr><td><?=$tipologie->Nome?></td>
+            <td><a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'modificatipo',
+                'tipo' => $tipologie->Nome),
+                'default',true
+                );?>">Modifica</a></td>
+            <td><a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'cancellatipologia',
+                'tipo' => $tipologie->Nome),
+                'default',true
+                );?>">Cancella</a>
+        </tr>
+        <?php endforeach;?>
+    </table>
+</section>
+
