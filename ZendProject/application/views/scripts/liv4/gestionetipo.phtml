@@ -8,8 +8,8 @@
 </section>
 <section id="contenuto_centrale">
     <h1>Lista tipologie</h1>
-    <table>
-        <tr><th>Nome tipologia</th><th> </th><th> </th></tr>
+    <table cellpadding="5" cellspacing="5">
+       
         <?php foreach ($this->tipologie as $tipologie): ?>
         <tr><td><?=$tipologie->Nome?></td>
             <td><a href="<?= $this->url(array(
