@@ -36,10 +36,14 @@ class Liv4Controller extends Zend_Controller_Action
         }
         
     public function gestionetipoAction(){
-        $this->view->formInserimento = $this->getFormInserimentoTipologia();
+        
         $tipologie=$this->_catalogModel->estraiCategorie();
         $this->view->assign(array('tipologie' => $tipologie));
        
+    }
+    
+    public function instipologiaAction(){
+        $this->view->formInserimento = $this->getFormInserimentoTipologia();
     }
     
     public function inseriscitipologiaAction(){

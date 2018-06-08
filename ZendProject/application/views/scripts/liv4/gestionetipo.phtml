@@ -1,6 +1,10 @@
 <section id="contenuto_laterale">
-    <h1>Inserisci una nuova tipologia</h1>
-    <?= $this->formInserimento; ?>
+    
+    <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'instipologia',
+                'default',true)
+                );?>">Inserisci nuova tipologia</a>
 </section>
 <section id="contenuto_centrale">
     <h1>Lista tipologie</h1>
