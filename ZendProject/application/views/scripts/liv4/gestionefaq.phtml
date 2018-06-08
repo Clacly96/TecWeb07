@@ -1,6 +1,11 @@
 <section id="contenuto_laterale">
-    <h1>Inserisci una nuova FAQ</h1>
-    <?= $this->formInserimento; ?>
+   
+    <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'insfaq'),
+                
+                'default',true
+            );?>">Inserisci nuova FAQ </a>
   
 </section>
 <section id="contenuto_centrale">

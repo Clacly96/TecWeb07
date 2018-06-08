@@ -4,7 +4,7 @@ class Liv4Controller extends Zend_Controller_Action
 {
    
     protected $_catalogModel;
-     protected $_faqModel;
+    protected $_faqModel;
     protected $_authService;
     protected $_formInserimentoTipologia;
     protected $_formModificaTipologia;
@@ -113,8 +113,12 @@ class Liv4Controller extends Zend_Controller_Action
         $page=$this->_getParam('page',1);
         $listafaq= $this->_faqModel->estraiFaq($page);
         $this->view->assign(array('listafaq'=>$listafaq));
-        $this->view->formInserimento = $this->getFormInserimentoFaq();
         
+        
+    }
+    
+    public function insfaqAction(){
+        $this->view->formInserimento = $this->getFormInserimentoFaq();
     }
     
     public function inseriscifaqAction(){
