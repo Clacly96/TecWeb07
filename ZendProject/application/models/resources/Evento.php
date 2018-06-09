@@ -2,7 +2,7 @@
 
 class Application_Resource_Evento extends Zend_Db_Table_Abstract
 {
-    protected $_name    = 'Evento';
+    protected $_name    = 'evento';
     protected $_primary  = 'Id';
     protected $_rowClass = 'Application_Resource_Evento_Item';
     protected $_logger;
@@ -41,6 +41,12 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         return $this->fetchAll($select);
     }
     
+    public function sottraiBiglietti($IdEv,$numBiglietti) {
+        $dati=array('Biglietti_Rimanenti' => new Zend_Db_Expr('Biglietti_Rimanenti -'.$numBiglietti));  //Zend_db_Expr è necessaria per inserire delle operazioni che vanno fatte su mysql, come le sottrazioni
+        $where['Id= ?']=$IdEv;
+        $where['Biglietti_Rimanenti > ?']=0;
+        $this->update($dati,$where);
+    }
    
 
     // Estrae i prodotti IN SCONTO della tipologia $tipologia, eventualmente paginati ed ordinati
@@ -106,7 +112,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     }
     
     public function estraiLuoghi() {
-        $select=$this->select()->distinct()->from('Evento',array('Luogo'))->order('Luogo ASC');
+        $select=$this->select()->distinct()->from('evento',array('Luogo'))->order('Luogo ASC');
         return $this->fetchAll($select);
     }
     
@@ -143,7 +149,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     }
 
     public function estraiNomeEventi($eventi){
-        $select=$this->select()->from('Evento',array( 'Id', 'Nome')) 
+        $select=$this->select()->from('evento',array( 'Id', 'Nome')) 
                                 ->where('Id ',$eventi);
         $result=$this->fetchAll($select);
         $nomi=array();
@@ -221,7 +227,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     
 
     public function estraiUltimoId() {
-        $select = $this->select()->from('Evento',array('Id'))->order('Id DESC')->limit(1);
+        $select = $this->select()->from('evento',array('Id'))->order('Id DESC')->limit(1);
         return $this->fetchRow($select);
     }
 
