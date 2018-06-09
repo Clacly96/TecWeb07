@@ -15,6 +15,17 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     public function estraiEventoPerId($IdEv) {
          return $this->find($IdEv)->current();
     }
+    public function estraiEventiPerOrganizzazione($paged=null,$organizzazione) {
+        $select=$this->select()->where('Organizzazione =(?)',$organizzazione)->order('Nome ASC');
+        if (null !== $paged) {
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage(10)
+		          	  ->setCurrentPageNumber((int) $paged);
+			return $paginator;
+		}
+        return $this->fetchAll($select);
+    }
 
     
     public function estraiEventi($paged=null)
@@ -78,7 +89,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("YEAR(Data_Ora)=(?)",$anno);
         }
         if (!is_null($luogo)){
-            $select->where("Luogo=(?)",$luogo);
+            $select->where("LOWER(Luogo) LIKE LOWER('%".$luogo."%')"); //usiamo il like perché sul db vengono salvati anche via e numero civico oltre alla città
         }
         if (!is_null($cat)){
             $select->where("Tipologia=(?)",$cat);
@@ -109,13 +120,13 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("YEAR(Data_Ora)=(?)",$anno);
         }
         if (!is_null($luogo)){
-            $select->where("Luogo=(?)",$luogo);
+            $select->where("LOWER(Luogo) LIKE LOWER('%".$luogo."%')");  //usiamo il like perché sul db vengono salvati anche via e numero civico oltre alla città
         }
         if (!is_null($cat)){
             $select->where("Tipologia=(?)",$cat);
         }
         if(!is_null($desc)){
-            $select->where("LOWER(Descrizione) LIKE LOWER('%".$desc."%')");  //sintassi del like vista online
+            $select->where("LOWER(Descrizione) LIKE LOWER('%".$desc."%')"); 
         }
         
         $select->order('Nome');
@@ -141,6 +152,79 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         }
         return $nomi;
     }
+
+    public function inserisciEvento($ev) {
+        $evento=array();
+        $evento['Id']=$ev['IdEv'];
+        $evento['Nome']=$ev['Nome'];
+        $evento['Descrizione']=$ev['Descrizione'];
+        $evento['Luogo']= implode('-', array($ev['Citta'],$ev['Via'],$ev['Civico']));
+        $dataora=$ev['Data'].' '.implode(':',array($ev['Ora'],$ev['Minuti'],'00'));
+        $evento['Data_Ora']=$dataora;
+        $evento['Programma']=$ev['Programma'];
+        $evento['Biglietti_Rimanenti']=$ev['Biglietti_Rimanenti'];
+        $evento['Tipologia']=$ev['Tipologia'];
+        $evento['Organizzazione']=$ev['Organizzazione'];
+        $evento['Sconto']=$ev['Sconto'];
+        
+        $data= new Zend_Date($ev['Data']);
+        $data->subDay($ev['Giorni_Sconto']);
+        
+        $evento['Data_Inizio_Sconto']=$data->toString('yyyy-MM-dd');
+        $evento['Data_Fine_Acquisto']=$ev['Data_Fine_Acquisto'];
+        $evento['Prezzo_Biglietto']=$ev['Prezzo_Biglietto'];
+        $evento['Locandina']=$ev['Locandina'];
+        $evento['Mappa']=$ev['Mappa'];
+        $this->insert($evento);
+    }
+    public function modificaEvento($ev) {
+        $evento=array();
+        $evento['Nome']=$ev['Nome'];
+        $evento['Descrizione']=$ev['Descrizione'];
+        $evento['Luogo']= implode('-', array($ev['Citta'],$ev['Via'],$ev['Civico']));
+        $dataora=$ev['Data'].' '.implode(':',array($ev['Ora'],$ev['Minuti'],'00'));
+        $evento['Data_Ora']=$dataora;
+        $evento['Programma']=$ev['Programma'];
+        $evento['Biglietti_Rimanenti']=$ev['Biglietti_Rimanenti'];
+        $evento['Tipologia']=$ev['Tipologia'];
+        $evento['Organizzazione']=$ev['Organizzazione'];
+        $evento['Sconto']=$ev['Sconto'];
+        
+        $data= new Zend_Date($ev['Data']);
+        $data->subDay($ev['Giorni_Sconto']);
+        
+        $evento['Data_Inizio_Sconto']=$data->toString('yyyy-MM-dd');
+        $evento['Data_Fine_Acquisto']=$ev['Data_Fine_Acquisto'];
+        $evento['Prezzo_Biglietto']=$ev['Prezzo_Biglietto'];
+        $evento['Locandina']=$ev['Locandina'];
+        $evento['Mappa']=$ev['Mappa'];
+        
+        $where['Id = (?)'] = $ev['Id'];
+        $this->update($evento, $where);
+    }
+    public function cancellaEvento($IdEv) {
+        $this->delete(array("Id=(?)"=>$IdEv));
+    }
+
+    
+    public function estraiBigliettiRimanenti($idEv){
+        $select=$this->select() // ->from(array('evento'),array('Id','Biglietti_Rimanenti')) da errore di joi perchè sopra la tabella è scritta con la E maiuscola
+                ->where('Id IN (?)',$idEv);
+        $biglietti= $this->fetchAll($select);
+        $bigliassoc=array();
+        foreach($biglietti as $biglietto){
+            $bigliassoc[$biglietto['Id']]=$biglietto['Biglietti_Rimanenti'];
+        }
+        return $bigliassoc;
+    }
+    
+    
+
+    public function estraiUltimoId() {
+        $select = $this->select()->from('Evento',array('Id'))->order('Id DESC')->limit(1);
+        return $this->fetchRow($select);
+    }
+
             
 }
 

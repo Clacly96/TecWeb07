@@ -1,0 +1,53 @@
+<section id="contenuto_centrale">
+    <h1>Statistiche dell'organizzazione: <?= $this->AuthInfo('Username');?></h1>
+    <table>
+    <tr>
+        <th>
+            Nome Evento
+        </th>
+        <th>
+            Biglietti Venduti
+        </th>
+        <th>
+            Perc Biglietti Venduti su Biglietti Totali
+        </th>
+        <th>
+            Totale incasso
+        </th>
+        <th>
+            Numero di partecipazioni
+        </th>
+    </tr>
+    <?php foreach ($this->statistiche as $indicetup => $tupla): ?>
+    <tr>
+        <?php foreach ($tupla as $indicecol => $colonna): ?>
+        <td>
+            <?php 
+                    if($indicecol=='partecipazioni' && $colonna!=0){
+                        echo '<a href='.$this->url(array(
+                'controller' => 'liv3',
+                'action' => 'infopartecipazioni',
+                'evento' => $indicetup           ),
+                'default',true
+                ) .'>'. $colonna . '</a>';
+                    }
+                    else  echo $colonna;
+                            ?>
+        </td>
+        <?php endforeach;?>
+    </tr>
+        <?php endforeach;?>
+    </table>
+    
+</section>
+<section id="contenuto_laterale">
+    <a href="<?=$this->url(array(
+                'controller' => 'liv3',
+                'action' => 'incasso',),
+                'default',true
+                ) ?>">Calcolo Incasso in un determinato periodo</a>
+</section>
+<?php if($this->eventi instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->eventi,'Sliding','liv3/_paginatorstatistiche.phtml');
+        }  ?>
+

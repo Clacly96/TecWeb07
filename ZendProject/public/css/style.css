@@ -401,6 +401,7 @@ nav{
     padding: 0 5px;
 }
 /*FINE  div contenitore per la form filtro*/
+
 .messaggio_positivo{
     background-color: #00DD00;
     color: #fff;
@@ -413,6 +414,16 @@ nav{
     font-size: 22pt;
     font-weight: 700;
     padding: 20px;
+}
+.tasto_cancella{
+    position: relative;    
+    display: inline-block;
+    background-color: #DD2020;
+    border-radius: 3px;
+    color: #fff;
+    text-decoration: none;
+    padding: 15px;
+    margin: 5px;
 }
 .tasto_acquisto{
     position: absolute;

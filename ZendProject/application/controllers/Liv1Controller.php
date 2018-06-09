@@ -90,7 +90,7 @@ class Liv1Controller extends Zend_Controller_Action
             else {$this->_helper->redirector('catalogo','liv1');}
         }
         else if(!is_null($IdEv)){  //estrae singolo evento
-            $utente=$this->view->AuthInfo('Username');
+            $utente=$this->view->authInfo('Username');
             $eventi=$this->_catalogModel->estraiEventoPerId($IdEv);
             if(!is_null($utente)){
                 $partecipato=(is_null($this->_catalogModel->estraiPartecipazione($IdEv,$utente)))? false : true ;

@@ -1,0 +1,13 @@
+<section id="contenuto_centrale">
+    <h1>Calcolo incassi dell'organizzazione: <?= $this->AuthInfo('Username'); ?> </h1>
+    <?php
+        if(isset($this->incasso)) : ?>
+        
+    <h2> Incasso: <?= $this->incasso; ?> </h2>
+    <?php endif; ?> 
+    <?= $this->formIncasso; ?>
+        
+   
+  
+</section>
+

@@ -1,0 +1,30 @@
+<section id="contenuto_centrale">
+    <h1>Lista partecipanti all'evento:  <?= $this->evento;?></h1>
+    
+    <?php if(!is_string($this->info)): ?>
+    <table>
+    <tr>
+        <th>
+            Nome
+        </th>
+        <th>
+            Cognome
+        </th>
+    </tr>
+    <?php foreach ($this->info as $partecipante): ?>
+    <tr>
+        <td><?= $partecipante['Nome'] ?></td>
+        <td><?= $partecipante['Cognome'] ?></td>
+    </tr>
+        <?php endforeach;?>
+    </table>
+   
+    <?php else: ?>
+            <?= $this->info ?>
+    <?php endif; ?>
+
+</section>
+    <?php if($this->info instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->info,'Sliding','liv3/_paginatorpartecipazioni.phtml');
+        }  ?>
+     

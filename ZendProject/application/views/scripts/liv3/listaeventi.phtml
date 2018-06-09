@@ -1,0 +1,20 @@
+<section id="contenuto_centrale">
+    <h1>Lista eventi organizzati</h1>
+    <table>
+        <tr><th>Nome evento</th><th>Modifica</th></tr>
+        <?php foreach ($this->eventi as $evento): ?>
+        <tr><td><?=$evento->Nome?></td>
+            <td><a href="<?= $this->url(array(
+                'controller' => 'liv3',
+                'action' => 'modifica',
+                'evento' => $evento->Id),
+                'default',true
+                );?>">Modifica</a></td>
+        </tr>
+        <?php endforeach;?>
+    </table>
+</section>
+<?php if($this->eventi instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->eventi,'Sliding','liv3/_paginatorlistaeventi.phtml');
+      }  ?>
+
