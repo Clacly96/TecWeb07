@@ -55,7 +55,7 @@ class Liv1Controller extends Zend_Controller_Action
         $numpart=null;
 
         if(!is_null($tiporic)){
-            if($tiporic=='filtro'){
+            if($tiporic=='filtro'){                
                 if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
                 }
@@ -64,7 +64,7 @@ class Liv1Controller extends Zend_Controller_Action
                        return $this->render('catalogo');
                 }
                 $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro($paged,
+                $eventi= $this->_catalogModel->filtro(null,
                         $this->settaNullCondizionale($valori['Username']), 
                         $this->settaNullCondizionale($valori['Mese']),
                         $this->settaNullCondizionale($valori['Anno']),
@@ -102,6 +102,33 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
 
     }
+    
+    public function filtroajaxAction(){
+        $this->_helper->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+        if (!$this->getRequest()->isPost()) {
+                $this->_helper->redirector('index');
+        }
+        $form=$this->_formFiltro;
+        if (!$form->isValid($_POST)) {
+               return $this->render('catalogo');
+        }
+        $valori=$form->getValues();
+        $eventi= $this->_catalogModel->filtro(null,
+                $this->settaNullCondizionale($valori['Username']), 
+                $this->settaNullCondizionale($valori['Mese']),
+                $this->settaNullCondizionale($valori['Anno']),
+                $this->settaNullCondizionale($valori['Luogo']),
+                $this->settaNullCondizionale($valori['Tipologia']));
+
+        $vettoreEventi=array();
+        foreach ($eventi as $evento) {
+            $vettoreEventi[]=$this->view->AnteprimaEvento($evento,'anteprima');
+        }
+        $this->_helper->json($vettoreEventi);
+    }
+    
     public function ricercaAction()
     {
     }
