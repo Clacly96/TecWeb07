@@ -1,0 +1,52 @@
+<nav>
+                <img id="tastomenu" src="<?= $this->baseUrl('css/images/menu.png') ?>" width="30" height="30">
+                <a id="logo" href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'index',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">TecWeb</a>
+<div id="menu">
+    <div id="navsx">                        
+        <ul>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'index',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Home</a></li>
+        </ul>                    
+    </div>
+                
+    <div id="navdx">
+                    
+        <ul>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv1',
+                        'action'     => 'ricerca',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>"><img id="searchimg" src="<?= $this->baseUrl('css/images/search.png')  ?>" width="30" height="30"></a></li>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv4',
+                        'action'     => 'areariservata',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Area riservata</a></li>
+            <li><a href="<?= $this->url(array(
+                        'controller' => 'liv4',
+                        'action'     => 'logout',
+                        ), 
+                        'default',true
+                    ); 
+                 ?>">Logout</a></li>                        
+        </ul>
+                    
+    </div>
+</div>
+</nav>
+
