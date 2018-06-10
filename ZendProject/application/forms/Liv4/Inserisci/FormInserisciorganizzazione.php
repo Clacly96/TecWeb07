@@ -14,7 +14,7 @@ class Application_Form_Liv4_Inserisci_FormInserisciorganizzazione extends App_Fo
             'label' => 'Username',
             'filters' => array('StringTrim'),
             'required' => true,
-            'validators' => array(array('StringLength',true, array(6,20)),
+            'validators' => array(array('StringLength',true, array(3,10)),
                                             array('Db_NoRecordExists', true, array(  
                                                                             'table' => 'utente',
                                                                             'field' => 'Username'))),
@@ -25,7 +25,7 @@ class Application_Form_Liv4_Inserisci_FormInserisciorganizzazione extends App_Fo
             'label' => 'Password',
             'filters' => array('StringTrim'),
             'required' => true,
-            'validators' => array(array('StringLength',true, array(6,10))),
+            'validators' => array(array('StringLength',true, array(4,10))),
             'decorators' => $this->elementDecorators,
         ));
         
