@@ -1,0 +1,41 @@
+<section id="contenuto_centrale">
+    <?php if(is_null($this->selectedUte)) {
+        echo '<h1>Utenti iscritti al sito</h1>';
+        echo '<h2> Per visualizzare il loro profilo di acquisto cliccare sul nome utente</h2>';
+        echo '<table id="listaute">';
+        foreach ($this->utenti as $ute) {
+            echo '<tr class="ute_tr">'
+            . '<td><a href='.$this->url(array('controller' => 'liv4','action' => 'listautenti','utente' => $ute->Username), 'default',true).'>'
+            . $ute->Username.'</a></td>'
+            . '<td><a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificautente','utente' => $ute->Username), 'default', true).'> Modifica </a></td>'
+            . '<td><a href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellautente','utente' => $ute->Username), 'default', true).'> Cancella </a></td>'
+            . '</li>';
+        }
+        echo '</table>';
+    } else {
+        $moneta = new Zend_Currency();
+        echo '<div id="SingoloUtente">';
+            echo '<h1>Profilo di acquisto di ' .$this->utenti->Username.'</h1>';
+            echo '<br><br>';
+            if(empty($this->ordini['selectedUte'])) {
+                echo '<h2>Ancora non ha effettuato alcun acquisto</h2>';
+            } else {
+                echo '<h2>Eventi a cui ha partecipato</h2>';
+                echo '<table>';
+                echo '<tr><th>Evento</th><th>Numero Biglietti</th><th>Totale Speso</th></tr>';
+                foreach($this->ordini as $elem) {
+                    echo '<tr>';
+                    echo '<td>'.$this->nomi_eventi[$elem->Evento].'</td>';
+                    echo '<td>'.$elem->Numero_Biglietti.' </td>';
+                    echo '<td>'.$moneta->toCurrency($elem->Totale).' </td>';
+                    echo '</tr>';
+                }
+                echo '</table>';
+            }
+    }
+       
+    if($this->utenti instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->utenti,'Sliding','liv4/_paginatorlistautenti.phtml');
+    } 
+    ?>
+</section>
