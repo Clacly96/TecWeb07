@@ -47,9 +47,10 @@ class Application_Model_Utenza extends App_Model_Abstract
 
     }
 	
-    public function updateUtente($info) {
-        return $this->getResource('Utente')->updateUtente($info);
+    public function updateUtente($info,$username) {
+        return $this->getResource('Utente')->updateUtente($info,$username);
     }
+	
     public function estraiNomeCognPerUsername($username,$paged=null) {
         return $this->getResource('Utente')->estraiNomeCognPerUsername($username,$paged);
     }
@@ -68,7 +69,30 @@ class Application_Model_Utenza extends App_Model_Abstract
         }
         
         else { return null; }
-        
+    }
+	
+    public function getListaUtenti($paged=null) {
+        return $this->getResource('Utente')->getListaUtenti();
+    }
+	 
+    public function getListaOrganizzazioni($paged=null) {
+        return $this->getResource('Utente')->getListaOrganizzazioni();
+    }
+	
+    public function insertOrganizzazione($info) {
+        return $this->getResource('Utente')->insertOrganizzazione($info);
+    }
+	
+    public function cancellaUtente($id) {
+        return $this->getResource('Utente')->cancellaUtente($id);
+    }
+    
+    public function cancellaOrganizzazione ($id) {
+        return $this->getResource('Utente')->cancellaOrganizzazione($id);
+    }
+	
+    public function updateOrganizzazione($info,$username) {
+        return $this->getResource('Utente')->updateOrganizzazione($info,$username);
     }
 }
 
