@@ -70,10 +70,10 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
         $insert=$this->insert($dati);
     }
 	
-    public function updateUtente ($info) {
+    public function updateUtente ($info,$username) {
         
         $residenza=$info['Citta'].'-'.$info['Via'].'-'.$info['Civico'];
-        $where['Username = ?'] = $info['Username'];
+        $where['Username = ?'] = $username;
         $dati = array( 'Username' => $info['Username'],
 		    'Password' => $info['Password'],
 		    'Nome' => $info['Nome'],
@@ -83,6 +83,24 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
 		    'Ruolo' => 'liv2',
                     'Telefono' => $info['Telefono']
                      );
+        $update=$this->update($dati, $where);
+    }
+	
+    public function updateOrganizzazione($info,$username) {
+        
+        $sede=$info['Citta'].'-'.$info['Via'].'-'.$info['Civico'];
+        $where['Username = ?'] = $username;
+        $dati = array( 'Username' => $info['Username'],
+		    'Password' => $info['Password'],
+		    'Email' => $info['Email'],
+                    'Ruolo' => 'liv3',
+                    'Descrizione' => $info['Descrizione'],
+                    'Missione' => $info['Missione'],
+                    'Telefono' => $info['Telefono'],
+                    'Fax' => $info['Fax'],
+                    'Sede' => $sede,
+                    'Logo' => $info['Logo']
+        );
         $update=$this->update($dati, $where);
     }
     
@@ -97,5 +115,58 @@ class Application_Resource_Utente extends Zend_Db_Table_Abstract {
             return $paginator;
         }
         return $this->fetchAll($select);
+    }
+	
+    public function getListaUtenti($paged=null)
+    {
+        $select=$this->select()
+                ->where("Ruolo='liv2'")
+                ->order('Username');
+        if($paged != null) {
+            $adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+            $paginator = new Zend_Paginator($adapter);
+            $paginator ->setItemCountPerPage(10)
+                    ->setCurrentPageNumber((int) $paged);
+            return $paginator;
+        }
+        return $this->fetchAll($select);
+    }
+	  
+    public function getListaOrganizzazioni ($paged=null) {
+        $select=$this->select()
+                ->where("Ruolo='liv3'")
+                ->order('Username');
+        if($paged != null) {
+            $adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+            $paginator = new Zend_Paginator($adapter);
+            $paginator ->setItemCountPerPage(10)
+                    ->setCurrentPageNumber((int) $paged);
+            return $paginator;
+        }
+        return $this->fetchAll($select);
+    }
+	
+    public function insertOrganizzazione($info) {
+        $sede=$info['Citta'].'-'.$info['Via'].'-'.$info['Civico'];
+        $dati = array( 'Username' => $info['Username'],
+		    'Password' => $info['Password'],
+		    'Email' => $info['Email'],
+                    'Ruolo' => 'liv3',
+                    'Descrizione' => $info['Descrizione'],
+                    'Missione' => $info['Missione'],
+                    'Telefono' => $info['Telefono'],
+                    'Fax' => $info['Fax'],
+                    'Sede' => $sede,
+                    'Logo' => $info['Logo']
+        );
+        $insert=$this->insert($dati);
+    }
+	
+    public function cancellaUtente($id) {
+        $this->delete(array("Username = (?)" => $id));
+    }
+	
+    public function cancellaOrganizzazione($id) {
+        $this->delete(array("Username = (?)" => $id));
     }
 }
