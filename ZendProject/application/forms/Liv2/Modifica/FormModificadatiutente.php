@@ -21,7 +21,7 @@ class Application_Form_Liv2_Modifica_FormModificadatiutente extends App_Form_Abs
                     'label' => 'Username',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(6,20)),
+                    'validators' => array(array('StringLength',true, array(3,10)),
                                             array('Db_NoRecordExists', true, array(
                                                                             'table' => 'utente',
                                                                             'field' => 'Username',
@@ -35,7 +35,7 @@ class Application_Form_Liv2_Modifica_FormModificadatiutente extends App_Form_Abs
                     'label' => 'Password',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(6,10)),
+                    'validators' => array(array('StringLength',true, array(4,10)),
                                             array('identical', true, array('Password'))),
                     'decorators' => $this->elementDecorators,
         ));
