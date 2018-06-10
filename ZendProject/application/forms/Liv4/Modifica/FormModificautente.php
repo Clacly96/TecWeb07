@@ -1,227 +1,142 @@
 <?php
-class Liv4Controller extends Zend_Controller_Action
+class Application_Form_Liv4_Modifica_FormModificautente extends App_Form_Abstract
 {
     protected $_utenzaModel;
-    protected $_authService;
-    protected $_formModifica;
-    protected $_formInserisci;
-    protected $_formModificaorg;
     
     public function init() {
-        $this->_helper->layout->setLayout('main');
-        $this->_utenzaModel = new Application_Model_Utenza();
-        $this->_authService = new Application_Service_Autenticazione();
-        $this->view->inserisciForm= $this->getInserisciForm();
-    }
-    
-    public function indexAction() {
-        $this->_helper->redirector('index','liv1');
-    }
-    
-    public function logoutAction() {
-        $this->_authService->clear();
-	return $this->_helper->redirector('index','liv1');
-    }
-    
-    public function areariservataAction() {
         
-    }
-    
-    public function listaorganizzazioniAction() {
-        $OrgId=$this->_getParam('organizzazione',null);
-        $paged = $this->_getParam('page',1);
-        if(is_null($OrgId)){
-            $organizzazioni=$this->_utenzaModel->getListaOrganizzazioni($paged);
-        } else {
-            $organizzazioni=$this->_utenzaModel->getUtenteByUsername($OrgId);
-        }
-        $this->view->assign(array(
-                        'organizzazioni'=>$organizzazioni,
-                        'selectedOrg'=>$OrgId
-                        )
-        );
-    }
-    
-    public function listautentiAction() {
-        $UteId=$this->_getParam('utente',null);
-        $paged = $this->_getParam('page',1);
-        if(is_null($UteId)){
-            $utente=$this->_utenzaModel->getListaUtenti($paged);
-        } else {
-            $utente=$this->_utenzaModel->getUtenteByUsername($UteId);
-            $ordini=$this->_utenzaModel->estraiOrdiniPerUtente($paged=null,$UteId);
-            $this->view->assign(array('ordini' => $ordini['ordini'],'nomi_eventi' => $ordini['nomieventi']));
-        }
-        $this->view->assign(array(
-                        'utenti'=>$utente,
-                        'selectedUte'=>$UteId
-                        )
-        );
-    }
-    
-    public function inserisciorganizzazioneAction() {
+        $this->_utenzaModel= new Application_Model_Utenza();
+        $this->setMethod('post');
+        $this->setName('Modifica');
+        $this->setAction('');
+        $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
         
-    }
-    
-    public function insertorganizzazioneAction() {
-        if (!$this->getRequest()->isPost()) {
-            $this->_helper->redirector('listaorganizzazioni');
-        }
-        $form=$this->_formInserisci;
-        if (!$form->isValid($_POST)) {
-	    $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
-            return $this->render('inserisciorganizzazione');
-        }
-        $estensione = pathinfo($form->getElement('Logo')->getFileName(), PATHINFO_EXTENSION); 
-        $form->getElement('Logo')->addFilter('Rename', array(
-            'target' => $form->getElement('Username')->getValue() . '.' . $estensione,
-            'overwrite' => true
+       
+        $username = $this->getAttrib('utente');
+        $this->addElement('text', 'Username', array(
+                    'label' => 'Username',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'validators' => array(array('StringLength',true, array(3,10)),
+                                            array('Db_NoRecordExists', true, array(
+                                                                            'table' => 'utente',
+                                                                            'field' => 'Username',
+                                                                            'exclude' => array ('field' => 'Username', 'value' => $username)))),
+                    'value' => $username,                                                     
+                    'decorators' => $this->elementDecorators,
         ));
-        $valori=$form->getValues();
-        if($valori['Logo']==null){
-            $valori['Logo']='noimage.jpg';
-        }
-        $this->_utenzaModel->insertOrganizzazione($valori);
-        $this->_helper->redirector('listaorganizzazioni');
-        
-    }
-    
-    public function modificautenteAction() {
-        
-        $Uteusername=$this->_getParam('utente', null);
-        if(is_null($Uteusername)) {
-            $this->_helper->redirector('listautenti');
-        }
-        $this->view->modificaForm = $this->getModificaForm($Uteusername);
-        $this->view->assign(array(
-                        'utente' => $Uteusername
-                        )
-        );
-        
-    }
-    
-    public function updateutenteAction() {
-        $username=$this->_getParam('utente', null);
-        if(is_null($username)){
-            $this->_helper->redirector('listautenti');
-        }
-        $this->view->modificaForm= $this->getModificaForm($username);
-        if (!$this->getRequest()->isPost()) {
-            $this->_helper->redirector('listautenti');
-        }
-        $form=$this->_formModifica;
-        if (!$form->isValid($_POST)) {
-            $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
-            return $this->render('modificautente');
-        }
-        $valori=$form->getValues();
-        $ute=$this->_utenzaModel->getUtenteByUsername($username);
-        if($valori['Password']==null){
-            $valori['Password']=$ute->Password;
-        }
-        $oldusername=$ute->Username;
-        $this->_utenzaModel->updateUtente($valori,$oldusername);
-        $this->_helper->redirector('listautenti');
-    }
-    
-    public function modificaorganizzazioneAction() {
-        $OrgId=$this->_getParam('organizzazione', null);
-        if(is_null($OrgId)) {
-            $this->_helper->redirector('listaorganizzazioni');
-        }
-        $this->view->modificaorgForm = $this->getModificaorgForm($OrgId);
-        $this->view->assign(array(
-                        'utente' => $OrgId
-                        )
-        );
-    }
-    
-    public function updateorganizzazioneAction() {
-        $OrgId=$this->_getParam('organizzazione', null);
-        if(is_null($OrgId)){
-            $this->_helper->redirector('listaorganizzazioni');
-        }
-        $this->view->modificaorgForm= $this->getModificaorgForm($OrgId);
-        if (!$this->getRequest()->isPost()) {
-            $this->_helper->redirector('listaorganizzazioni');
-        }
-        $form=$this->_formModificaorg;
-        if (!$form->isValid($_POST)) {
-            $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
-            return $this->render('modificaorganizzazione');
-        }
-        $estensione = pathinfo($form->getElement('Logo')->getFileName(), PATHINFO_EXTENSION); 
-        $form->getElement('Logo')->addFilter('Rename', array(
-            'target' => $OrgId . '.' . $estensione,
-            'overwrite' => true
+         
+        $this->addElement('password', 'Password', array(
+                    'label' => 'Password',
+                    'filters' => array('StringTrim'),
+                    'validators' => array(array('StringLength',true, array(4,10)),
+                                            array('identical', true, array('Password'))),
+                    'decorators' => $this->elementDecorators,
         ));
-        $valori=$form->getValues();
-        $organiz=$this->_utenzaModel->getUtenteByUsername($OrgId);
-        if($valori['Logo']==null){
-            $valori['Logo']=$organiz->Logo;
-        }
-        if($valori['Password']==null){
-            $valori['Password']=$organiz->Password;
-        }
-        $oldusername=$organiz->Username;
-        $this->_utenzaModel->updateOrganizzazione($valori,$oldusername);
-        $this->_helper->redirector('listaorganizzazioni');
-    }
-    
-    public function cancellautenteAction() {
-        if(!is_null($this->_getParam('utente'))){
-            $UteId=$this->_getParam('utente');
+        
+        $nome=$this->_utenzaModel->getUtenteByUsername($username)->Nome;
+        $this->addElement('text', 'Nome', array(
+                    'label' => 'Nome',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'value' => $nome,
+                    'validators' => array(array('StringLength',true, array(1,30))),
+                    'decorators' => $this->elementDecorators,
+                    
+        ));
+                
+        $cognome=$this->_utenzaModel->getUtenteByUsername($username)->Cognome;
+        $this->addElement('text', 'Cognome', array(
+                    'label' => 'Cognome',
+                    'filters' => array('StringTrim'),
+                    'value' => $cognome,
+                    'required' => true, 
+                    'validators' => array(array('StringLength',true, array(1,30))),
+                    'decorators' => $this->elementDecorators,
+                    
+        ));
+                
+        $email=$this->_utenzaModel->getUtenteByUsername($username)->Email;   
+        $this->addElement('text', 'Email', array(
+                    'label' => 'Email',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'value' => $email,
+                    'validators' => array(array('StringLength',true, array(1,30)),
+                                            array('EmailAddress'),
+                                            array('Db_NoRecordExists', false, array(
+                                                                            'table' => 'utente',
+                                                                            'field' => 'Email',
+                                                                            'exclude' => array ('field' => 'Email', 'value' => $email)))),
+                    'decorators' => $this->elementDecorators,
+        ));
+        
+        $resid=$this->_utenzaModel->getUtenteByUsername($username)->Residenza;
+        $residenza=explode("-", $resid);
+        
+        $citta=$residenza[0];
+        $this->addElement('text', 'Citta', array(
+                    'label' => 'Citta',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'value' => $citta,
+                    'validators' => array(array('StringLength',true, array(1,26))),
+                    'decorators' => $this->elementDecorators,
+        ));
+                
+        if(empty($residenza[1])) {
+            $via=' ';
         } else {
-            $this->_helper->redirector('listautenti');
+            $via=$residenza[1];
         }
-        $this->_utenzaModel->cancellaUtente($UteId);
-        $this->_helper->redirector('listautenti');
-    }
-    
-    public function cancellaorganizzazioneAction() {
-        if(!is_null($this->_getParam('organizzazione'))){
-            $OrgId=$this->_getParam('organizzazione');
+        $this->addElement('text', 'Via', array(
+                    'label' => 'Via/Piazza',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'value' => $via,
+                    'validators' => array(array('StringLength',true, array(1,30))),
+                    'decorators' => $this->elementDecorators,
+        ));
+                
+        if(empty($residenza[2])) {
+            $civico=' ';
         } else {
-            $this->_helper->redirector('listaorganizzazioni');
+            $civico=$residenza[2];
         }
-        $this->_utenzaModel->cancellaOrganizzazione($OrgId);
-        $this->_helper->redirector('listaorganizzazioni');
-    }
-    
-    private function getModificaForm($username=null) {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formModifica = new Application_Form_Liv4_Modifica_FormModificautente(array('utente'=>$username));
-        $this->_formModifica->setAction($urlHelper->url(array(
-                'controller' => 'liv4',
-                'action' => 'updateutente',
-                'utente' => $username,
-            ),
-                'default',true
-                ));
-        return $this->_formModifica;
-    }
-    
-    private function getInserisciForm() {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formInserisci = new Application_Form_Liv4_Inserisci_FormInserisciorganizzazione();
-        $this->_formInserisci->setAction($urlHelper->url(array(
-                'controller' => 'liv4',
-                'action' => 'insertorganizzazione'),
-                'default',true
-                ));
-        return $this->_formInserisci;
-    }
-    
-    private function getModificaorgForm($OrgId=null) {
-        $urlHelper = $this->_helper->getHelper('url');
-        $this->_formModificaorg = new Application_Form_Liv4_Modifica_FormModificaorganizzazione(array('organizzazione'=>$OrgId));
-        $this->_formModificaorg->setAction($urlHelper->url(array(
-                'controller' => 'liv4',
-                'action' => 'updateorganizzazione',
-                'organizzazione' => $OrgId
-                ),
-                'default',true
-                ));
-        return $this->_formModificaorg;
+        $this->addElement('text', 'Civico', array(
+                    'label' => 'Numero civico',
+                    'filters' => array('StringTrim'),
+                    //'required' => true,
+                    'value' => $civico,
+                    'validators' => array(array('StringLength',true, array(1,4))),
+                    'decorators' => $this->elementDecorators,
+        ));          
+                
+        $telefono=$this->_utenzaModel->getUtenteByUsername($username)->Telefono;        
+        $this->addElement('text', 'Telefono', array(
+                    'label' => 'Telefono',
+                    'filters' => array('StringTrim'),
+                    'required' => true,
+                    'value' => $telefono,
+                    'validators' => array(array('StringLength',true, array(8,20)),
+                                            array('Digits'),
+                                            array('Db_NoRecordExists', false, array(
+                                                                            'table' => 'utente',
+                                                                            'field' => 'Telefono',
+                                                                            'exclude' => array ('field' => 'Telefono', 'value' => $telefono)))),
+                    'decorators' => $this->elementDecorators,
+        ));
+
+	$this->addElement('submit', 'Modifica', array(
+                    'label' => 'Modifica',
+                    'decorators' => $this->buttonDecorators,
+	));
+        
+        $this->setDecorators(array(
+			'FormElements',
+			array('HtmlTag', array('tag' => 'table')),
+			array('Description', array('placement' => 'prepend', 'class' => 'formerror')),
+			'Form'
+	));
     }
 }
