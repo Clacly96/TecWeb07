@@ -49,6 +49,8 @@ class Liv1Controller extends Zend_Controller_Action
     public function catalogoAction()
     {
         $IdEv=$this->_getParam('evento',null);
+        $SelCat=$this->_getParam('SelCat',null);
+        $cat=$this->_catalogModel->estraiCategorie();
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
         $partecipato=null;
@@ -97,14 +99,22 @@ class Liv1Controller extends Zend_Controller_Action
             }
             $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
         }
-        else { $eventi=$this->_catalogModel->estraiEventi($paged);}   //estrae lista eventi
+        else if(!is_null($SelCat)){
+            $eventi=$this->_catalogModel->filtro($paged,null,null,null,null,$SelCat);
+            
+            
+               
+        } else{ $eventi=$this->_catalogModel->estraiEventi($paged);}//estrae lista eventi
 
-        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
+        $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
 
     }
     public function ricercaAction()
     {
     }
+    
+ 
+    
     public function listaorganizzazioniAction()
     {
         $OrgId=$this->_getParam('organizzazione',null);

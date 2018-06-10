@@ -35,6 +35,9 @@
         }
          else if (!is_null($this->eventi))
         {
+            /* if(!is_null($this->cat)){
+                 echo '<h1>'.
+             }*/
             echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
             $count=0;
@@ -79,3 +82,16 @@
     <?php endif;?>
 </section>
 <?php endif;?>
+<section>
+    <h2> Categorie </h2>
+    <ul>
+    <?php foreach ($this->cat as $cat): ?>
+        <li> <a href="<?= $this->url(array(
+                'controller' => 'liv1',
+                'action' => 'catalogo',
+                'SelCat' => $cat->Nome),
+                'default',true
+                );?>"><?= $cat->Nome ?></a>
+    <?php endforeach; ?>
+    </ul>
+</section>

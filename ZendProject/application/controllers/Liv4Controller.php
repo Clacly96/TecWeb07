@@ -68,6 +68,7 @@ class Liv4Controller extends Zend_Controller_Action
         } else {
             $this->_helper->redirector('index');
         }
+        $this->_catalogModel->setDefaultTipologia($tipo);
         $this->_catalogModel->cancellazioneTipologia($tipo);
         $this->_flashMessenger->addMessage('Tipologia eliminata con successo!');
         $this->_helper->redirector('areaprivata');
