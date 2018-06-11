@@ -1,5 +1,5 @@
 <?php $this->headScript()
-	->appendFile($this->baseUrl('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'))
+	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
 	->appendFile($this->baseUrl('js/script.js'))
 	->captureStart() ?>
 
@@ -9,13 +9,8 @@ $(function()
 	var actionUrl='<?= $this->url(array('controller' => 'liv1', 'action' => 'filtroajax',), 'default',true);  ?>';
 	var formName='<?= $this->filtroForm->getName() ?>';
 	$(":input").on('change', function(event) {
-            //$(this).closest("body").find(".pagination").hide();
+            $(this).closest("body").find(".pagination").hide();
             submitAjax(actionUrl,formName);
-        });
-        $(".pagination a").click(function(event){
-            var paginationUrl=$(this).attr(href);
-            paginatorAjax(paginationUrl, formName);
-            return false;
         });
 });
 
@@ -81,40 +76,43 @@ $(function()
         }
         ?>
 </section>
-<?php if($ruolo=='liv2' || $ruolo == null): ?>
-<section id="contenuto_laterale">
-    <?php if (!is_null($this->EvSelezionato)): ?>
-        <h1>Utenti che parteciperanno</h1>
-        <div class="partecipazione_div">
-        <?php if(!$this->partecipato && $ruolo=='liv2' && $evento->acquistabile()):?>
-            <div class="tasto_partecipazione"><a href="<?=$this->url(array(
-                                                           'controller' => 'liv2',
-                                                            'action' => 'partecipazione',
-                                                            'evento' => $this->eventi->Id),
-                                                            'default', true)?>"> Parteciperò </a>
-            </div>
-        <?php else: ?>
-            <div class="tasto_partecipazione">
-                <div>Parteciperò</div>
-            </div>
-        <?php endif;?>
-            <div class="numero_partecipazione">
-                <?=$this->numpart?>
-            </div>
-        </div>
-    <?php endif;?>
-</section>
+<?php if (is_null($this->EvSelezionato)):?>
+    <section id="contenuto_laterale">    
+            <h1> Categorie </h1>
+            <ul>
+                <?php foreach ($this->cat as $cat): ?>
+                    <li> <a href="<?= $this->url(array(
+                            'controller' => 'liv1',
+                            'action' => 'catalogo',
+                            'SelCat' => $cat->Nome),
+                            'default',true
+                            );?>"><?= $cat->Nome ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+    </section>
 <?php endif;?>
-<section>
-    <h2> Categorie </h2>
-    <ul>
-    <?php foreach ($this->cat as $cat): ?>
-        <li> <a href="<?= $this->url(array(
-                'controller' => 'liv1',
-                'action' => 'catalogo',
-                'SelCat' => $cat->Nome),
-                'default',true
-                );?>"><?= $cat->Nome ?></a>
-    <?php endforeach; ?>
-    </ul>
-</section>
+<?php if(($ruolo=='liv2' || $ruolo == null) && !is_null($this->EvSelezionato)): ?>
+    <section id="contenuto_laterale">
+            <h1>Utenti che parteciperanno</h1>
+            <div class="partecipazione_div">
+            <?php if(!$this->partecipato && $ruolo=='liv2' && $evento->acquistabile()):?>
+                <div class="tasto_partecipazione">
+                    <a href="<?=$this->url(array(
+                        'controller' => 'liv2',
+                        'action' => 'partecipazione',
+                        'evento' => $this->eventi->Id),
+                        'default', true)?>"> Parteciperò </a>
+                </div>
+            <?php else: ?>
+                <div class="tasto_partecipazione">
+                    <div>Parteciperò</div>
+                </div>
+            <?php endif;?>
+                <div class="numero_partecipazione">
+                    <?=$this->numpart?>
+                </div>
+            </div>
+    </section>
+<?php endif;?>

@@ -65,7 +65,7 @@ class Liv1Controller extends Zend_Controller_Action
                        return $this->render('catalogo');
                 }
                 $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro($paged,
+                $eventi= $this->_catalogModel->filtro(null,
                         $this->settaNullCondizionale($valori['Username']), 
                         $this->settaNullCondizionale($valori['Mese']),
                         $this->settaNullCondizionale($valori['Anno']),
@@ -81,7 +81,7 @@ class Liv1Controller extends Zend_Controller_Action
                 if (!$form->isValid($_POST)) {
 			return $this->render('ricerca');}
                 $valori=$form->getValues();
-                $eventi= $this->_catalogModel->ricerca($paged, 
+                $eventi= $this->_catalogModel->ricerca(null, 
                        $this->settaNullCondizionale($valori['Mese']),
                        $this->settaNullCondizionale($valori['Anno']),
                        $this->settaNullCondizionale($valori['Luogo']),
