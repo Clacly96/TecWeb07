@@ -1,0 +1,37 @@
+<section id="contenuto_laterale">
+   
+    <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'insfaq'),
+                
+                'default',true
+            );?>">Inserisci nuova FAQ </a>
+  
+</section>
+<section id="contenuto_centrale">
+    <h1>Lista FAQ</h1>
+    <table cellpadding="0" cellspacing="0" width="90%">
+     <?php foreach ($this->listafaq as $faq) :?>
+        <tr><td width="75%"> <h3> <?= $faq->Domanda?> </h3> </td>
+            <td> <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'modfaq',
+                'faq'=>$faq->Id),
+                'default',true
+                    );?>">Modifica</a> </td>
+            <td><a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'cancellafaq',
+                'faq'=>$faq->Id),
+                'default',true
+                    );?>">Cancella</a></td> </tr>
+        <tr><td   ><p> <?= $faq->Risposta?> </p></td></tr>
+        <tr> <td colspan="3"> <hr> </td> </tr>
+        
+     <?php endforeach;?>
+    </table>
+</section>
+    <?php if($this->listafaq instanceof Zend_Paginator){
+            echo $this->paginationControl($this->listafaq,'Sliding','liv4/_paginatorfaq.phtml');
+        } ?>
+

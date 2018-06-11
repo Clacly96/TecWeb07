@@ -39,6 +39,17 @@ class Liv3Controller extends Zend_Controller_Action
         $this->view->formInserimento = $this->getFormInserimentoEvento();
     }
     
+    public function validazioneinserimentoAction() 
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender();
+
+        $form = new Application_Form_Liv3_Eventi_Inserimento();
+        $response = $form->processAjax($_POST); 
+        if ($response !== null) {
+        	$this->getResponse()->setHeader('Content-type','application/json')->setBody($response);        	
+        }
+    }
     
     public function inseriscieventoAction(){
         $this->view->formInserimento = $this->getFormInserimentoEvento();
@@ -52,7 +63,7 @@ class Liv3Controller extends Zend_Controller_Action
                        return $this->render('inserimento');
         }
         
-        $ultimoId=$this->_catalogModel->estraiUltimoId();
+        $ultimoId=$this->_catalogModel->estraiUltimoId()->Id;
         if($ultimoId==null){
             $IdEv=0;
         }
@@ -93,6 +104,17 @@ class Liv3Controller extends Zend_Controller_Action
         $this->view->assign(array('idevento'=>$IdEv));
     }
     
+    public function validazionemodificaAction() 
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender();
+        $IdEv=$this->_getParam('evento');
+        $form = new Application_Form_Liv3_Eventi_Modifica(array('evento'=>$IdEv));
+        $response = $form->processAjax($_POST); 
+        if ($response !== null) {
+        	$this->getResponse()->setHeader('Content-type','application/json')->setBody($response);        	
+        }
+    }
     
     public function modificaeventoAction(){        
         if (!$this->getRequest()->isPost()) {

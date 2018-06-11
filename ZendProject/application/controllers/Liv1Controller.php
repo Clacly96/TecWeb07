@@ -21,8 +21,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
-        $this->view->formLogin = $this->getLoginForm();
-        $this->view->regForm=$this->getRegForm();
+        
         $this->_flashMessenger =$this->_helper->getHelper('FlashMessenger');
 
 	$this->_authService = new Application_Service_Autenticazione();
@@ -49,6 +48,8 @@ class Liv1Controller extends Zend_Controller_Action
     public function catalogoAction()
     {
         $IdEv=$this->_getParam('evento',null);
+        $SelCat=$this->_getParam('SelCat',null);
+        $cat=$this->_catalogModel->estraiCategorie();
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
         $partecipato=null;
@@ -64,7 +65,7 @@ class Liv1Controller extends Zend_Controller_Action
                        return $this->render('catalogo');
                 }
                 $valori=$form->getValues();
-                $eventi= $this->_catalogModel->filtro(null,
+                $eventi= $this->_catalogModel->filtro($paged,
                         $this->settaNullCondizionale($valori['Username']), 
                         $this->settaNullCondizionale($valori['Mese']),
                         $this->settaNullCondizionale($valori['Anno']),
@@ -97,9 +98,14 @@ class Liv1Controller extends Zend_Controller_Action
             }
             $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
         }
-        else { $eventi=$this->_catalogModel->estraiEventi($paged);}   //estrae lista eventi
+        else if(!is_null($SelCat)){
+            $eventi=$this->_catalogModel->filtro($paged,null,null,null,null,$SelCat);
+            
+            
+               
+        } else{ $eventi=$this->_catalogModel->estraiEventi($paged);}//estrae lista eventi
 
-        $this->view->assign(array('eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
+        $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
 
     }
     
@@ -132,6 +138,9 @@ class Liv1Controller extends Zend_Controller_Action
     public function ricercaAction()
     {
     }
+    
+ 
+    
     public function listaorganizzazioniAction()
     {
         $OrgId=$this->_getParam('organizzazione',null);
@@ -155,12 +164,24 @@ class Liv1Controller extends Zend_Controller_Action
     }
     
     public function registrazioneAction() {
+        $this->view->regForm=$this->getRegForm();
+    }
+    public function validazioneregistrazioneAction() 
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender();
 
+        $form = new Application_Form_Liv1_Utenza_Registrazione();
+        $response = $form->processAjax($_POST); 
+        if ($response !== null) {
+        	$this->getResponse()->setHeader('Content-type','application/json')->setBody($response);        	
+        }
     }
     public function inserisciutenteAction() {
         if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
             }
+        $this->view->regForm=$this->getRegForm();
         $form=$this->_formReg;
         if (!$form->isValid($_POST)) {
 			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
@@ -174,6 +195,7 @@ class Liv1Controller extends Zend_Controller_Action
 
     public function loginAction()
     {
+        $this->view->formLogin = $this->getLoginForm();
     }
 
     public function autenticazioneAction()
@@ -182,6 +204,7 @@ class Liv1Controller extends Zend_Controller_Action
         if (!$request->isPost()) {
             return $this->_helper->redirector('login');
         }
+        $this->view->formLogin = $this->getLoginForm();
         $form = $this->_formLogin;
         if (!$form->isValid($request->getPost())) {
             $form->setDescription('Attenzione: credenziali inserite errate.');
@@ -192,7 +215,7 @@ class Liv1Controller extends Zend_Controller_Action
             return $this->render('login');
         }
         $this->_flashMessenger->addMessage('Login avvenuto con successo!');
-        $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
+        $this->_helper->redirector('index', 'liv1');
     }
     /***********************Fine Action******************************************/
     

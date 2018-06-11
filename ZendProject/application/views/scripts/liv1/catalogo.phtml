@@ -1,16 +1,22 @@
 <?php $this->headScript()
-	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+	->appendFile($this->baseUrl('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'))
 	->appendFile($this->baseUrl('js/script.js'))
 	->captureStart() ?>
 
-// codice jQuery inserito da view-script nella sezione head della pagina
+
 $(function()
 {
 	var actionUrl='<?= $this->url(array('controller' => 'liv1', 'action' => 'filtroajax',), 'default',true);  ?>';
 	var formName='<?= $this->filtroForm->getName() ?>';
 	$(":input").on('change', function(event) {
-        submitAjax(actionUrl,formName);
-    });
+            //$(this).closest("body").find(".pagination").hide();
+            submitAjax(actionUrl,formName);
+        });
+        $(".pagination a").click(function(event){
+            var paginationUrl=$(this).attr(href);
+            paginatorAjax(paginationUrl, formName);
+            return false;
+        });
 });
 
 <?php $this->headScript()->captureEnd() ?>
@@ -52,6 +58,9 @@ $(function()
         }
          else if (!is_null($this->eventi))
         {
+            /* if(!is_null($this->cat)){
+                 echo '<h1>'.
+             }*/
             echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
             $count=0;
@@ -96,3 +105,16 @@ $(function()
     <?php endif;?>
 </section>
 <?php endif;?>
+<section>
+    <h2> Categorie </h2>
+    <ul>
+    <?php foreach ($this->cat as $cat): ?>
+        <li> <a href="<?= $this->url(array(
+                'controller' => 'liv1',
+                'action' => 'catalogo',
+                'SelCat' => $cat->Nome),
+                'default',true
+                );?>"><?= $cat->Nome ?></a>
+    <?php endforeach; ?>
+    </ul>
+</section>

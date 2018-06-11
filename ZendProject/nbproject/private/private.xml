@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/tecweb/application/controllers/Liv4Controller.php</file>
+            <file>file:/C:/xampp/htdocs/tecweb/application/models/Catalogo.php</file>
+            <file>file:/C:/xampp/htdocs/tecweb/application/views/scripts/liv4/modificatipo.phtml</file>
+            <file>file:/C:/xampp/htdocs/tecweb/application/forms/Liv4/Tipologie/Modifica.php</file>
+            <file>file:/C:/xampp/htdocs/tecweb/application/views/scripts/liv4/gestionetipo.phtml</file>
+            <file>file:/C:/xampp/htdocs/tecweb/application/models/resources/Tipologia.php</file>
+            <file>file:/C:/xampp/htdocs/tecweb/application/controllers/Liv3Controller.php</file>
+        </group>
     </open-files>
 </project-private>
