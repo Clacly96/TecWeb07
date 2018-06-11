@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 04, 2018 alle 10:03
--- Versione del server: 10.1.31-MariaDB
--- Versione PHP: 5.6.35
+-- Creato il: Giu 11, 2018 alle 10:56
+-- Versione del server: 10.1.32-MariaDB
+-- Versione PHP: 5.6.36
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tecweb07`
+-- Database: `tecweb`
 --
 
 -- --------------------------------------------------------
@@ -36,7 +36,6 @@ CREATE TABLE `evento` (
   `Data_Ora` datetime NOT NULL,
   `Programma` tinytext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Biglietti_Rimanenti` int(11) NOT NULL,
-  `Tipologia` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Organizzazione` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `Sconto` int(11) DEFAULT NULL,
   `Data_Inizio_Sconto` date DEFAULT NULL,
@@ -44,24 +43,25 @@ CREATE TABLE `evento` (
   `Data_Inserimento` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Prezzo_Biglietto` float NOT NULL,
   `Locandina` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `Mappa` text COLLATE utf8_unicode_ci NOT NULL
+  `Mappa` text COLLATE utf8_unicode_ci NOT NULL,
+  `Tipologia` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `evento`
 --
 
-INSERT INTO `evento` (`Id`, `Nome`, `Descrizione`, `Luogo`, `Data_Ora`, `Programma`, `Biglietti_Rimanenti`, `Tipologia`, `Organizzazione`, `Sconto`, `Data_Inizio_Sconto`, `Data_Fine_Acquisto`, `Data_Inserimento`, `Prezzo_Biglietto`, `Locandina`, `Mappa`) VALUES
-(1, 'Mostra di quadri', 'Esposizione di numerosi quadri nel museo cittadino', 'Roma', '2018-07-11 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 5, 'Mostra', 'rot', NULL, NULL, '2018-05-28', '2018-06-03 11:57:49', 25, '1.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(2, 'Concerto Vasco', 'Concerto di Vasco Rossi', 'Bologna-roma-34', '2018-06-21 20:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 286, 'Concerto', 'vasco1', 0, '2018-06-20', '2018-06-19', '2018-06-03 11:57:49', 120, '2.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(3, 'Tomb Raider', 'Film su Tomb Raider', 'Ancona', '2018-06-30 21:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 237, 'Cinema', 'rot', 25, '2018-05-20', '2018-06-28', '2018-06-03 11:57:49', 25, '3.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(4, 'Mostra estiva', 'Grande mostra di quadri e sculture organizzata da Michelangelo', 'Pescara', '2018-08-01 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 0, 'Mostra', 'Michelangelo', 20, '2018-08-28', '2018-07-31', '2018-06-03 11:57:49', 35, '4.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(12, 'Evento di prova', 'Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. ', 'Roma', '2018-07-31 08:00:00', 'Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. ', 2, 'Cinema', 'azienda1', 30, '2018-05-23', '2018-06-12', '2018-06-03 11:57:49', 35, '5.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(13, 'Concerto stelle', 'Concerto serale molto bello ed entusiasmante!', 'Rimini-maggio-23', '2018-06-21 20:00:00', 'I cantanti inizieranno ad esibirsi dalle 20 per una notte di musica!', 130, 'Concerto', 'vasco1', 20, '2018-06-16', '2018-06-20', '2018-06-03 11:57:49', 25.5, '6.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45879.11938949925!2d12.53966754246735!3d44.05351968856158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cc3a48fa6592b%3A0xc1f284db17f1449d!2sRimini+RN!5e0!3m2!1sit!2sit!4v1527851916955\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(15, 'Super Concerto', 'Concerto molto bello', 'Genova-milano-65', '2018-08-02 21:30:00', 'I cantanti canteranno per molto tempo', 82, 'Concerto', 'vasco1', 0, '2018-07-29', '2018-08-02', '2018-06-03 15:21:58', 30.2, '7.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91146.28728853996!2d8.820792035471769!3d44.44707885175662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d34152dcd49aad%3A0x236a84f11881620a!2sGenova+GE!5e0!3m2!1sit!2sit!4v1527885893689\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>'),
-(21, 'fhgdsfgf', 'AFDSGHDJKLJUYTERFSDCX', 'fdsagd-dfsgfdf-1', '2018-07-01 20:00:00', 'FDGHJRYTUI7UYRGDFVCBGNHJ', 50, 'Cinema', 'vasco1', 20, '2018-06-30', '2018-06-20', '2018-06-03 15:28:46', 25.5, '8.jpg', 'ferwt45ygf'),
-(22, 'dfgdhf', 'sadfghjk', 'dfsghfg-fdhgfg-3', '2018-07-01 20:00:00', 'sadfhgj', 50, 'Cinema', 'vasco1', 20, '2018-06-30', '2018-06-29', '2018-06-03 15:33:56', 150, '9.jpg', 'dfgjhk'),
-(23, 'retyuy', 'jklÃ²iuyt', 'retyut-rteu-4', '2018-06-21 20:00:00', 'trehg', 50, 'Cinema', 'vasco1', 20, '2018-06-20', '2018-06-29', '2018-06-03 15:34:46', 25.5, '10.jpg', '3retghjkiu76yt');
+INSERT INTO `evento` (`Id`, `Nome`, `Descrizione`, `Luogo`, `Data_Ora`, `Programma`, `Biglietti_Rimanenti`, `Organizzazione`, `Sconto`, `Data_Inizio_Sconto`, `Data_Fine_Acquisto`, `Data_Inserimento`, `Prezzo_Biglietto`, `Locandina`, `Mappa`, `Tipologia`) VALUES
+(1, 'Mostra di quadri', 'Esposizione di numerosi quadri nel museo cittadino', 'Roma', '2018-07-11 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 5, 'rot', NULL, NULL, '2018-05-28', '2018-06-11 10:52:00', 25, '1.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(2, 'Concerto Vasco', 'Concerto di Vasco Rossi', 'Bologna-roma-34', '2018-06-21 20:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 286, 'vasco1', 0, '2018-06-20', '2018-06-19', '2018-06-10 20:01:56', 120, '2.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(3, 'Tomb Raider', 'Film su Tomb Raider', 'Ancona', '2018-06-30 21:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 237, 'rot', 25, '2018-05-20', '2018-06-28', '2018-06-10 19:14:59', 25, '3.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(4, 'Mostra estiva', 'Grande mostra di quadri e sculture organizzata da Michelangelo', 'Pescara', '2018-08-01 10:00:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies magna sem. Pellentesque ut sapien nec augue ornare vestibulum. Aliquam cursus id magna at vulputate. Aliquam a orci id sem scelerisque maximus eget non augue. Fusce eleifend purus vitae', 0, 'Michelangelo', 20, '2018-08-28', '2018-07-31', '2018-06-10 19:14:59', 35, '4.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(12, 'Evento di prova', 'Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. ', 'Roma', '2018-07-31 08:00:00', 'Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. Evento creato per prova. ', 2, 'azienda1', 30, '2018-05-23', '2018-06-12', '2018-06-10 19:11:13', 35, '5.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.436285525689!2d13.905171926031052!3d42.88892289537918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331f4b543b0c575%3A0xbd91d83ad7ee7912!2s64014+Martinsicuro+TE!5e0!3m2!1sit!2sit!4v1527612353958\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(13, 'Concerto stelle', 'Concerto serale molto bello ed entusiasmante!', 'Rimini-maggio-23', '2018-06-21 20:00:00', 'I cantanti inizieranno ad esibirsi dalle 20 per una notte di musica!', 130, 'vasco1', 20, '2018-06-16', '2018-06-20', '2018-06-03 11:57:49', 25.5, '6.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45879.11938949925!2d12.53966754246735!3d44.05351968856158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cc3a48fa6592b%3A0xc1f284db17f1449d!2sRimini+RN!5e0!3m2!1sit!2sit!4v1527851916955\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(15, 'Super Concerto', 'Concerto molto bello', 'Genova-milano-65', '2018-08-02 21:30:00', 'I cantanti canteranno per molto tempo', 82, 'vasco1', 0, '2018-07-29', '2018-08-02', '2018-06-03 15:21:58', 30.2, '7.jpg', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91146.28728853996!2d8.820792035471769!3d44.44707885175662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d34152dcd49aad%3A0x236a84f11881620a!2sGenova+GE!5e0!3m2!1sit!2sit!4v1527885893689\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL),
+(21, 'fhgdsfgf', 'AFDSGHDJKLJUYTERFSDCX', 'fdsagd-dfsgfdf-1', '2018-07-01 20:00:00', 'FDGHJRYTUI7UYRGDFVCBGNHJ', 50, 'vasco1', 20, '2018-06-30', '2018-06-20', '2018-06-03 15:28:46', 25.5, '8.jpg', 'ferwt45ygf', NULL),
+(22, 'dfgdhf', 'sadfghjk', 'dfsghfg-fdhgfg-3', '2018-07-01 20:00:00', 'sadfhgj', 50, 'vasco1', 20, '2018-06-30', '2018-06-29', '2018-06-03 15:33:56', 150, '9.jpg', 'dfgjhk', NULL),
+(23, 'retyuy', 'jklÃ²iuyt', 'retyut-rteu-4', '2018-06-21 20:00:00', 'trehg', 50, 'vasco1', 20, '2018-06-20', '2018-06-29', '2018-06-03 15:34:46', 25.5, '10.jpg', '3retghjkiu76yt', NULL);
 
 -- --------------------------------------------------------
 
@@ -173,9 +173,9 @@ CREATE TABLE `tipologia` (
 --
 
 INSERT INTO `tipologia` (`Nome`) VALUES
-('Cinema'),
 ('Concerto'),
-('Mostra');
+('Mostra'),
+('Mostra Di quadri');
 
 -- --------------------------------------------------------
 
@@ -225,8 +225,8 @@ INSERT INTO `utente` (`Username`, `Password`, `Nome`, `Cognome`, `Email`, `Resid
 --
 ALTER TABLE `evento`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `Tipologia` (`Tipologia`),
-  ADD KEY `Evento_ibfk2` (`Organizzazione`);
+  ADD KEY `Evento_ibfk2` (`Organizzazione`),
+  ADD KEY `Evento_ibfk1` (`Tipologia`);
 
 --
 -- Indici per le tabelle `faq`
@@ -291,7 +291,7 @@ ALTER TABLE `storico`
 -- Limiti per la tabella `evento`
 --
 ALTER TABLE `evento`
-  ADD CONSTRAINT `Evento_ibfk1` FOREIGN KEY (`Tipologia`) REFERENCES `tipologia` (`Nome`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `Evento_ibfk1` FOREIGN KEY (`Tipologia`) REFERENCES `tipologia` (`Nome`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `Evento_ibfk2` FOREIGN KEY (`Organizzazione`) REFERENCES `utente` (`Username`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --

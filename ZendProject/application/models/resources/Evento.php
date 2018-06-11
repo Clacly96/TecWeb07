@@ -225,16 +225,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         return $this->fetchRow($select);
     }
     
-    public function setDefaultTipologia($tipologia){
-         
-        $valore=array(
-            'Tipologia' => null
-        );
-         $where=array(
-            'Tipologia=(?)'=>$tipologia
-        );
-         $this->update($valore, $where);
-    }
+  
 
             
 }

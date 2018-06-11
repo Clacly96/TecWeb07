@@ -144,9 +144,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
          return $this->getResource('Tipologia')->modificaTipologia($vecchio,$nuovo);
      }
      
-      public function setDefaultTipologia($tipologia){
-          return $this->getResource('Evento')->setDefaultTipologia($tipologia);
-      }
+      
 
 }
 
