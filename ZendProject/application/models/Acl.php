@@ -26,6 +26,7 @@ class Application_Model_Acl extends Zend_Acl
 		// ACL per amministratore (liv4)
 		$this->addRole(new Zend_Acl_Role('liv4'), 'liv1')
 			 ->add(new Zend_Acl_Resource('liv4'))
+                         ->deny('liv4','liv1',array('login','registrazione'))
 			 ->allow('liv4','liv4');
 	}
 }
