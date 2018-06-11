@@ -21,8 +21,7 @@ class Liv1Controller extends Zend_Controller_Action
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->view->filtroForm = $this->getFiltroForm();
         $this->view->filtroRicerca = $this->getRicercaForm();
-        $this->view->formLogin = $this->getLoginForm();
-        $this->view->regForm=$this->getRegForm();
+        
         $this->_flashMessenger =$this->_helper->getHelper('FlashMessenger');
 
 	$this->_authService = new Application_Service_Autenticazione();
@@ -57,7 +56,7 @@ class Liv1Controller extends Zend_Controller_Action
         $numpart=null;
 
         if(!is_null($tiporic)){
-            if($tiporic=='filtro'){
+            if($tiporic=='filtro'){                
                 if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
                 }
@@ -109,6 +108,33 @@ class Liv1Controller extends Zend_Controller_Action
         $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
 
     }
+    
+    public function filtroajaxAction(){
+        $this->_helper->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+        if (!$this->getRequest()->isPost()) {
+                $this->_helper->redirector('index');
+        }
+        $form=$this->_formFiltro;
+        if (!$form->isValid($_POST)) {
+               return $this->render('catalogo');
+        }
+        $valori=$form->getValues();
+        $eventi= $this->_catalogModel->filtro(null,
+                $this->settaNullCondizionale($valori['Username']), 
+                $this->settaNullCondizionale($valori['Mese']),
+                $this->settaNullCondizionale($valori['Anno']),
+                $this->settaNullCondizionale($valori['Luogo']),
+                $this->settaNullCondizionale($valori['Tipologia']));
+
+        $vettoreEventi=array();
+        foreach ($eventi as $evento) {
+            $vettoreEventi[]=$this->view->AnteprimaEvento($evento,'anteprima');
+        }
+        $this->_helper->json($vettoreEventi);
+    }
+    
     public function ricercaAction()
     {
     }
@@ -138,12 +164,24 @@ class Liv1Controller extends Zend_Controller_Action
     }
     
     public function registrazioneAction() {
+        $this->view->regForm=$this->getRegForm();
+    }
+    public function validazioneregistrazioneAction() 
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender();
 
+        $form = new Application_Form_Liv1_Utenza_Registrazione();
+        $response = $form->processAjax($_POST); 
+        if ($response !== null) {
+        	$this->getResponse()->setHeader('Content-type','application/json')->setBody($response);        	
+        }
     }
     public function inserisciutenteAction() {
         if (!$this->getRequest()->isPost()) {
                         $this->_helper->redirector('index');
             }
+        $this->view->regForm=$this->getRegForm();
         $form=$this->_formReg;
         if (!$form->isValid($_POST)) {
 			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
@@ -157,6 +195,7 @@ class Liv1Controller extends Zend_Controller_Action
 
     public function loginAction()
     {
+        $this->view->formLogin = $this->getLoginForm();
     }
 
     public function autenticazioneAction()
@@ -165,6 +204,7 @@ class Liv1Controller extends Zend_Controller_Action
         if (!$request->isPost()) {
             return $this->_helper->redirector('login');
         }
+        $this->view->formLogin = $this->getLoginForm();
         $form = $this->_formLogin;
         if (!$form->isValid($request->getPost())) {
             $form->setDescription('Attenzione: credenziali inserite errate.');
@@ -175,7 +215,7 @@ class Liv1Controller extends Zend_Controller_Action
             return $this->render('login');
         }
         $this->_flashMessenger->addMessage('Login avvenuto con successo!');
-        $this->_helper->redirector('index', $this->_authService->getIdentity()->Ruolo);
+        $this->_helper->redirector('index', 'liv1');
     }
     /***********************Fine Action******************************************/
     

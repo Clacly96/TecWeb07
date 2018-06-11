@@ -1,6 +1,6 @@
 <?php
 class Application_Resource_Faq extends Zend_Db_Table_Abstract{
-    protected $_name='FAQ';
+    protected $_name='faq';
     protected $_primary='Id';
     protected $_rowClass = 'Application_Resource_Faq_Item';
     
@@ -43,12 +43,5 @@ class Application_Resource_Faq extends Zend_Db_Table_Abstract{
         $this->update($nuova, $where);
         
     }
-    
-    }
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+}
 

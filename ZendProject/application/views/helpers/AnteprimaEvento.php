@@ -9,8 +9,13 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                         . '<div class="ev_sfondo"> '
                         . '<div class="descev">Descrizione:<br>'. $evento->estraiDescrBreve() .'...</div>'
                         . '<div class="przev"> Prezzo: '. $this->view->prezzoEventi($evento,true) .'</div>'
-                        . '</div><img src="'. $this->view->baseUrl('/images/locandine/' . $evento->Locandina) .'">'
-                        . '<div class="titoloev">'.$evento->Nome.'</div></a></li>';}
+                        . '</div><img src="'. $this->view->baseUrl('/images/locandine/' . $evento->Locandina) .'">';
+                    if($evento->scontato()){
+                            $tag=$tag.'<div class="visualizza_sconto">Sconto del '.$evento->Sconto.'%</div>';
+                        }
+                       $tag=$tag . '<div class="titoloev">'.$evento->Nome.'</div></a></li>';
+                    
+                }
 
                 if($tipo=='scontato') {$tag= '<li class="sconto_li">'
                         . '<a href="'.  $this->view->url(array('controller' => $liv , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true) .'">'

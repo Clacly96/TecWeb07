@@ -48,6 +48,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
         $prezzoEv=$Ev->ottieniPrezzo();
         $totale=$prezzoEv*$ordine['Numero_Biglietti'];
         $this->getResource('Storico')->insertOrdine($utente,$ordine,$totale);
+        $this->getResource('Evento')->sottraiBiglietti($ordine['Evento'],$ordine['Numero_Biglietti']);
     }
     
     public function estraiPartecipazioniPerEv($IdEv)

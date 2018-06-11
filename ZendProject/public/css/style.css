@@ -104,6 +104,17 @@ nav{
     text-decoration: none;
     display: block;
 }
+.visualizza_sconto{
+    background-color: #700000;
+    position: absolute;
+    top:0;
+    left:0;
+    color: #fff;
+    width: 100%;
+    padding: 0.5em;
+    text-align: center;
+    opacity: 0.8;
+}
 .ev_sfondo {
     overflow: hidden;
     opacity: 0.95;
