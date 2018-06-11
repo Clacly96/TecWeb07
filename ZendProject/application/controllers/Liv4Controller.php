@@ -23,7 +23,7 @@ class Liv4Controller extends Zend_Controller_Action
 	return $this->_helper->redirector('index','liv1');
     }
     
-    public function areariservataAction() {
+    public function areaprivataAction() {
         
     }
     
