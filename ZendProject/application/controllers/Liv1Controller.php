@@ -127,12 +127,16 @@ class Liv1Controller extends Zend_Controller_Action
                 $this->settaNullCondizionale($valori['Anno']),
                 $this->settaNullCondizionale($valori['Luogo']),
                 $this->settaNullCondizionale($valori['Tipologia']));
-
-        $vettoreEventi=array();
+        $listaeventi=array();
         foreach ($eventi as $evento) {
-            $vettoreEventi[]=$this->view->AnteprimaEvento($evento,'anteprima');
+            $listaeventi[$evento->Id]=$evento->toArray();
+            $listaeventi[$evento->Id]['url']=$this->view->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true);
+            $listaeventi[$evento->Id]['prezzoEvento']=$this->view->prezzoEventi($evento,true);
+            $listaeventi[$evento->Id]['locandinaUrl']=$this->view->baseUrl('/images/locandine/' . $evento->Locandina);
+            $listaeventi[$evento->Id]['descBreve']=$evento->estraiDescrBreve();
+            $listaeventi[$evento->Id]['scontato']=$evento->scontato();
         }
-        $this->_helper->json($vettoreEventi);
+        $this->_helper->json($listaeventi);
     }
     
     public function ricercaAction()

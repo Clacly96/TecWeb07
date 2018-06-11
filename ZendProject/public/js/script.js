@@ -14,6 +14,7 @@ function submitAjax(actionUrl, formName) {
 		success : elencaEventi
 	});
 }
+
 function creaListaEventi(eventi) {
 	if (( typeof (eventi) === 'undefined'))
 		return;
@@ -23,11 +24,21 @@ function creaListaEventi(eventi) {
 
 	var lista='';
 	for (chiave in eventi) {
-		lista += eventi[chiave];
+		lista += '<li class="ev_li">'
+                        + '<a href='+eventi[chiave]['url']+'>'
+                        + '<div class="ev_sfondo"> '
+                        + '<div class="descev">Descrizione:<br>'+eventi[chiave]['descBreve']+'...</div>'
+                        + '<div class="przev"> Prezzo: '+eventi[chiave]['prezzoEvento']+'</div>'
+                        + '</div><img src="'+eventi[chiave]['locandinaUrl']+'">';
+                    if(eventi[chiave]['scontato']){
+                            lista+='<div class="visualizza_sconto">Sconto del '+eventi[chiave]['Sconto']+'%</div>';
+                        }
+                       lista+='<div class="titoloev">'+eventi[chiave]['Nome']+'</div></a></li>';
             }
 	return lista;
 }
 
+                           
 
 /************Validazione automatica form*********************/
 function doValidation(id, actionUrl, formName) {

@@ -11,13 +11,13 @@ class Application_Form_Liv1_Utenza_Login extends App_Form_Abstract
         
         $this->addElement('text', 'Username', array(
                         'label' => 'Username',
-                        'required' => false,
+                        'required' => true,
                         'value' => "",
                         'decorators' => $this->elementDecorators,
                 ));
         $this->addElement('password', 'Password', array(
                         'label' => 'Password',
-                        'required' => false,
+                        'required' => true,
                         'value' => "",
                         'decorators' => $this->elementDecorators,
                 ));
