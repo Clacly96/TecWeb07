@@ -49,7 +49,7 @@ $(function()
                 
                 echo '<div style="clear:both;"></div>';
                 echo '<h3>Luogo evento</h3>';
-                echo $evento->Mappa;
+                echo '<iframe src="'.$evento->Mappa.'" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>';
         }
          else if (!is_null($this->eventi))
         {
