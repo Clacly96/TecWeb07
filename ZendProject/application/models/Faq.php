@@ -17,6 +17,19 @@ class Application_Model_Faq extends App_Model_Abstract
         {
             return $this->getResource('Faq')->estraiFaq($paged);
         }
+        
+         public function insertFaq($faq)
+        {
+            return $this->getResource('Faq')->insertFaq($faq);
+        }
+        
+        public function cancellazioneFaqPerId($IdFaq){
+            return $this->getResource('Faq')->cancellazioneFaqPerId($IdFaq);
+        }
+        
+        public function modificaFaqPerId($IdFaq,$nuova){
+            return $this->getResource('Faq')->modificaFaqPerId($IdFaq,$nuova);
+        }
 }
 /* 
  * To change this license header, choose License Headers in Project Properties.

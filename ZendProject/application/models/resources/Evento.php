@@ -229,6 +229,8 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         $select = $this->select()->from('evento',array('Id'))->order('Id DESC')->limit(1);
         return $this->fetchRow($select);
     }
+    
+  
 
             
 }
