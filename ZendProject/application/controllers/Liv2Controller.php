@@ -16,8 +16,6 @@ class Liv2Controller extends Zend_Controller_Action
         $this->_utenzaModel = new Application_Model_Utenza();
         $this->_authService = new Application_Service_Autenticazione();
 
-	       $this->view->modForm=$this->getModForm();
-
     }
 
     public function indexAction(){
@@ -40,18 +38,31 @@ class Liv2Controller extends Zend_Controller_Action
     }
 
     public function modificadatiutenteAction() {
-
+        $this->view->modForm=$this->getModForm();
     }
+    
+    public function validazionemodificadatiAction() 
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender();
 
+        $form = new Application_Form_Liv2_Modifica_FormModificadatiutente();
+        $response = $form->processAjax($_POST); 
+        if ($response !== null) {
+        	$this->getResponse()->setHeader('Content-type','application/json')->setBody($response);        	
+        }
+    }
+    
     public function updateutenteAction () {
         if (!$this->getRequest()->isPost()) {
                     $this->_helper->redirector('index');
         }
+        $this->view->modForm=$this->getModForm();
         $form=$this->_formModifica;
         if (!$form->isValid($_POST)) {
-			$form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
-                       return $this->render('modificadatiutente');
-            }
+            $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
+            return $this->render('modificadatiutente');
+        }
         $valori=$form->getValues();
         $this->_utenzaModel->updateUtente($valori);
         $this->_helper->redirector('areaprivata');

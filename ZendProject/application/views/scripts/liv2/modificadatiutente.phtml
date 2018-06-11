@@ -3,8 +3,13 @@
 	->captureStart() ?>
 $(function()
 {
+    var actionUrl='<?= $this->url(array('controller' => 'liv2', 'action' => 'validazionemodificadati',), 'default', true);  ?>';
+    var formName='<?= $this->modForm->getName() ?>';
+    $(":input").on('blur', function(event) {
+        var formElementId = $(this).attr('id');
+        doValidation(formElementId, actionUrl, formName);
+    });
     $(":submit").click(function (event){
-        $("#contenuto_centrale h3").html('submit');
         return confirm("Confermi?");
     });
 });

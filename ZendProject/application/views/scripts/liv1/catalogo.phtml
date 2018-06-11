@@ -1,16 +1,22 @@
 <?php $this->headScript()
-	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+	->appendFile($this->baseUrl('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'))
 	->appendFile($this->baseUrl('js/script.js'))
 	->captureStart() ?>
 
-// codice jQuery inserito da view-script nella sezione head della pagina
+
 $(function()
 {
 	var actionUrl='<?= $this->url(array('controller' => 'liv1', 'action' => 'filtroajax',), 'default',true);  ?>';
 	var formName='<?= $this->filtroForm->getName() ?>';
 	$(":input").on('change', function(event) {
-        submitAjax(actionUrl,formName);
-    });
+            //$(this).closest("body").find(".pagination").hide();
+            submitAjax(actionUrl,formName);
+        });
+        $(".pagination a").click(function(event){
+            var paginationUrl=$(this).attr(href);
+            paginatorAjax(paginationUrl, formName);
+            return false;
+        });
 });
 
 <?php $this->headScript()->captureEnd() ?>
