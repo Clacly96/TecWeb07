@@ -53,9 +53,6 @@ $(function()
         }
          else if (!is_null($this->eventi))
         {
-            /* if(!is_null($this->cat)){
-                 echo '<h1>'.
-             }*/
             echo '<h1>Lista eventi</h1>';
             echo '<ul id="listaeventi">';
             $count=0;
@@ -63,10 +60,11 @@ $(function()
                 echo $this->AnteprimaEvento($evento,'anteprima');
                 $count++;
             }
-            echo '</ul>';
             if($count==0){
                 echo '<h2>Non ci sono eventi che corrispondono ai parametri di ricerca</h2>';
             }
+            echo '</ul>';
+            
         }
 
 
