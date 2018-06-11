@@ -7,7 +7,7 @@
         <?php endforeach;?>
     <?php endif;?>
    
-    <h1>Area privata Admin </h1>
+    <h1>Area privata Admin: <?=$this->AuthInfo('Nome').' '.$this->AuthInfo('Cognome')?> </h1>
     <a href="<?= $this->url(array(
                 'controller' => 'liv4',
                 'action' => 'gestionetipo',),
@@ -19,7 +19,19 @@
                 'action' => 'gestionefaq',),
                 'default',true
                 );?>">Gestione FAQ</a>
+  <br>
+  <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'listautenti',),
+                'default',true
+                );?>">Gestione Utenti</a>
+
+<br>
+<a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'listaorganizzazioni',),
+                'default',true
+                );?>">Gestione Organizzazioni</a>
     
 
 </section>
-

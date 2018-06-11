@@ -1,0 +1,45 @@
+<section id="contenuto_centrale">
+    <?php if(is_null($this->selectedOrg)) {
+        echo '<h1>Organizzazioni dell sito</h1>';
+        echo '<p> Per visualizzare il loro profilo cliccare sul loro logo</p>';
+        echo '<ul id="listaorg">';
+        foreach ($this->organizzazioni as $organiz) {
+            echo '<li class="org_li">'
+            . '<a href='.$this->url(array('controller' => 'liv4','action' => 'listaorganizzazioni','organizzazione' => $organiz->Username), 'default',true).'>'
+            . '<div class="org_sfondo">'
+            . '<div class="org_nome">'.$organiz->Username.'</div>'
+            . '<div class="org_logo"><img src="'.$this->baseUrl('images/loghi/'.$organiz->Logo).'"></div></a>'
+            . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $organiz->Username), 'default', true).'> Modifica </a>'
+            . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $organiz->Username), 'default', true).'> Cancella </a></div></li>';
+        }
+        echo '</ul>';
+    } else {
+        echo '<div id="SingolaOrganizzazione">'
+                . '<h1>'.$this->organizzazioni->Username.'</h1>'
+                . '<img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'">'                
+                . '<div><b> Sede: </b>'.$this->organizzazioni->Sede.'</div><br>'
+                . '<div><b> Email: </b>'.$this->organizzazioni->Email.'</div>'
+                . '<div><b> Telefono: </b>'.$this->organizzazioni->Telefono.'</div>';
+                if(!is_null($this->organizzazioni->Fax)) {echo '<div><b> Fax: </b>'.$this->organizzazioni->Fax.'</div><br>';}
+                echo '<br><br><div><b> Missione: </b>'.$this->organizzazioni->Missione.'</div><br>'
+                . '<div><b> Descrizione: </b>'.$this->organizzazioni->Descrizione.'</div>'
+                . '</div>';
+    }
+       
+    if($this->organizzazioni instanceof Zend_Paginator) {
+        echo $this->paginationControl($this->organizzazioni,'Sliding','liv4/_paginatorlistaorganizzazioni.phtml');
+    } 
+    ?>
+</section>
+
+<section id="contenuto_laterale">
+    <?php if (is_null($this->selectedOrg)) {
+        echo '<a href= '.$this->url(array('controller' => 'liv4', 'action' => 'inserisciorganizzazione'), 'default', true).'><h3>Inserisci una nuova organizzazione</h3></a>';
+    } else {
+        echo '<div id="ModificaCancella">'
+                . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Modifica </a><br>'
+                . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Cancella </a></div>';
+    
+    }
+    ?>
+</section>
