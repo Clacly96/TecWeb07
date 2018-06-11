@@ -36,11 +36,21 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                       if($evento->scontato()) {$tag=$tag.'<div class="old_price">Vecchio prezzo:'.$this->view->prezzoEventi($evento,false).'</div>'
                               . '<div><b> Sconto: </b>'.$evento->Sconto.'%</div>' ;}
                     $luogo=explode('-',$evento->Luogo);
+		    if(empty($luogo[1])) {
+                        $via='';
+                    } else {
+                        $via=$luogo[1];
+                    }
+                    if(empty($luogo[2])) {
+                        $civico='';
+                    } else {
+                        $civico=$luogo[2];
+                    }
                     $tag=$tag .'<div><b> Prezzo: </b>'.$this->view->prezzoEventi($evento,true).'</div> '
                         . '<div><b> Biglietti rimanenti: </b>'.$evento->Biglietti_Rimanenti.'</div></div>'
                         . '<div><b> Città: </b> '.$luogo[0].'</div> '
-                        . '<div><b> Via: </b> '.$luogo[1].'</div> '
-                        . '<div><b> Numero civico: </b> '.$luogo[2].'</div> '
+                        . '<div><b> Via: </b> '.$via.'</div> '
+                        . '<div><b> Numero civico: </b> '.$civico.'</div> '
                         . '<div><b> Data: </b> '.$evento->Data_Ora.'</div> <br><br> '
                         . '<div><b> Descrizione: </b>'.$evento->Descrizione.'</div><br> '
                         . '<div><b> Programma: </b>'.$evento->Programma.'</div><br><br>'
