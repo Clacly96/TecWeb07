@@ -1,3 +1,19 @@
+<?php $this->headScript()
+	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+	->captureStart() ?>
+$(function()
+{
+    var actionUrl='<?= $this->url(array('controller' => 'liv4', 'action' => 'validazioneform', 'form' => 'modorg',), 'default');  ?>';
+    var formName='<?= $this->modificaorgForm->getName() ?>';
+    $(":input").on('blur', function(event) {
+        var formElementId = $(this).attr('id');
+        doValidation(formElementId, actionUrl, formName);
+    });
+    $(":submit").click(function (event){
+        return confirm("Confermi?");
+    });
+});
+<?php $this->headScript()->captureEnd() ?>
 <section id="contenuto_centrale">
  <h3>Dati dell'organizzazione: <?= $username=$this->utente?></h3>
  <p>Form per modificare i dati</p>

@@ -2,7 +2,7 @@
 
 class Liv4Controller extends Zend_Controller_Action
 {
-	  protected $_utenzaModel;
+    protected $_utenzaModel;
     protected $_catalogModel;
     protected $_faqModel;
     protected $_authService;
@@ -11,7 +11,7 @@ class Liv4Controller extends Zend_Controller_Action
     protected $_formModificaTipologia;
     protected $_formInserimentoFaq;
     protected $_formModificaFaq;
-	  protected $_formModifica;
+    protected $_formModifica;
     protected $_formInserisci;
     protected $_formModificaorg;
 	
@@ -36,7 +36,7 @@ class Liv4Controller extends Zend_Controller_Action
 	return $this->_helper->redirector('index','liv1');
     }
 	
-	public function listaorganizzazioniAction() {
+    public function listaorganizzazioniAction() {
         $OrgId=$this->_getParam('organizzazione',null);
         $paged = $this->_getParam('page',1);
         if(is_null($OrgId)){
@@ -349,6 +349,46 @@ class Liv4Controller extends Zend_Controller_Action
         $this->_flashMessenger->addMessage('Faq modificata con successo!');
         $this->_helper->redirector('areaprivata');
         
+    }
+    
+    public function validazioneformAction() 
+    {
+        $this->_helper->getHelper('layout')->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender();
+        $form;
+        $nomeForm=$this->_getParam('form');
+        switch ($nomeForm) {
+            case 'insfaq':
+                $form = new Application_Form_Liv4_Faq_Inserimento();
+                break;
+            case 'modfaq':
+                $IdFaq=$this->_getParam('faq');
+                $form = new Application_Form_Liv4_Faq_Modifica(array('faq'=>$IdFaq));
+                break;
+            case 'insorg':
+                $form = new Application_Form_Liv4_Inserisci_FormInserisciorganizzazione();
+                break;
+            case 'modorg':
+                $OrgId=$this->_getParam('organizzazione');
+                $form = new Application_Form_Liv4_Modifica_FormModificaorganizzazione(array('organizzazione'=>$OrgId));
+                break;
+            case 'modutente':
+                $username=$this->_getParam('utente', null);
+                $form = new Application_Form_Liv4_Modifica_FormModificautente(array('utente'=>$username));
+                break;
+            case 'instipo':
+                $form = new Application_Form_Liv4_Tipologie_Inserimento();
+                break;
+            case 'modtipo':
+                $tipo=$this->_getParam('tipo');
+                $form = new Application_Form_Liv4_Inserisci_Modifica(array('tipo'=>$tipo));
+                break;
+        }
+        
+        $response = $form->processAjax($_POST); 
+        if ($response !== null) {
+        	$this->getResponse()->setHeader('Content-type','application/json')->setBody($response);        	
+        }
     }
     
           
