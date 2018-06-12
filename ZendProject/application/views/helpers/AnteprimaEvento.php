@@ -13,7 +13,7 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                     if($evento->scontato()){
                             $tag=$tag.'<div class="visualizza_sconto">Sconto del '.$evento->Sconto.'%</div>';
                         }
-                       $tag=$tag . '<div class="titoloev">'.$evento->Nome.'</div></a></li>';
+                       $tag=$tag . '<div class="titoloev"><p>'.$evento->Nome.'</p></div></a></li>';
                     
                 }
 

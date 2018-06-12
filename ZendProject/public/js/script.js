@@ -49,7 +49,7 @@ function creaListaEventi(eventi) {
                     if(eventi[chiave]['scontato']){
                             lista+='<div class="visualizza_sconto">Sconto del '+eventi[chiave]['Sconto']+'%</div>';
                         }
-                       lista+='<div class="titoloev">'+eventi[chiave]['Nome']+'</div></a></li>';
+                       lista+='<div class="titoloev"><p>'+eventi[chiave]['Nome']+'</p></div></a></li>';
             }
 	return lista;
 }
