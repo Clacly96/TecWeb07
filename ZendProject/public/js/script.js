@@ -6,11 +6,8 @@ $(function(){
         
         if(lunghezza>14){
             $(this).css("line-height","1");
-            var dimtesto=$(this).css("font-size");            
-            var dim=dimtesto.substring(0,dimtesto.lastIndexOf("px"));
             var numrighe=Math.ceil(lunghezza/14);
             var nuovadim=40/numrighe;
-            $("#contenuto_centrale h1").append(numrighe+'<br>');
             $(this).css("font-size",nuovadim+"px");
         }
         
