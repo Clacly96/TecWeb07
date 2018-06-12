@@ -101,7 +101,8 @@ class Application_Model_Catalogo extends App_Model_Abstract
          $biglperc=array();
          foreach($eventinonpg as $evento){
                 $bigltotali[$evento]=$biglvenduti[$evento]+$biglrimanenti[$evento];  // da ottimizzare il calcolo di biglperc in un unico ciclo
-                $biglperc[$evento]=($biglvenduti[$evento]/$bigltotali[$evento])*100;
+                $biglperc[$evento]=round(($biglvenduti[$evento]/$bigltotali[$evento])*100,2);
+                $incassi[$evento]=round($incassi[$evento],2);
                 
          }
          
@@ -127,7 +128,7 @@ class Application_Model_Catalogo extends App_Model_Abstract
             foreach ($eventi as $evento) {
                 $ideventi[]=$evento['Id'];
             }
-           return $this->getResource('Storico')->estraiIncassoPeriodo($date,$ideventi);
+           return round($this->getResource('Storico')->estraiIncassoPeriodo($date,$ideventi),2);
         }
 
      public function estraiUltimoId() {
