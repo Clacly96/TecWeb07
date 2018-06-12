@@ -1,5 +1,20 @@
 $(function(){
     $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
+    $("#listaeventi .titoloev").each(function(){
+        var testo=$(this).text();
+        var lunghezza=$(this).text().length;
+        
+        if(lunghezza>14){
+            $(this).css("line-height","1");
+            var dimtesto=$(this).css("font-size");            
+            var dim=dimtesto.substring(0,dimtesto.lastIndexOf("px"));
+            var numrighe=Math.ceil(lunghezza/14);
+            var nuovadim=40/numrighe;
+            $("#contenuto_centrale h1").append(numrighe+'<br>');
+            $(this).css("font-size",nuovadim+"px");
+        }
+        
+    });
 });
 
 /*********Submit automatico della form filtro***************/
