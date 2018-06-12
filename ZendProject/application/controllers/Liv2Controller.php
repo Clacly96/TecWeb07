@@ -66,11 +66,12 @@ class Liv2Controller extends Zend_Controller_Action
         }
         
         $valori=$form->getValues();
+        $user=$this->view->AuthInfo('Username');
         $password=$this->view->AuthInfo('Password');
         if($valori['Password']==''){
             $valori['Password']=$password;
         }
-        $this->_utenzaModel->updateUtente($valori);
+        $this->_utenzaModel->updateUtente($valori,$user);
         $this->_helper->redirector('areaprivata');
 
     }
