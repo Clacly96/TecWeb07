@@ -34,7 +34,7 @@ class Application_Form_Liv2_Modifica_FormModificadatiutente extends App_Form_Abs
         $this->addElement('password', 'Password', array(
                     'label' => 'Password',
                     'filters' => array('StringTrim'),
-                    'required' => true,
+                    'required' => false,
                     'validators' => array(array('StringLength',true, array(4,10)),
                                             array('identical', true, array('Password'))),
                     'decorators' => $this->elementDecorators,

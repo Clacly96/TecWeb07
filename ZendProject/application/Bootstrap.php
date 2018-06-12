@@ -33,7 +33,7 @@ protected function _initViewSettings()
         $this->_view->headMeta()->setCharset('UTF-8');
         $this->_view->headMeta()->appendHttpEquiv('Content-Language', 'it-IT');
 	$this->_view->headLink()->appendStylesheet($this->_view->baseUrl('css/style.css'));
-        $this->_view->headScript()->appendFile($this->_view->baseUrl('js/script.js'),'text/javascript');
+        $this->_view->headScript()->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')->appendFile($this->_view->baseUrl('js/script.js'),'text/javascript');
         $this->_view->headTitle('TecWeb07');
     }
     protected function _initDefaultModuleAutoloader()
@@ -55,7 +55,8 @@ protected function _initViewSettings()
                 'host'     => $HOST,
                 'username' => $USER,
                 'password' => $PASSWORD,
-                'dbname'   => $DB
+                'dbname'   => $DB,
+                'charset'  => "utf8"
                 ));  
         Zend_Db_Table_Abstract::setDefaultAdapter($db);
     }

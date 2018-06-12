@@ -1,6 +1,16 @@
+<?php $this->headScript()
+	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+	->captureStart() ?>
+$(function()
+{
+    $(".cancellazione").click(function (event){
+        return confirm("Confermi?");
+    });
+});
+<?php $this->headScript()->captureEnd() ?>
 <section id="contenuto_centrale">
     <?php if(is_null($this->selectedOrg)) {
-        echo '<h1>Organizzazioni dell sito</h1>';
+        echo '<h1>Organizzazioni del sito</h1>';
         echo '<p> Per visualizzare il loro profilo cliccare sul loro logo</p>';
         echo '<ul id="listaorg">';
         foreach ($this->organizzazioni as $organiz) {
@@ -10,7 +20,7 @@
             . '<div class="org_nome">'.$organiz->Username.'</div>'
             . '<div class="org_logo"><img src="'.$this->baseUrl('images/loghi/'.$organiz->Logo).'"></div></a>'
             . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $organiz->Username), 'default', true).'> Modifica </a>'
-            . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $organiz->Username), 'default', true).'> Cancella </a></div></li>';
+            . '<a class="cancellazione" href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $organiz->Username), 'default', true).'> Cancella </a></div></li>';
         }
         echo '</ul>';
     } else {
@@ -33,12 +43,13 @@
 </section>
 
 <section id="contenuto_laterale">
+    <h1>Altre funzioni</h1>
     <?php if (is_null($this->selectedOrg)) {
         echo '<a href= '.$this->url(array('controller' => 'liv4', 'action' => 'inserisciorganizzazione'), 'default', true).'><h3>Inserisci una nuova organizzazione</h3></a>';
     } else {
         echo '<div id="ModificaCancella">'
                 . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Modifica </a><br>'
-                . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Cancella </a></div>';
+                . '<a class="cancellazione" href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Cancella </a></div>';
     
     }
     ?>

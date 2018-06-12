@@ -1,3 +1,13 @@
+<?php $this->headScript()
+	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+	->captureStart() ?>
+$(function()
+{
+    $(".cancellazione").click(function (event){
+        return confirm("Confermi?");
+    });
+});
+<?php $this->headScript()->captureEnd() ?>
 <section id="contenuto_centrale">
     <?php if(is_null($this->selectedUte)) {
         echo '<h1>Utenti iscritti al sito</h1>';
@@ -8,7 +18,7 @@
             . '<td><a href='.$this->url(array('controller' => 'liv4','action' => 'listautenti','utente' => $ute->Username), 'default',true).'>'
             . $ute->Username.'</a></td>'
             . '<td><a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificautente','utente' => $ute->Username), 'default', true).'> Modifica </a></td>'
-            . '<td><a href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellautente','utente' => $ute->Username), 'default', true).'> Cancella </a></td>'
+            . '<td><a class="cancellazione" href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellautente','utente' => $ute->Username), 'default', true).'> Cancella </a></td>'
             . '</li>';
         }
         echo '</table>';

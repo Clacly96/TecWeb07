@@ -162,7 +162,7 @@ class Liv4Controller extends Zend_Controller_Action
         }
         $estensione = pathinfo($form->getElement('Logo')->getFileName(), PATHINFO_EXTENSION); 
         $form->getElement('Logo')->addFilter('Rename', array(
-            'target' => $OrgId . '.' . $estensione,
+            'target' => $form->getElement('Username')->getValue() . '.' . $estensione,
             'overwrite' => true
         ));
         $valori=$form->getValues();

@@ -1,11 +1,13 @@
-<section id="contenuto_laterale">
-    
-    <a href="<?= $this->url(array(
-                'controller' => 'liv4',
-                'action' => 'instipologia'),
-                'default',true
-                );?>">Inserisci nuova tipologia</a>
-</section>
+<?php $this->headScript()
+	->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')
+	->captureStart() ?>
+$(function()
+{
+    $(".cancellazione").click(function (event){
+        return confirm("Confermi?");
+    });
+});
+<?php $this->headScript()->captureEnd() ?>
 <section id="contenuto_centrale">
     <h1>Lista tipologie</h1>
     <table cellpadding="5" cellspacing="5">
@@ -18,7 +20,7 @@
                 'tipo' => $tipologie->Nome),
                 'default',true
                 );?>">Modifica</a></td>
-            <td><a href="<?= $this->url(array(
+            <td><a class="cancellazione" href="<?= $this->url(array(
                 'controller' => 'liv4',
                 'action' => 'cancellatipologia',
                 'tipo' => $tipologie->Nome),
@@ -28,4 +30,11 @@
         <?php endforeach;?>
     </table>
 </section>
-
+<section id="contenuto_laterale">
+    <h1>Altre funzioni</h1>
+    <a href="<?= $this->url(array(
+                'controller' => 'liv4',
+                'action' => 'instipologia'),
+                'default',true
+                );?>">Inserisci nuova tipologia</a>
+</section>

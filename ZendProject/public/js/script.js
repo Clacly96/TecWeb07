@@ -1,3 +1,7 @@
+$(function(){
+    $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
+});
+
 /*********Submit automatico della form filtro***************/
 function submitAjax(actionUrl, formName) {
 

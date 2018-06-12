@@ -59,11 +59,17 @@ class Liv2Controller extends Zend_Controller_Action
         }
         $this->view->modForm=$this->getModForm();
         $form=$this->_formModifica;
+        
         if (!$form->isValid($_POST)) {
             $form->setDescription('Attenzione: controlla che i dati inseriti siano del formato giusto.');
             return $this->render('modificadatiutente');
         }
+        
         $valori=$form->getValues();
+        $password=$this->view->AuthInfo('Password');
+        if($valori['Password']==''){
+            $valori['Password']=$password;
+        }
         $this->_utenzaModel->updateUtente($valori);
         $this->_helper->redirector('areaprivata');
 

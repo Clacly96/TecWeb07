@@ -90,6 +90,17 @@ nav{
     clear: both;
     display: block;
 }
+#contenuto_centrale>table tr{
+    margin: 0.5em 0;
+    background-color: #ffff70;
+}
+#contenuto_centrale>table td{
+    border-left: solid red 6px;    
+    padding: 0.5em;
+}
+#contenuto_centrale>table td a{
+    text-decoration: none;
+}
 .ev_li{
     position: relative;
     float:left;

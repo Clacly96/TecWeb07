@@ -17,7 +17,7 @@ $(function()
 <section id="contenuto_centrale">
     <h1>Modifica i dati dell'evento</h1>
     <?= $this->formModifica; ?>
-    <div><a class="tasto_cancella" href="<?= $this->url(array(
+    <div><a class="tasto_cancella cancellazione" href="<?= $this->url(array(
                 'controller' => 'liv3',
                 'action' => 'cancella',
                 'evento' => $this->idevento),
