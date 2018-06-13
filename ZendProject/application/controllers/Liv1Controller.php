@@ -54,6 +54,7 @@ class Liv1Controller extends Zend_Controller_Action
         $tiporic=$this->_getParam('tiporic',null);
         $partecipato=null;
         $numpart=null;
+        $eventi=null;
 
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){                
@@ -99,14 +100,15 @@ class Liv1Controller extends Zend_Controller_Action
             $numpart=$this->_catalogModel->contaPartecipazioniPerEv($IdEv);
         }
         else if(!is_null($SelCat)){
+            if($SelCat=='none') $SelCat=null;
             $eventi=$this->_catalogModel->filtro($paged,null,null,null,null,$SelCat);
-            
+            $tiporic='selcat'; //solo per inibire il jquery quando viene selezionata una categoria
             
                
-        } else{ $eventi=$this->_catalogModel->estraiEventi($paged);}//estrae lista eventi
+        } 
 
-        $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart));
-
+        $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart,'azione' => $tiporic));
+        $this->render('catalogoprova');
     }
     
     public function filtroajaxAction(){
@@ -277,4 +279,72 @@ class Liv1Controller extends Zend_Controller_Action
                 ));
         return $this->_formLogin;
     }
+    
+    //catalogo Ajax
+    public function catalogoajaxAction(){
+        $this->_helper->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+        if (!$this->getRequest()->isPost()) {
+                $this->_helper->redirector('index');
+        }
+        $evperpage=(int)$_POST['evperpage'];
+        $categorie=$this->_catalogModel->estraiCategorie();
+        $evpercat=array();
+        foreach ($categorie as $cat) {
+            $nome=str_replace(" ","-",$cat->Nome);
+            $evpercat[$nome]=array(); 
+            $eventi=$this->_catalogModel->filtro(1,null,null,null,null,$cat->Nome,$evperpage);
+            $evpercat[$nome]['numeroPagine']=ceil($eventi->getTotalItemCount()/$evperpage);
+            foreach ($eventi as $evento) {
+                $evpercat[$nome][$evento->Id]=$evento->toArray();
+                $evpercat[$nome][$evento->Id]['url']=$this->view->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true);
+                $evpercat[$nome][$evento->Id]['prezzoEvento']=$this->view->prezzoEventi($evento,true);
+                $evpercat[$nome][$evento->Id]['locandinaUrl']=$this->view->baseUrl('/images/locandine/' . $evento->Locandina);
+                $evpercat[$nome][$evento->Id]['descBreve']=$evento->estraiDescrBreve();
+                $evpercat[$nome][$evento->Id]['scontato']=$evento->scontato();
+            }
+        }
+        $evpercat['Senza-Categoria']=array();
+        $eventi=$this->_catalogModel->filtro(1,null,null,null,null,null,$evperpage);
+        $evpercat['Senza-Categoria']['numeroPagine']=ceil($eventi->getTotalItemCount()/$evperpage);
+            foreach ($eventi as $evento) {
+                $evpercat['Senza-Categoria'][$evento->Id]=$evento->toArray();
+                $evpercat['Senza-Categoria'][$evento->Id]['url']=$this->view->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true);
+                $evpercat['Senza-Categoria'][$evento->Id]['prezzoEvento']=$this->view->prezzoEventi($evento,true);
+                $evpercat['Senza-Categoria'][$evento->Id]['locandinaUrl']=$this->view->baseUrl('/images/locandine/' . $evento->Locandina);
+                $evpercat['Senza-Categoria'][$evento->Id]['descBreve']=$evento->estraiDescrBreve();
+                $evpercat['Senza-Categoria'][$evento->Id]['scontato']=$evento->scontato();
+            }
+        
+        
+        $this->_helper->json($evpercat);
+    }
+    public function catalogoajaxpaginatorAction(){
+        $this->_helper->getHelper('layout')->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+        if (!$this->getRequest()->isPost()) {
+                $this->_helper->redirector('index');
+        }
+        $evperpage=(int)$_POST['evperpage'];
+        $cat=$_POST['categoria'];
+        $page=(int)$_POST['page'];
+        $cat=str_replace("-"," ",$cat);
+        if($cat=='Senza Categoria') $cat=null;
+        
+        $eventi=$this->_catalogModel->filtro($page,null,null,null,null,$cat,$evperpage);
+        $listaeventi=array();
+        foreach ($eventi as $evento) {
+            $listaeventi[$evento->Id]=$evento->toArray();
+            $listaeventi[$evento->Id]['url']=$this->view->url(array('controller' => 'liv1' , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true);
+            $listaeventi[$evento->Id]['prezzoEvento']=$this->view->prezzoEventi($evento,true);
+            $listaeventi[$evento->Id]['locandinaUrl']=$this->view->baseUrl('/images/locandine/' . $evento->Locandina);
+            $listaeventi[$evento->Id]['descBreve']=$evento->estraiDescrBreve();
+            $listaeventi[$evento->Id]['scontato']=$evento->scontato();
+        }
+       
+        $this->_helper->json($listaeventi);
+    }
+    
 }

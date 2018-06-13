@@ -1,23 +1,15 @@
+var infocategoria=new Array();
 $(function(){
     $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
-    $("#listaeventi .titoloev").each(function(){
-        var lunghezza=$(this).text().length;
-        
-        if(lunghezza>14){
-            var numrighe=Math.ceil(lunghezza/14);
-            var nuovadim=40/numrighe;
-            $(this).css("font-size",nuovadim+"px");
-        }
-        
-    });
+    
 });
 
 /*********Submit automatico della form filtro***************/
 function submitAjax(actionUrl, formName) {
 
 	function elencaEventi(eventi) {
-		$("#listaeventi").html(' ');
-		$("#listaeventi").html(creaListaEventi(eventi));
+		$("#contenuto_centrale").html(' ');
+		$("#contenuto_centrale").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
 	}
 
 	$.ajax({
@@ -28,6 +20,58 @@ function submitAjax(actionUrl, formName) {
 		success : elencaEventi
 	});
 }
+// catalogo stile netflix
+function catalogoAjaxcaricamento(actionUrl,evperpage){
+    function elencaEventiperCat(eventi) {
+		for(categoria in eventi){
+                    $("#"+categoria+" .lista_categoria").append('<ul class="listaeventi">'+creaListaEventi(eventi[categoria])+'</ul>');
+                    infocategoria[categoria]=new Array();
+                    infocategoria[categoria]['pagcorrente']=1;
+                    infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
+                }
+	}
+
+	$.ajax({
+		type : 'POST',
+		url : actionUrl,
+		data : ('evperpage= '+evperpage),
+		dataType : 'json',
+		success : elencaEventiperCat
+	});
+}
+function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
+    function elencaEventiperCat(eventi) {
+                    $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
+                    
+                
+	}
+        if(infocategoria[categoria]['pagcorrente']+1<=infocategoria[categoria]['pagine']){
+            $.ajax({
+                    type : 'POST',
+                    url : actionUrl,
+                    data : ('evperpage= '+evperpage+'&categoria='+categoria+'&page='+(++infocategoria[categoria]['pagcorrente'])),
+                    dataType : 'json',
+                    success : elencaEventiperCat
+            });
+    }
+}
+function catalogoAjaxprecedente(actionUrl,evperpage,categoria){
+    function elencaEventiperCat(eventi) {
+                    $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
+                    
+                
+	}
+        if(infocategoria[categoria]['pagcorrente']-1>0){
+            $.ajax({
+                    type : 'POST',
+                    url : actionUrl,
+                    data : ('evperpage= '+evperpage+'&categoria='+categoria+'&page='+(--infocategoria[categoria]['pagcorrente'])),
+                    dataType : 'json',
+                    success : elencaEventiperCat
+            });
+    }
+}
+
 
 function creaListaEventi(eventi) {
 	if (( typeof (eventi) === 'undefined'))
@@ -38,6 +82,7 @@ function creaListaEventi(eventi) {
 
 	var lista='';
 	for (chiave in eventi) {
+            if(chiave!='numeroPagine'){
 		lista += '<li class="ev_li">'
                         + '<a href='+eventi[chiave]['url']+'>'
                         + '<div class="ev_sfondo"> '
@@ -47,7 +92,8 @@ function creaListaEventi(eventi) {
                     if(eventi[chiave]['scontato']){
                             lista+='<div class="visualizza_sconto">Sconto del '+eventi[chiave]['Sconto']+'%</div>';
                         }
-                       lista+='<div class="titoloev"><p>'+eventi[chiave]['Nome']+'</p></div></a></li>';
+                       lista+='<div class="titoloev">'+eventi[chiave]['Nome']+'</div></a></li>';
+                   }
             }
 	return lista;
 }
@@ -100,7 +146,8 @@ if(document.getElementById("contenuto_laterale")!==null){
         var posizione = altezza - 100;
         if(document.getElementById("contenuto_laterale")!==null)
             document.getElementById("contenuto_laterale").style.height = posizione+"px";            
-
+        
+        
         document.getElementById("tastomenu").onclick = function (){
             if (document.getElementById("menu").style.display === "block")
                 document.getElementById("menu").style.display = "none";
@@ -115,6 +162,8 @@ if(document.getElementById("contenuto_laterale")!==null){
             totale=numbiglietti*prezzounitario;
             document.getElementById("totale_ordine").innerHTML=totale;
         }
+        
+        
     }
 
 };

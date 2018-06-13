@@ -111,8 +111,6 @@ nav{
     overflow: hidden;
     background: #FFFFFF;
     box-shadow: 0 0 8px 2px #707070;
-    width: 150px;
-    height: 270px;
 }
 .ev_li a {
     text-decoration: none;
@@ -165,23 +163,15 @@ nav{
     color: #FFFFFF;
 }
 .titoloev {
-	overflow: hidden;
     display: block;
     position: relative;
     font-size: 13pt;
     width: 100%;
     height: 40px;
+    line-height: 40px;
     color: #700000;
     text-align: center;
     font-weight: 700;
-}
-
-.titoloev p{
-    position: relative;
-    margin: 0;
-    padding: 0;
-    top:50%;
-    transform:translate(0,-50%);
 }
 
 .ev_li img{
@@ -560,70 +550,31 @@ footer a{
 footer a:hover{
     color: #ccff50;
 }
+.freccia_destra{
+    clear:both;
+    right:0;
+    width: 50px;
+    position: absolute;
+    top:50%;
+}
 
-@media screen and (max-width: 1000px) {
-    #contenuto_centrale, #contenuto_laterale{
-        position: static;
-        width: 100%;
-        float:left;
-        margin: 20px auto;
-    }
-    #navsx,#navdx,#ricerca{
-        width: 100%;
-        float: left;
-        height: auto;
-    }
-    #navsx li,#navdx li {
-        width: 150px;
-        padding:0 0 0 10px;
-    }
-    #ricerca{
-        width: 45%;
-        position: fixed;
-        margin: 8px 0;
-        left:60%;
-    }
-    #formricerca{
-        margin: 0;
-        padding: 0;
-    }
-    #searchimg {
-        float:left;
-        padding-right: 105px;
-    }
-    #navsx ul{
-        right: 0;
-    }
-    #navsx ul,#navdx ul {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-    }
+.freccia_destra img{
+    width:50px;
+   opacity: 0.8;
+}
+
+.freccia_sinistra {
+       width: 50px;
+    position: absolute;
+    top:50%;
     
-    #tastomenu{
-        display: block;
-        padding: 15px;
-        float:left;
-        z-index: 4;
-    }
-    #logo {
-        float: left;
-        left:60px;
-    }
-    #menu{
-        display: none;
-        height: 95%;
-        position: fixed;
-        top: 60px;
-        width: 160px;
-        z-index: 3;
-        background-color: #700000;
-    }
-    .ev_li:hover .ev_sfondo{
-        height: 0;
-        bottom:100%;
-    }
-    .ev_li:hover .descev{
-        opacity:0;
-    }
+}
+.freccia_sinistra img{
+    width:50px;
+   opacity: 0.8;
+   
+}
+
+.contenitore_categoria {
+    position: relative;
 }

@@ -82,7 +82,7 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
     
 
     
-    public function filtro($paged=null,$org=null,$mese=null,$anno=null,$luogo=null,$cat=null) {        
+    public function filtro($paged=null,$org=null,$mese=null,$anno=null,$luogo=null,$cat=null,$evperpage=null) {        
         $select=$this->select()->where('CURRENT_TIMESTAMP() <= Data_Fine_Acquisto'); // prendiamo solo gli eventi ancora attivi
         if (!is_null($org)){
             $select->where('Organizzazione =(?)',$org);
@@ -102,11 +102,17 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
             $select->where("Tipologia=(?)",$cat);
         }
         $select->order('Nome');
+       
         if (null !=$paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 			$paginator = new Zend_Paginator($adapter);
-			$paginator->setItemCountPerPage(6)
+                        if(is_null($evperpage)){
+                            $paginator->setItemCountPerPage(6)
+                                      ->setCurrentPageNumber((int) $paged);
+                        } else {
+                            $paginator->setItemCountPerPage($evperpage)
 		          	  ->setCurrentPageNumber((int) $paged);
+                            }
 			return $paginator;
 		}
         return $this->fetchAll($select);
