@@ -1,11 +1,9 @@
 $(function(){
     $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
     $("#listaeventi .titoloev").each(function(){
-        var testo=$(this).text();
         var lunghezza=$(this).text().length;
         
         if(lunghezza>14){
-            $(this).css("line-height","1");
             var numrighe=Math.ceil(lunghezza/14);
             var nuovadim=40/numrighe;
             $(this).css("font-size",nuovadim+"px");
