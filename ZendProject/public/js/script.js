@@ -1,15 +1,27 @@
 var infocategoria=new Array();
 $(function(){
     $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
-    
+    ridimensionatitoloeventi();    
 });
-
+function ridimensionatitoloeventi(){
+    $(".listaeventi .titoloev").each(function(){
+        var lunghezza=$(this).text().length;
+        var altezza=$(this).height();
+        if(lunghezza>14){
+            var numrighe=Math.ceil(lunghezza/14);
+            var nuovadim=altezza/numrighe;
+            $(this).css("font-size",nuovadim+"px");
+        }
+        
+    });
+}    
 /*********Submit automatico della form filtro***************/
 function submitAjax(actionUrl, formName) {
 
 	function elencaEventi(eventi) {
 		$("#contenuto_centrale").html(' ');
 		$("#contenuto_centrale").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
+                ridimensionatitoloeventi();
 	}
 
 	$.ajax({
@@ -28,6 +40,7 @@ function catalogoAjaxcaricamento(actionUrl,evperpage){
                     infocategoria[categoria]=new Array();
                     infocategoria[categoria]['pagcorrente']=1;
                     infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
+                    ridimensionatitoloeventi();
                 }
 	}
 
@@ -42,9 +55,8 @@ function catalogoAjaxcaricamento(actionUrl,evperpage){
 function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
                     $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
-                    
-                
-	}
+                    ridimensionatitoloeventi();                
+                }
         if(infocategoria[categoria]['pagcorrente']+1<=infocategoria[categoria]['pagine']){
             $.ajax({
                     type : 'POST',
@@ -58,9 +70,8 @@ function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
 function catalogoAjaxprecedente(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
                     $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
-                    
-                
-	}
+                    ridimensionatitoloeventi();                
+                }
         if(infocategoria[categoria]['pagcorrente']-1>0){
             $.ajax({
                     type : 'POST',
@@ -92,7 +103,7 @@ function creaListaEventi(eventi) {
                     if(eventi[chiave]['scontato']){
                             lista+='<div class="visualizza_sconto">Sconto del '+eventi[chiave]['Sconto']+'%</div>';
                         }
-                       lista+='<div class="titoloev">'+eventi[chiave]['Nome']+'</div></a></li>';
+                       lista+='<div class="titoloev"><p>'+eventi[chiave]['Nome']+'</p></div></a></li>';
                    }
             }
 	return lista;

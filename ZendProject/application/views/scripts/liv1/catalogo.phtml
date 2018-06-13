@@ -6,12 +6,33 @@
 
 $(function()
 {
-	var actionUrl='<?= $this->url(array('controller' => 'liv1', 'action' => 'filtroajax',), 'default',true);  ?>';
+        
+	var actionUrlfil='<?= $this->url(array('controller' => 'liv1', 'action' => 'filtroajax',), 'default',true);  ?>';
+        var actionUrlcat='<?= $this->url(array('controller' => 'liv1', 'action' => 'catalogoajax',), 'default',true);  ?>';
+        var actionUrlpag='<?= $this->url(array('controller' => 'liv1', 'action' => 'catalogoajaxpaginator',), 'default',true);  ?>';
 	var formName='<?= $this->filtroForm->getName() ?>';
 	$(":input").on('change', function(event) {
             $(this).closest("body").find(".pagination").hide();
-            submitAjax(actionUrl,formName);
+            submitAjax(actionUrlfil,formName);
         });
+        <?php if(is_null($this->azione) && is_null($this->EvSelezionato)): ?>
+        $("#contenuto_centrale").css("width","100%");
+        var evperpage=Math.floor($("#contenuto_centrale").width()/200);
+        
+        catalogoAjaxcaricamento(actionUrlcat,evperpage);
+        $(".freccia_destra").click(function(event){
+            var categoria=$(this).parent().attr("id");
+            catalogoAjaxsuccessiva(actionUrlpag,evperpage,categoria);
+        });
+        $(".freccia_sinistra").click(function(event){
+            var categoria=$(this).parent().attr("id");
+            catalogoAjaxprecedente(actionUrlpag,evperpage,categoria);
+        });
+        
+        
+        <?php endif; ?>
+	
+
 });
 
 <?php $this->headScript()->captureEnd() ?>
@@ -51,11 +72,14 @@ $(function()
                 echo '<h3>Luogo evento</h3>';
                 echo $evento->Mappa;
         }
-         else if (!is_null($this->eventi))
-        {
-            echo '<h1>Lista eventi</h1>';
-            echo '<ul id="listaeventi">';
+         else if (!is_null($this->eventi)) : ?>
+        
+         
+    
+     <?php       
+            if(!is_null($this->azione)){
             $count=0;
+            echo '<ul class="listaeventi">';
             foreach ($this->eventi as $evento){
                 echo $this->AnteprimaEvento($evento,'anteprima');
                 $count++;
@@ -64,32 +88,58 @@ $(function()
                 echo '<h2>Non ci sono eventi che corrispondono ai parametri di ricerca</h2>';
             }
             echo '</ul>';
-            
-        }
+            } ?>
+        <?php endif; ?>
+    <?php if (is_null($this->azione) && is_null($this->EvSelezionato) ):?>
+    <?php   foreach ($this->cat as $categoria) : ?>
+                <div id="<?= str_replace(" ","-",$categoria->Nome) ?>" class="contenitore_categoria"><a href="<?= $this->url(array(
+                            'controller' => 'liv1',
+                            'action' => 'catalogo',
+                            'SelCat' => $categoria->Nome),
+                            'default',true
+                            ) ?>"><?= $categoria->Nome ?></a>
+                    <div class="freccia_sinistra">
+                        <img src="<?= $this->baseUrl("/css/images/freccia_sinistra.png" )?>">
+                    </div>
+                    <div class="lista_categoria">
 
+                    </div>
+                    <div class="freccia_destra">
+                        <img src="<?= $this->baseUrl("/css/images/freccia_destra.png" )?>">
+                    </div>
+                        
+                </div>
+                    
+            <?php endforeach; ?>
+            <?php if(count($this->evcatnull)>0):?>
+                <div id="Senza-Categoria" class="contenitore_categoria"><a href="<?= $this->url(array(
+                            'controller' => 'liv1',
+                            'action' => 'catalogo',
+                            'SelCat' => 'none'),
+                            'default',true
+                            ) ?>">Senza Categoria</a>
+                    <div class="freccia_sinistra">
+                        <img src="<?= $this->baseUrl("/css/images/freccia_sinistra.png" )?>">
+                    </div>
+                    <div class="lista_categoria">
 
+                    </div>
+                    <div class="freccia_destra">
+                        <img src="<?= $this->baseUrl("/css/images/freccia_destra.png" )?>">
+                    </div>
+                        
+                </div>
+            <?php endif;?>
+
+    <?php 
 
         if($this->eventi instanceof Zend_Paginator) {
         echo $this->paginationControl($this->eventi,'Sliding','liv1/_paginatoreventicatalogo.phtml');
         }
         ?>
 </section>
-<?php if (is_null($this->EvSelezionato)):?>
-    <section id="contenuto_laterale">    
-            <h1> Categorie </h1>
-            <ul>
-                <?php foreach ($this->cat as $cat): ?>
-                    <li> <a href="<?= $this->url(array(
-                            'controller' => 'liv1',
-                            'action' => 'catalogo',
-                            'SelCat' => $cat->Nome),
-                            'default',true
-                            );?>"><?= $cat->Nome ?></a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
 
-    </section>
+   
 <?php endif;?>
 <?php if(($ruolo=='liv2' || $ruolo == null) && !is_null($this->EvSelezionato)): ?>
     <section id="contenuto_laterale">
