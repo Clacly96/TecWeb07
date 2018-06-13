@@ -40,6 +40,9 @@ function catalogoAjaxcaricamento(actionUrl,evperpage){
                     infocategoria[categoria]=new Array();
                     infocategoria[categoria]['pagcorrente']=1;
                     infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
+                    infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
+                    $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
+                    
                     ridimensionatitoloeventi();
                 }
 	}
@@ -54,6 +57,7 @@ function catalogoAjaxcaricamento(actionUrl,evperpage){
 }
 function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
+                    $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
                     $("#"+categoria+" .lista_categoria").animate({left:"-100%"},150,"swing",function(){
                         $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
                         ridimensionatitoloeventi();
@@ -75,6 +79,7 @@ function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
 }
 function catalogoAjaxprecedente(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
+                    $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
                     $("#"+categoria+" .lista_categoria").animate({left:"100%"},150,"swing",function(){
                         $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
                         ridimensionatitoloeventi();

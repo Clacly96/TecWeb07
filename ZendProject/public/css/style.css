@@ -601,12 +601,12 @@ footer a:hover{
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #505050;
-    opacity: 0.7;
+    background-color: #cbcbcb;
+    opacity: 0.3;
 }
 .contenitore_categoria {
-    overflow: hidden;
-    position: relative;    
+    position: relative; 
+    overflow: hidden;   
     margin: 1em 0;
     padding: 1em;
 }
@@ -616,10 +616,18 @@ footer a:hover{
     position: relative;
     left: 50%;
     transform: translate(-50%,0);
-    color: #DDDDDD;
+    color: #ffbb55;
     font-size: 20pt;
 }
 .lista_categoria{
     position: relative;
     margin: 0 80px;
+}
+.numero_pagina{
+    position: absolute;
+    top: 18px;
+    right: 60px;
+    color: #aaef55;
+    font-size: 17pt;
+    opacity: 0.75;
 }
