@@ -40,7 +40,7 @@ function catalogoAjaxcaricamento(actionUrl,evperpage){
                     infocategoria[categoria]=new Array();
                     infocategoria[categoria]['pagcorrente']=1;
                     infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
-                    infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
+                    
                     $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
                     
                     ridimensionatitoloeventi();
