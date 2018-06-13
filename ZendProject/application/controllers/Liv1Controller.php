@@ -70,7 +70,7 @@ class Liv1Controller extends Zend_Controller_Action
                         $this->settaNullCondizionale($valori['Mese']),
                         $this->settaNullCondizionale($valori['Anno']),
                         $this->settaNullCondizionale($valori['Luogo']),
-                        $this->settaNullCondizionale($valori['Tipologia']));
+                        $valori['Tipologia']);
             }
 
             else if($tiporic=='ricerca'){

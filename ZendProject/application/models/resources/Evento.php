@@ -96,7 +96,9 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
         if (!is_null($luogo)){
             $select->where("LOWER(Luogo) LIKE LOWER('%".$luogo."%')"); //usiamo il like perché sul db vengono salvati anche via e numero civico oltre alla città
         }
-        if (!is_null($cat)){
+        if (is_null($cat)){
+            $select->where("Tipologia IS NULL");
+        }else if ($cat!='Qualsiasi'){
             $select->where("Tipologia=(?)",$cat);
         }
         $select->order('Nome');

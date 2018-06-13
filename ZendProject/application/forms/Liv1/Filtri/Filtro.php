@@ -14,7 +14,8 @@ class Application_Form_Liv1_Filtri_Filtro extends App_Form_Abstract
             
             $categorie = array();
 		$cats = $this->_catalogModel->estraiCategorie();
-                $categorie['']='Qualsiasi';
+                $categorie['Qualsiasi']='Qualsiasi';
+                $categorie['']='Senza Categoria';
 		foreach ($cats as $cat) {
 			$categorie[$cat -> Nome] = $cat->Nome;
 		}
