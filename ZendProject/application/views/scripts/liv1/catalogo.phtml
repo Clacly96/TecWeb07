@@ -17,8 +17,8 @@ $(function()
         });
         <?php if(is_null($this->azione) && is_null($this->EvSelezionato)): ?>
         $("#contenuto_centrale").css("width","100%");
-        var evperpage=Math.floor($("#contenuto_centrale").width()/200);
-        
+        var evperpage=Math.floor($(".lista_categoria").width()/175);
+       
         catalogoAjaxcaricamento(actionUrlcat,evperpage);
         $(".freccia_destra").click(function(event){
             var categoria=$(this).parent().attr("id");
@@ -98,6 +98,7 @@ $(function()
                             'SelCat' => $categoria->Nome),
                             'default',true
                             ) ?>"><?= $categoria->Nome ?></a>
+                    <div class="numero_pagina"></div>
                     <div class="freccia_sinistra">
                         <img src="<?= $this->baseUrl("/css/images/freccia_sinistra.png" )?>">
                     </div>
@@ -118,6 +119,7 @@ $(function()
                             'SelCat' => 'none'),
                             'default',true
                             ) ?>">Senza Categoria</a>
+                    <div class="numero_pagina"></div>
                     <div class="freccia_sinistra">
                         <img src="<?= $this->baseUrl("/css/images/freccia_sinistra.png" )?>">
                     </div>
