@@ -1,8 +1,7 @@
 var infocategoria=new Array();
 $(function(){
     $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
-    ridimensionatitoloeventi();   
-    
+    ridimensionatitoloeventi();    
 });
 function ridimensionatitoloeventi(){
     $(".listaeventi .titoloev").each(function(){
@@ -37,12 +36,10 @@ function submitAjax(actionUrl, formName) {
 function catalogoAjaxcaricamento(actionUrl,evperpage){
     function elencaEventiperCat(eventi) {
 		for(categoria in eventi){
-                    
                     $("#"+categoria+" .lista_categoria").append('<ul class="listaeventi">'+creaListaEventi(eventi[categoria])+'</ul>');
                     infocategoria[categoria]=new Array();
                     infocategoria[categoria]['pagcorrente']=1;
                     infocategoria[categoria]['pagine']=eventi[categoria]['numeroPagine'];
-                    $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
                     ridimensionatitoloeventi();
                 }
 	}
@@ -57,13 +54,14 @@ function catalogoAjaxcaricamento(actionUrl,evperpage){
 }
 function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
-                    $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
-                    $("#"+categoria+" .lista_categoria").animate({opacity:0},300,"linear",function(){
+                    $("#"+categoria+" .lista_categoria").animate({left:"-100%"},150,"swing",function(){
                         $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
                         ridimensionatitoloeventi();
+                        $("#"+categoria+" .lista_categoria").css({left:"100%"});
                     });                   
                     
-                    $("#"+categoria+" .lista_categoria").animate({opacity:1},400,"linear");               
+                    $("#"+categoria+" .lista_categoria").animate({left:0},100,"swing");
+                    
                 }
         if(infocategoria[categoria]['pagcorrente']+1<=infocategoria[categoria]['pagine']){
             $.ajax({
@@ -77,13 +75,13 @@ function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
 }
 function catalogoAjaxprecedente(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
-                    $("#"+categoria+" .numero_pagina").text("Pagina "+infocategoria[categoria]['pagcorrente']+"/"+infocategoria[categoria]['pagine']);
-                    $("#"+categoria+" .lista_categoria").animate({opacity:0},300,"linear",function(){
+                    $("#"+categoria+" .lista_categoria").animate({left:"100%"},150,"swing",function(){
                         $("#"+categoria+" .lista_categoria").html('<ul class="listaeventi">'+creaListaEventi(eventi)+'</ul>');
                         ridimensionatitoloeventi();
+                        $("#"+categoria+" .lista_categoria").css({left:"-100%"});
                     });                   
                     
-                    $("#"+categoria+" .lista_categoria").animate({opacity:1},400,"linear");             
+                    $("#"+categoria+" .lista_categoria").animate({left:0},100,"swing");              
                 }
         if(infocategoria[categoria]['pagcorrente']-1>0){
             $.ajax({
