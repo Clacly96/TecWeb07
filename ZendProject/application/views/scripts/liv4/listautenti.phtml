@@ -25,16 +25,16 @@ $(function()
     } else {
         $moneta = new Zend_Currency();
             echo '<h1>Profilo di acquisto di ' .$this->utenti->Username.'</h1>';
-            if(empty($this->ordini['selectedUte'])) {
+            if(count($this->profilo)==0) {
                 echo '<h2>Ancora non ha effettuato alcun acquisto</h2>';
             } else {
                 echo '<table>';
                 echo '<tr><th>Evento</th><th>Numero Biglietti</th><th>Totale Speso</th></tr>';
-                foreach($this->ordini as $elem) {
+                foreach($this->profilo as $elem) {
                     echo '<tr>';
                     echo '<td>'.$this->nomi_eventi[$elem->Evento].'</td>';
-                    echo '<td>'.$elem->Numero_Biglietti.' </td>';
-                    echo '<td>'.$moneta->toCurrency($elem->Totale).' </td>';
+                    echo '<td>'.$elem->Biglietti.' </td>';
+                    echo '<td>'.$moneta->toCurrency($elem->Spesa).' </td>';
                     echo '</tr>';
                 }
                 echo '</table>';

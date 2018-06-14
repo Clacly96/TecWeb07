@@ -26,6 +26,21 @@ class Application_Resource_Storico extends Zend_Db_Table_Abstract
         }
         return $this->fetchAll($select);
     }
+    public function estraiProfiloAcquisto($paged=null,$utente){
+            $select = $this->select()->from('storico', array('Evento','sum(Totale) as Spesa','sum(Numero_Biglietti) as Biglietti'))
+            ->where('Utente =(?)',$utente)->group('Evento');
+
+        if($paged != null) {
+                $adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+                $paginator = new Zend_Paginator($adapter);
+                $paginator ->setItemCountPerPage(3)
+                        ->setCurrentPageNumber((int) $paged);
+                return $paginator;
+        }
+        return $this->fetchAll($select);
+    }
+
+
     public function insertOrdine($utente,$ordine,$totale)
     {
         

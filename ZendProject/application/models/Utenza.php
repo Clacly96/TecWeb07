@@ -46,6 +46,18 @@ class Application_Model_Utenza extends App_Model_Abstract
         return $ordiniEnomiEventi;
 
     }
+
+    public function estraiProfiloAcquisto($paged=null,$utente){
+        $profilo= $this->getResource('Storico')->estraiProfiloAcquisto($paged,$utente);
+        $ordininonpg=array();
+        foreach ($profilo as $ordine) {
+            $ordininonpg[$ordine['Evento']]=$ordine['Evento'];
+        }
+        $nomi = $this->getResource('Evento')->estraiNomeEventi($ordininonpg);
+        $ordiniEnomiEventi['profilo']=$profilo;
+        $ordiniEnomiEventi['nomieventi']=$nomi;
+        return $ordiniEnomiEventi;
+    }
 	
     public function updateUtente($info,$username) {
         return $this->getResource('Utente')->updateUtente($info,$username);
