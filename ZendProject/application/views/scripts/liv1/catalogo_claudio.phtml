@@ -17,12 +17,10 @@ $(function()
         });
         <?php if(is_null($this->azione) && is_null($this->EvSelezionato)): ?>
         $("#contenuto_centrale").css("width","100%");
-        
-        var larghezza=$(window).width();
-        larghezza=larghezza-290;
-        
-        
-        var evperpage=Math.floor(larghezza/180);
+		var largcont=$(".contenitore_categoria").width()-160;
+		$(".lista_categoria").css("width",largcont+"px");
+		var larghezza=$(".lista_categoria").width();
+        var evperpage=Math.floor((larghezza)/180);
         catalogoAjaxcaricamento(actionUrlcat,evperpage);
         $(".freccia_destra").hover(function(){            
             var categoria=$(this).parent().attr("id");
