@@ -427,11 +427,11 @@ nav{
     color: #ccff50;
 }
 #contenuto_laterale .pagination{
-    margin: 0 0 40px 0;
+    margin: 0 20px 40px 0;
     position: fixed;
     bottom:0;
-    right: 50%;
-    transform: translate(50%,0);
+    right: 0;
+    transform: translate(0,0);
     background-color: #ff5a3d;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
