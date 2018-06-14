@@ -3,15 +3,12 @@ $(function(){
     $("#contenuto_centrale>table tr:even").css("background-color","#DDDDDD");
     ridimensionatitoloeventi();    
 });
+
 function ridimensionatitoloeventi(){
-    $(".listaeventi .titoloev").each(function(){
-        var lunghezza=$(this).text().length;
-        var altezza=$(this).height();
-        if(lunghezza>14){
-            var numrighe=Math.ceil(lunghezza/14);
-            var nuovadim=altezza/numrighe;
-            $(this).css("font-size",nuovadim+"px");
-        }
+    $(".listaeventi .titoloev").each(function(){    
+    while( $(this).find("p").height() > $(this).height() ) {
+        $(this).find("p").css('font-size', (parseInt($(this).find("p").css('font-size')) - 1) + "px" );
+    }
         
     });
 }    
@@ -67,15 +64,16 @@ function catalogoAjaxsuccessiva(actionUrl,evperpage,categoria){
                     $("#"+categoria+" .lista_categoria").animate({left:0},100,"swing");
                     
                 }
-        if(infocategoria[categoria]['pagcorrente']+1<=infocategoria[categoria]['pagine']){
+        
+            infocategoria[categoria]['pagcorrente']=(infocategoria[categoria]['pagcorrente']+1<=infocategoria[categoria]['pagine'])?infocategoria[categoria]['pagcorrente']+1:1;
             $.ajax({
                     type : 'POST',
                     url : actionUrl,
-                    data : ('evperpage= '+evperpage+'&categoria='+categoria+'&page='+(++infocategoria[categoria]['pagcorrente'])),
+                    data : ('evperpage= '+evperpage+'&categoria='+categoria+'&page='+(infocategoria[categoria]['pagcorrente'])),
                     dataType : 'json',
                     success : elencaEventiperCat
             });
-    }
+    
 }
 function catalogoAjaxprecedente(actionUrl,evperpage,categoria){
     function elencaEventiperCat(eventi) {
@@ -88,15 +86,16 @@ function catalogoAjaxprecedente(actionUrl,evperpage,categoria){
                     
                     $("#"+categoria+" .lista_categoria").animate({left:0},100,"swing");              
                 }
-        if(infocategoria[categoria]['pagcorrente']-1>0){
+       
+        infocategoria[categoria]['pagcorrente']=(infocategoria[categoria]['pagcorrente']-1>0)?infocategoria[categoria]['pagcorrente']-1:infocategoria[categoria]['pagine'];    
             $.ajax({
                     type : 'POST',
                     url : actionUrl,
-                    data : ('evperpage= '+evperpage+'&categoria='+categoria+'&page='+(--infocategoria[categoria]['pagcorrente'])),
+                    data : ('evperpage= '+evperpage+'&categoria='+categoria+'&page='+(infocategoria[categoria]['pagcorrente'])),
                     dataType : 'json',
                     success : elencaEventiperCat
             });
-    }
+    
 }
 
 
@@ -148,7 +147,7 @@ function getErrorHtml(formErrors) {
 	if (( typeof (formErrors) === 'undefined') || (formErrors.length < 1))
 		return;
 
-	var out = '<ul>';
+	var out = '<ul class="errors">';
 	for (errorKey in formErrors) {
 		out += '<li>' + formErrors[errorKey] + '</li>';
 	}
@@ -174,13 +173,6 @@ if(document.getElementById("contenuto_laterale")!==null){
         if(document.getElementById("contenuto_laterale")!==null)
             document.getElementById("contenuto_laterale").style.height = posizione+"px";            
         
-        
-        document.getElementById("tastomenu").onclick = function (){
-            if (document.getElementById("menu").style.display === "block")
-                document.getElementById("menu").style.display = "none";
-            else
-                document.getElementById("menu").style.display = "block";
-        };
         if(document.getElementById("totale_ordine")!==null){
             var prezzounitario=document.getElementById("totale_ordine").innerHTML;
 

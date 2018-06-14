@@ -1,22 +1,17 @@
 <section id="contenuto_centrale">
     <h1>Statistiche dell'organizzazione: <?= $this->AuthInfo('Username');?></h1>
+    <?php if(count($this->statistiche)==0):?>
+    <h3>Non hai statistiche da visualizzare</h3>
+    </section>
+    <?php else:?>
+    
     <table>
     <tr>
-        <th>
-            Nome Evento
-        </th>
-        <th>
-            Biglietti Venduti
-        </th>
-        <th>
-            Perc Biglietti Venduti su Biglietti Totali
-        </th>
-        <th>
-            Totale incasso
-        </th>
-        <th>
-            Numero di partecipazioni
-        </th>
+        <th>Nome Evento</th>
+        <th>Biglietti Venduti</th>
+        <th>Perc Biglietti Venduti su Biglietti Totali</th>
+        <th>Totale incasso</th>
+        <th>Numero di partecipazioni</th>
     </tr>
     <?php foreach ($this->statistiche as $indicetup => $tupla): ?>
     <tr>
@@ -52,3 +47,4 @@
         echo $this->paginationControl($this->eventi,'Sliding','liv3/_paginatorstatistiche.phtml');
         }  ?>
 
+    <?php endif;?>

@@ -24,13 +24,10 @@ $(function()
         echo '</table>';
     } else {
         $moneta = new Zend_Currency();
-        echo '<div id="SingoloUtente">';
             echo '<h1>Profilo di acquisto di ' .$this->utenti->Username.'</h1>';
-            echo '<br><br>';
             if(empty($this->ordini['selectedUte'])) {
                 echo '<h2>Ancora non ha effettuato alcun acquisto</h2>';
             } else {
-                echo '<h2>Eventi a cui ha partecipato</h2>';
                 echo '<table>';
                 echo '<tr><th>Evento</th><th>Numero Biglietti</th><th>Totale Speso</th></tr>';
                 foreach($this->ordini as $elem) {

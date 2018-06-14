@@ -16,7 +16,7 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                     'label' => 'Nome evento',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(6,20))),                            
+                    'validators' => array(array('StringLength',true, array(6,40))),                            
                     'decorators' => $this->elementDecorators,
                     'value' => $evento->Nome,
                     'attribs'    => array('readonly' => 'readonly'),
@@ -119,7 +119,7 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                     'label' => 'Numero di biglietti',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array('int',array('GreaterThan',true, array('min' => 0))),
+                    'validators' => array('int',array('GreaterThan',true, array('min' => -1))),
                     'decorators' => $this->elementDecorators,
                     'value' => $evento->Biglietti_Rimanenti,
                     ));
@@ -130,6 +130,7 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                     'required' => false,            
                     'validators' => array('int',array('between',true,array('min' => 0,'max'=>100))),
                     'decorators' => $this->elementDecorators,
+                    'value' => $evento->Sconto
                     ));
                 
                 $datasc=new Zend_Date($evento->Data_Inizio_Sconto);
@@ -139,8 +140,8 @@ class Application_Form_Liv3_Eventi_Modifica extends App_Form_Abstract{
                 $this->addElement('text', 'Giorni_Sconto', array(
                     'label' => 'Numero di giorni da cui inizia lo sconto',
                     'filters' => array('StringTrim'),
-                    'required' => false,                                            //da sistemare in qualche modo, perchè se viene inserito lo sconto deve essere inserito anche questo
-                    'validators' => array('int',array('GreaterThan',true, array('min' => 0))),
+                    'required' => false,                                            
+                    'validators' => array('int',array('GreaterThan',true, array('min' => -1))),
                     'decorators' => $this->elementDecorators,
                     'value' => $numgiorni,
                     ));

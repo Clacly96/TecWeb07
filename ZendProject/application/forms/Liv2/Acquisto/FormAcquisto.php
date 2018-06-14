@@ -18,7 +18,7 @@ class Application_Form_Liv2_Acquisto_FormAcquisto extends App_Form_Abstract
                         'required' => true,
                         'value' => 1,
                         'validators' => array('int',
-                                                array('between',true,array('min' => 0,'max'=>$Ev->Biglietti_Rimanenti))),
+                                                array('between',true,array('min' => 1,'max'=>$Ev->Biglietti_Rimanenti))),
                         'decorators' => $this->elementDecorators
 		));
        

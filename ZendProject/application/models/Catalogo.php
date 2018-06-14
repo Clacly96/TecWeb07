@@ -11,7 +11,11 @@ class Application_Model_Catalogo extends App_Model_Abstract
     {
         return $this->getResource('Tipologia')->estraiCategorie();
     }
-       
+    
+    public function estraiCategorieUtilizzate(){
+        return $this->getResource('Evento')->estraiCategorieUtilizzate();
+    }
+    
     public function ottieniEventiInSconto($paged=null)
     {     
         return $this->getResource('Evento')->ottieniEventiInSconto($paged);
@@ -88,39 +92,42 @@ class Application_Model_Catalogo extends App_Model_Abstract
      
      public function estraiStatistichePerOrg($organizzazione,$paged=null) {
          $eventi=$this->getResource('Evento')->estraiEventiPerOrganizzazione($paged,$organizzazione);
-         $eventinonpg=array();
-         foreach ($eventi as $evento) {
-            $eventinonpg[]=$evento['Id'];
-        }
-         $nomiEv = $this->getResource('Evento')->estraiNomeEventi($eventinonpg);
-         $biglrimanenti= $this->getResource('Evento')->estraiBigliettiRimanenti($eventinonpg);
-         $biglvenduti=$this->getResource('Storico')->estraiBiglVendPerEv($eventinonpg);
-         $incassi=$this->getResource('Storico')->estraiIncassoPerEv($eventinonpg);
-         $partecipazioni=$this->getResource('Partecipazione')->contaPartecipazioniPerEv($eventinonpg,true);
-         $bigltotali=array();
-         $biglperc=array();
-         foreach($eventinonpg as $evento){
-                $bigltotali[$evento]=$biglvenduti[$evento]+$biglrimanenti[$evento];  // da ottimizzare il calcolo di biglperc in un unico ciclo
-                $biglperc[$evento]=round(($biglvenduti[$evento]/$bigltotali[$evento])*100,2);
-                $incassi[$evento]=round($incassi[$evento],2);
-                
-         }
-         
-         $tuplastatistica=array();
-         foreach($eventinonpg as $evento){
-             $tuplastatistica[$evento]['nome']=$nomiEv[$evento];
-             $tuplastatistica[$evento]['biglettiVenduti']=$biglvenduti[$evento];
-             $tuplastatistica[$evento]['percBiglietti']=$biglperc[$evento];
-             $tuplastatistica[$evento]['incasso']=$incassi[$evento];
-             $tuplastatistica[$evento]['partecipazioni']=$partecipazioni[$evento];
-         }
-         
-         $statistica=array();
-         $statistica['eventi']=$eventi;
-         $statistica['tuple']=$tuplastatistica;
-         
-         return $statistica;
+         if(count($eventi)!==0){
+            $eventinonpg=array();
+            foreach ($eventi as $evento) {
+               $eventinonpg[]=$evento['Id'];
+           }
+            $nomiEv = $this->getResource('Evento')->estraiNomeEventi($eventinonpg);
+            $biglrimanenti= $this->getResource('Evento')->estraiBigliettiRimanenti($eventinonpg);
+            $biglvenduti=$this->getResource('Storico')->estraiBiglVendPerEv($eventinonpg);
+            $incassi=$this->getResource('Storico')->estraiIncassoPerEv($eventinonpg);
+            $partecipazioni=$this->getResource('Partecipazione')->contaPartecipazioniPerEv($eventinonpg,true);
+            $bigltotali=array();
+            $biglperc=array();
+            foreach($eventinonpg as $evento){
+                   $bigltotali[$evento]=$biglvenduti[$evento]+$biglrimanenti[$evento];  // da ottimizzare il calcolo di biglperc in un unico ciclo
+                   $biglperc[$evento]=round(($biglvenduti[$evento]/$bigltotali[$evento])*100,2);
+                   $incassi[$evento]=round($incassi[$evento],2);
+
             }
+
+            $tuplastatistica=array();
+            foreach($eventinonpg as $evento){
+                $tuplastatistica[$evento]['nome']=$nomiEv[$evento];
+                $tuplastatistica[$evento]['biglettiVenduti']=$biglvenduti[$evento];
+                $tuplastatistica[$evento]['percBiglietti']=$biglperc[$evento];
+                $tuplastatistica[$evento]['incasso']=$incassi[$evento];
+                $tuplastatistica[$evento]['partecipazioni']=$partecipazioni[$evento];
+            }
+
+            $statistica=array();
+            $statistica['eventi']=$eventi;
+            $statistica['tuple']=$tuplastatistica;
+
+            return $statistica;
+               }
+            return null;
+        }
             
         public function estraiIncassoPeriodo($date,$organizzazione){
             $eventi=$this->getResource('Evento')->estraiEventiPerOrganizzazione(null,$organizzazione);

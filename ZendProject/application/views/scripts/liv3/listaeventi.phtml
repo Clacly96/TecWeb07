@@ -1,5 +1,8 @@
 <section id="contenuto_centrale">
     <h1>Lista eventi organizzati</h1>
+    <?php if(count($this->eventi)==0):?>
+    <h3>Non hai organizzato eventi</h3>
+    <?php else:?>
     <table>
         <tr><th>Nome evento</th><th>Modifica</th></tr>
         <?php foreach ($this->eventi as $evento): ?>
@@ -13,6 +16,7 @@
         </tr>
         <?php endforeach;?>
     </table>
+    <?php endif;?>
 </section>
 <?php if($this->eventi instanceof Zend_Paginator) {
         echo $this->paginationControl($this->eventi,'Sliding','liv3/_paginatorlistaeventi.phtml');

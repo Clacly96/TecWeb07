@@ -10,13 +10,13 @@ class Application_Form_Liv4_Faq_Inserimento extends App_Form_Abstract{
 		$this->setAction('');
                 $this->setAttrib('enctype', 'multipart/form-data');
                 
-                $this->addElement('text', 'Domanda', array(
+                $this->addElement('textarea', 'Domanda', array(
                     'label' => 'Domanda',
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(5,100))),
                     'decorators' => $this->elementDecorators,
                     ));
-                $this->addElement('text', 'Risposta', array(
+                $this->addElement('textarea', 'Risposta', array(
                     'label' => 'Risposta',
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(5,200))),
