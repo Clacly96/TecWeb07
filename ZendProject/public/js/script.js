@@ -1,7 +1,7 @@
 var infocategoria=new Array();
 $(function(){
-    $("#contenuto_centrale>table tr:even").css("background-color","#ffffff");
-    $("#contenuto_centrale>table tr:even td").css("color","#000000");
+    $("#contenuto_centrale>table tr:odd").css("background-color","#ffffff");
+    $("#contenuto_centrale>table tr:odd td").css("color","#000000");
 
     ridimensionatitoloeventi();    
 });
