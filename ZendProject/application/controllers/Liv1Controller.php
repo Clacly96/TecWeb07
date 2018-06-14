@@ -49,14 +49,13 @@ class Liv1Controller extends Zend_Controller_Action
     {
         $IdEv=$this->_getParam('evento',null);
         $SelCat=$this->_getParam('SelCat',null);
-        $cat=$this->_catalogModel->estraiCategorie();
+        $cat=$this->_catalogModel->estraiCategorieUtilizzate();
         $paged = $this->_getParam('page', 1);
         $tiporic=$this->_getParam('tiporic',null);
         $partecipato=null;
         $numpart=null;
         $eventi=null;
-        $evcatnull= $this->_catalogModel->filtro(null,null,null,null,null,null);
-
+        
         if(!is_null($tiporic)){
             if($tiporic=='filtro'){                
                 if (!$this->getRequest()->isPost()) {
@@ -106,7 +105,7 @@ class Liv1Controller extends Zend_Controller_Action
             $tiporic='selcat'; //solo per inibire il jquery quando viene selezionata una categoria
         } 
 
-        $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart,'azione' => $tiporic,'evcatnull'=>$evcatnull));
+        $this->view->assign(array('cat'=>$cat,'eventi'=>$eventi,'EvSelezionato'=>$IdEv,'partecipato'=>$partecipato,'numpart'=>$numpart,'azione' => $tiporic));
     }
     
     public function filtroajaxAction(){

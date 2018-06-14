@@ -17,16 +17,37 @@ $(function()
         });
         <?php if(is_null($this->azione) && is_null($this->EvSelezionato)): ?>
         $("#contenuto_centrale").css("width","100%");
-        var evperpage=Math.floor($(".lista_categoria").width()/175);
-       
+        var evperpage=Math.floor($(".lista_categoria").width()/180);
         catalogoAjaxcaricamento(actionUrlcat,evperpage);
-        $(".freccia_destra").click(function(event){
+        $(".freccia_destra").hover(function(){            
             var categoria=$(this).parent().attr("id");
-            catalogoAjaxsuccessiva(actionUrlpag,evperpage,categoria);
+            if(infocategoria[categoria]['pagine']!=1){
+                $(this).find("img").animate({width:"70px"},200);
+                $(this).find("img").css("cursor","pointer");
+                }
+            },
+            function(){            
+                $(this).find("img").animate({width:"50px"},200);
+        });
+       $(".freccia_sinistra").hover(function(){            
+            var categoria=$(this).parent().attr("id");
+            if(infocategoria[categoria]['pagine']!=1){
+                $(this).find("img").animate({width:"70px"},200);
+                $(this).find("img").css("cursor","pointer");
+                }
+            },
+            function(){            
+                $(this).find("img").animate({width:"50px"},200);
+        });
+        $(".freccia_destra").click(function(event){            
+            var categoria=$(this).parent().attr("id");
+            if(infocategoria[categoria]['pagine']!=1)
+                catalogoAjaxsuccessiva(actionUrlpag,evperpage,categoria);
         });
         $(".freccia_sinistra").click(function(event){
             var categoria=$(this).parent().attr("id");
-            catalogoAjaxprecedente(actionUrlpag,evperpage,categoria);
+            if(infocategoria[categoria]['pagine']!=1)
+                catalogoAjaxprecedente(actionUrlpag,evperpage,categoria);
         });
         
         
@@ -92,6 +113,7 @@ $(function()
         <?php endif; ?>
     <?php if (is_null($this->azione) && is_null($this->EvSelezionato) ):?>
     <?php   foreach ($this->cat as $categoria) : ?>
+        <?php if($categoria->Nome==null){$categoria->Nome="Senza Categoria";}?>
                 <div id="<?= str_replace(" ","-",$categoria->Nome) ?>" class="contenitore_categoria"><a href="<?= $this->url(array(
                             'controller' => 'liv1',
                             'action' => 'catalogo',
@@ -110,28 +132,7 @@ $(function()
                     </div>
                         
                 </div>
-                    
-            <?php endforeach; ?>
-            <?php if(count($this->evcatnull)>0):?>
-                <div id="Senza-Categoria" class="contenitore_categoria"><a href="<?= $this->url(array(
-                            'controller' => 'liv1',
-                            'action' => 'catalogo',
-                            'SelCat' => 'none'),
-                            'default',true
-                            ) ?>">Senza Categoria</a>
-                    <div class="numero_pagina"></div>
-                    <div class="freccia_sinistra">
-                        <img src="<?= $this->baseUrl("/css/images/freccia_sinistra.png" )?>">
-                    </div>
-                    <div class="lista_categoria">
-
-                    </div>
-                    <div class="freccia_destra">
-                        <img src="<?= $this->baseUrl("/css/images/freccia_destra.png" )?>">
-                    </div>
-                        
-                </div>
-            <?php endif;?>
+    <?php endforeach; ?>
 
     <?php 
 

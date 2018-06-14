@@ -20,7 +20,7 @@ class Zend_View_Helper_AnteprimaEvento extends Zend_View_Helper_HtmlElement
                 if($tipo=='scontato') {$tag= '<li class="sconto_li">'
                         . '<a href="'.  $this->view->url(array('controller' => $liv , 'action' => 'catalogo', 'evento' => $evento->Id),'default',true) .'">'
                         . '<div class="prezzi_sconto">'
-                        . '<div class="titoloev">'.  $evento->Nome  .'</div> '
+                        . '<div class="titoloevsconto">'.  $evento->Nome  .'</div> '
                         . '<div class="old_price">Prezzo: '. $this->view->prezzoEventi($evento,false) .'</div>'
                         . '<div class="new_price">Prezzo: '. $this->view->prezzoEventi($evento,true) .'</div>'
                         . '<div class="sconto">Sconto: '.$evento->Sconto .'%</div>'

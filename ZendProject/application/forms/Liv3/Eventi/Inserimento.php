@@ -14,8 +14,8 @@ class Application_Form_Liv3_Eventi_Inserimento extends App_Form_Abstract{
                     'label' => 'Nome evento',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array(array('StringLength',true, array(6,20)),
-                                            array('Db_NoRecordExists', true, array(     //possono esistere due eventi con nome uguale?
+                    'validators' => array(array('StringLength',true, array(6,40)),
+                                            array('Db_NoRecordExists', true, array(     
                                                                             'table' => 'evento',
                                                                             'field' => 'Nome'))),
                     'decorators' => $this->elementDecorators,
@@ -102,7 +102,7 @@ class Application_Form_Liv3_Eventi_Inserimento extends App_Form_Abstract{
                     'label' => 'Numero di biglietti',
                     'filters' => array('StringTrim'),
                     'required' => true,
-                    'validators' => array('int',array('GreaterThan',true, array('min' => 0))),
+                    'validators' => array('int',array('GreaterThan',true, array('min' => -1))),
                     'decorators' => $this->elementDecorators,
                     ));
                 
@@ -117,8 +117,8 @@ class Application_Form_Liv3_Eventi_Inserimento extends App_Form_Abstract{
                 $this->addElement('text', 'Giorni_Sconto', array(
                     'label' => 'Numero di giorni da cui inizia lo sconto',
                     'filters' => array('StringTrim'),
-                    'required' => false,                                            //da sistemare in qualche modo, perchè se viene inserito lo sconto deve essere inserito anche questo
-                    'validators' => array('int',array('GreaterThan',true, array('min' => 0))),
+                    'required' => false,                                            
+                    'validators' => array('int',array('GreaterThan',true, array('min' => -1))),
                     'decorators' => $this->elementDecorators,
                     ));
                 

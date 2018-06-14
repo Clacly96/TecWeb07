@@ -26,8 +26,11 @@ class Application_Resource_Evento extends Zend_Db_Table_Abstract
 		}
         return $this->fetchAll($select);
     }
-
     
+    public function estraiCategorieUtilizzate(){
+        $select=$this->select()->distinct()->from('evento',array('Tipologia AS Nome'));
+        return $this->fetchAll($select);
+    }
     public function estraiEventi($paged=null)
     {
         $select=$this->select()->where('CURRENT_TIMESTAMP() <= Data_Fine_Acquisto')->order('Nome ASC');

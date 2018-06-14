@@ -13,7 +13,7 @@ protected $_faqModel;
                 $faq=$this->_faqModel->estraiFaqPerId($IdFaq);
                 
                 
-                $this->addElement('text', 'Domanda', array(
+                $this->addElement('textarea', 'Domanda', array(
                     'label' => 'Domanda',
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(5,100))),                            
@@ -22,7 +22,7 @@ protected $_faqModel;
                    
                     ));
                 
-                 $this->addElement('text', 'Risposta', array(
+                 $this->addElement('textarea', 'Risposta', array(
                     'label' => 'Risposta',
                     'required' => true,
                     'validators' => array(array('StringLength',true, array(5,200))),                            
