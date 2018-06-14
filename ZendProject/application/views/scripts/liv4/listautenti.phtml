@@ -11,7 +11,7 @@ $(function()
 <section id="contenuto_centrale">
     <?php if(is_null($this->selectedUte)) {
         echo '<h1>Utenti iscritti al sito</h1>';
-        echo '<h2> Per visualizzare il loro profilo di acquisto cliccare sul nome utente</h2>';
+        echo '<h4> Per visualizzare il loro profilo di acquisto cliccare sul nome utente</h4>';
         echo '<table id="listaute">';
         foreach ($this->utenti as $ute) {
             echo '<tr class="ute_tr">'

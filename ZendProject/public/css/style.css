@@ -94,16 +94,25 @@ nav{
     clear: both;
     display: block;
 }
+#contenuto_centrale>table {
+    border-collapse: collapse;
+    border: solid 1px black;
+}
 #contenuto_centrale>table tr{
     margin: 0.5em 0;
-    background-color: #ffff70;
+    background-color: #ff5a3d;
+    border: solid black 1px;
+    opacity: 0.8;
 }
 #contenuto_centrale>table td{
-    border-left: solid red 6px;    
+    border: solid black 1px;
+    color: #ffffff;
     padding: 0.5em;
 }
 #contenuto_centrale>table td a{
     text-decoration: none;
+    
+
 }
 .ev_li{
     position: relative;
@@ -432,20 +441,11 @@ nav{
     bottom:0;
     right: 0;
     transform: translate(0,0);
-    background-color: #ff5a3d;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+    background-color: #700000;
+    box-shadow: 0 -4px 5px #707070;
     z-index: 4;
     padding: 10px;
     color: #ffffff;
-    opacity: 0.87;
-}
-#contenuto_laterale .pagination a {
-    text-decoration: none;
-    color: #ffdd50;
-}
-#contenuto_laterale .pagination a:hover{
-    color: #ccff50;
 }
 /*fine stile dei paginator*/
 
@@ -511,7 +511,7 @@ nav{
     background-color: #50bb2F;
 }
 form .errors{
-    background-color: #e41b1b;
+    background-color: #ff77cc;
     color:#ffffff;
     opacity: 0.8;
 }
