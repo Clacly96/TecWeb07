@@ -78,7 +78,7 @@ nav{
     width: 90%;
     clear: both;
     margin: 0 auto;
-    padding:60px 10px;    
+    padding:60px 10px 100px 10px;    
 }
 #contenuto_pagina::after {      /* serve per risolvere il problema del contenitore che racchiude elementi flottati */
   content: "";
