@@ -427,16 +427,25 @@ nav{
     color: #ccff50;
 }
 #contenuto_laterale .pagination{
-    margin: 0 20px 40px 0;
+    margin: 0 0 40px 0;
     position: fixed;
     bottom:0;
-    right: 0;
-    transform: translate(0,0);
-    background-color: #700000;
-    box-shadow: 0 -4px 5px #707070;
+    right: 50%;
+    transform: translate(50%,0);
+    background-color: #ff5a3d;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     z-index: 4;
     padding: 10px;
     color: #ffffff;
+    opacity: 0.87;
+}
+#contenuto_laterale .pagination a {
+    text-decoration: none;
+    color: #ffdd50;
+}
+#contenuto_laterale .pagination a:hover{
+    color: #ccff50;
 }
 /*fine stile dei paginator*/
 
@@ -502,7 +511,7 @@ nav{
     background-color: #50bb2F;
 }
 form .errors{
-    background-color: #ff77cc;
+    background-color: #e41b1b;
     color:#ffffff;
     opacity: 0.8;
 }
