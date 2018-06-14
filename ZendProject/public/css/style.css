@@ -107,7 +107,11 @@ nav{
 #contenuto_centrale>table td{
     border: solid black 1px;
     color: #ffffff;
-    padding: 0.5em;
+    padding: 1em;
+}
+#contenuto_centrale>table th{
+    color: #ffffff;
+    padding: 1em;
 }
 #contenuto_centrale>table td a{
     text-decoration: none;
@@ -660,4 +664,16 @@ footer a:hover{
     color: #aacc33;
     font-size: 17pt;
     opacity: 0.75;
+}
+.pulsante{
+	display:inline-block;
+	padding: 1em;
+	border-radius:4px;
+	background-color:#ff654a;
+	color:#ffffff;
+	text-decoration:none;
+	margin:0.5em;
+}
+.pulsante:hover{
+	background-color:#dd654a;
 }
