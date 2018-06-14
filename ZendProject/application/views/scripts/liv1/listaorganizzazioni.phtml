@@ -14,7 +14,7 @@
         echo '<div id="SingolaOrganizzazione">'
                 . '<h1>'.$this->organizzazioni->Username.'</h1>'
                 . '<img src="'.$this->baseUrl('images/loghi/'.$this->organizzazioni->Logo).'">'                
-                . '<div><b> Sede: </b>'.$this->organizzazioni->Sede.'</div><br>'
+                . '<div><b> Sede: </b>'.str_replace("-"," ",this->organizzazioni->Sede)$.'</div><br>'
                 . '<div><b> Email: </b>'.$this->organizzazioni->Email.'</div>'
                 . '<div><b> Telefono: </b>'.$this->organizzazioni->Telefono.'</div>';
                 if(!is_null($this->organizzazioni->Fax)) {echo '<div><b> Fax: </b>'.$this->organizzazioni->Fax.'</div><br>';}

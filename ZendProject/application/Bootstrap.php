@@ -34,7 +34,7 @@ protected function _initViewSettings()
         $this->_view->headMeta()->appendHttpEquiv('Content-Language', 'it-IT');
 	$this->_view->headLink()->appendStylesheet($this->_view->baseUrl('css/style.css'));
         $this->_view->headScript()->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js')->appendFile($this->_view->baseUrl('js/script.js'),'text/javascript');
-        $this->_view->headTitle('TecWeb07');
+        $this->_view->headTitle('Timple');
     }
     protected function _initDefaultModuleAutoloader()
     {
