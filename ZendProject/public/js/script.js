@@ -181,7 +181,7 @@ if(document.getElementById("contenuto_laterale")!==null){
         document.getElementById("Numero_Biglietti").onkeyup = function (){
             var numbiglietti=document.getElementById("Numero_Biglietti").value;
             totale=numbiglietti*prezzounitario;
-            document.getElementById("totale_ordine").innerHTML=totale;
+            document.getElementById("totale_ordine").innerHTML=totale.toFixed(2);
         }
         
         

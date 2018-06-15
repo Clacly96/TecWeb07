@@ -26,8 +26,14 @@
                 'default',true
                 ) .'>'. $colonna . '</a>';
                     }
-                    else  echo $colonna;
+                    else  if($indicecol=='percBiglietti'){
+                    	echo $colonna."%";
+                    }else if($indicecol=='incasso'){
+                    	$moneta=new Zend_Currency();
+                    	echo $moneta->toCurrency($colonna);
+                    }else echo $colonna;
                             ?>
+
         </td>
         <?php endforeach;?>
     </tr>
