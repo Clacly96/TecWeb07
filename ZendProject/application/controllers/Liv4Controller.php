@@ -58,7 +58,7 @@ class Liv4Controller extends Zend_Controller_Action
             $utente=$this->_utenzaModel->getListaUtenti($paged);
         } else {
             $utente=$this->_utenzaModel->getUtenteByUsername($UteId);
-            $ordini=$this->_utenzaModel->estraiProfiloAcquisto($paged=null,$UteId);
+            $ordini=$this->_utenzaModel->estraiProfiloAcquisto(null,$UteId); //non paginato
             $this->view->assign(array('profilo' => $ordini['profilo'],'nomi_eventi' => $ordini['nomieventi']));
         }
         $this->view->assign(array(

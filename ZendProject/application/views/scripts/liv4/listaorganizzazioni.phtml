@@ -45,11 +45,11 @@ $(function()
 <section id="contenuto_laterale">
     <h1>Altre funzioni</h1>
     <?php if (is_null($this->selectedOrg)) {
-        echo '<a href= '.$this->url(array('controller' => 'liv4', 'action' => 'inserisciorganizzazione'), 'default', true).'><h3>Inserisci una nuova organizzazione</h3></a>';
+        echo '<a class="pulsante" href= '.$this->url(array('controller' => 'liv4', 'action' => 'inserisciorganizzazione'), 'default', true).'><h3>Inserisci una nuova organizzazione</h3></a>';
     } else {
         echo '<div id="ModificaCancella">'
-                . '<a href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Modifica </a><br>'
-                . '<a class="cancellazione" href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Cancella </a></div>';
+                . '<a class="pulsante" href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Modifica </a><br>'
+                . '<a class="cancellazione pulsante" href='.$this->url(array('controller' => 'liv4', 'action' => 'cancellaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Cancella </a></div>';
     
     }
     ?>

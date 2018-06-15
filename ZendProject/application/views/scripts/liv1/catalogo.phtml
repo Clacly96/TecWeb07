@@ -53,9 +53,14 @@ $(function()
             if(infocategoria[categoria]['pagine']!=1)
                 catalogoAjaxprecedente(actionUrlpag,evperpage,categoria);
         });
+		
         
         
         <?php endif; ?>
+		
+		$(".tasto_partecipazione a").click(function (event){
+        return confirm("Confermi?");
+    });
 	
 
 });

@@ -20,7 +20,7 @@ class Application_Resource_Storico extends Zend_Db_Table_Abstract
         if($paged != null) {
             $adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
             $paginator = new Zend_Paginator($adapter);
-            $paginator ->setItemCountPerPage(3)
+            $paginator ->setItemCountPerPage(6)
                     ->setCurrentPageNumber((int) $paged);
             return $paginator;
         }
@@ -33,7 +33,7 @@ class Application_Resource_Storico extends Zend_Db_Table_Abstract
         if($paged != null) {
                 $adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
                 $paginator = new Zend_Paginator($adapter);
-                $paginator ->setItemCountPerPage(3)
+                $paginator ->setItemCountPerPage(10)
                         ->setCurrentPageNumber((int) $paged);
                 return $paginator;
         }
