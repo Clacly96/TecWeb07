@@ -45,7 +45,7 @@ $(function()
 <section id="contenuto_laterale">
     <h1>Altre funzioni</h1>
     <?php if (is_null($this->selectedOrg)) {
-        echo '<a class="pulsante" href= '.$this->url(array('controller' => 'liv4', 'action' => 'inserisciorganizzazione'), 'default', true).'><h3>Inserisci una nuova organizzazione</h3></a>';
+        echo '<a class="pulsante" href= '.$this->url(array('controller' => 'liv4', 'action' => 'inserisciorganizzazione'), 'default', true).'>Inserisci una nuova organizzazione</a>';
     } else {
         echo '<div id="ModificaCancella">'
                 . '<a class="pulsante" href='.$this->url(array('controller' => 'liv4', 'action' => 'modificaorganizzazione','organizzazione' => $this->organizzazioni->Username), 'default', true).'> Modifica </a><br>'
